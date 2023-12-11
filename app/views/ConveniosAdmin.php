@@ -72,20 +72,171 @@ label {
                             <td>
                                 <div class="btn-image">
                                     <button class="btn btn-primary btn-sm  m-1  " data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop<?php print $datos['dataTable'][$i]['IdBanco'];?>a">
+                                        data-bs-target="#staticBackdrop<?php print $datos['dataTable'][$i]['IdConvenio'];?>a">
                                         <img src="<?php print RUTA;?>public/img/search2.png">
                                     </button>
                                     <button class="btn btn-warning btn-sm  m-1 " data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop<?php print $datos['dataTable'][$i]['IdBanco'];?>b">
+                                        data-bs-target="#staticBackdrop<?php print $datos['dataTable'][$i]['IdConvenio'];?>b">
                                         <img src="<?php print RUTA;?>public/img/editar2.png ">
                                     </button>
                                     <button class="btn btn-danger btn-sm  m-1" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal<?php print $datos['dataTable'][$i]['IdBanco'];?>">
+                                        data-bs-target="#exampleModal<?php print $datos['dataTable'][$i]['IdConvenio'];?>">
                                         <img src="<?php print RUTA;?>public/img/borrar.png">
                                     </button>
                                 </div>
 
+                                <!-- ver Modal-->
+                                <div class="modal fade"
+                                    id="staticBackdrop<?php print $datos['dataTable'][$i]['IdConvenio'];?>a"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title fs-5" id="staticBackdropLabel">Ver
+                                                        Convenio </h4>
+                                                    <span href="" data-bs-dismiss="modal" aria-label="Close"
+                                                        class="ho">X</span>
+                                                </div>
+                                                <div class="modal-body">
 
+                                                    <div class="mb-1 row">
+                                                        <div class=" col-sm-6 mb-3 mb-sm-0"><label
+                                                                for="nombreInstitucion3" class="col-form-label">Nombre
+                                                                de institucion:</label>
+                                                            <input type="text"
+                                                                value="<?php print $datos['dataTable'][$i]['NombreInstitucion']; ?>"
+                                                                name="nombreInstitucion3" class="form-control">
+                                                        </div>
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label for="decano3"
+                                                                class="col-form-label">Decano:</label>
+                                                            <input type="text"
+                                                                value="<?php print $datos['dataTable'][$i]['Decano']; ?>"
+                                                                name="decano3" class="form-control">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mb-1 row">
+                                                        <div class=" col-sm-6 mb-3 mb-sm-0"><label
+                                                                for="textofirmadecano3" class="col-form-label">Texto
+                                                                firma decano:</label>
+                                                            <input type="text"
+                                                                value="<?php print $datos['dataTable'][$i]['TextoFirmaDecano']; ?>"
+                                                                name="textofirmadecano3" class="form-control">
+                                                        </div>
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label
+                                                                for="directorAcademico3" class="col-form-label">Director
+                                                                academico:</label>
+                                                            <input type="text"
+                                                                value="<?php print $datos['dataTable'][$i]['DirectorAcademico']; ?>"
+                                                                name="directorAcademico3" class="form-control">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mb-1 row">
+                                                        <div class=" col-sm-6 mb-3 mb-sm-0"><label
+                                                                for="textofirmadecano3" class="col-form-label">Texto
+                                                                firma director:</label>
+                                                            <input type="text"
+                                                                value="<?php print $datos['dataTable'][$i]['TextoFirmaDirector']; ?>"
+                                                                name="textofirmadirector3" class="form-control">
+                                                        </div>
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label for="vacio"
+                                                                class="col-form-label"></label>
+                                                            <input invisible type="hidden" value="" name="vacio"
+                                                                class="form-control">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mb-1 row">
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label
+                                                                for="directorAcademico3" class="col-form-label"> Logo:<a
+                                                                    href="#" id="removeImageLink1"
+                                                                    style="display: none;"
+                                                                    class="text-decoration-none text-prymari">[QUITAR]</a>
+                                                            </label>
+                                                            <div class="w-100  img-thumbnail ">
+                                                                <img class="w-100 h-75"
+                                                                    src="<?php print RUTA; ?>public/img/ImgConvenio/<?php  print $datos['dataTable'][$i]['Logo'];  ?>"
+                                                                    alt="Vista previa de la imagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label
+                                                                for="directorAcademico3" class="col-form-label">Firma
+                                                                Decano: <a href="#" id="removeImageLink1"
+                                                                    style="display: none;"
+                                                                    class="text-decoration-none text-prymari">[QUITAR]</a>
+                                                            </label>
+                                                            <div class="w-100  img-thumbnail ">
+                                                                <img class="w-100 h-75"
+                                                                    src="<?php print RUTA; ?>public/img/ImgConvenio/<?php  print $datos['dataTable'][$i]['FirmaDecano'];  ?>"
+                                                                    alt="Vista previa de la imagen">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mb-1 row">
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label
+                                                                for="directorAcademico3" class="col-form-label"> Firma
+                                                                Director:
+                                                            </label>
+                                                            <div class="w-100  img-thumbnail ">
+                                                                <img class="w-100 h-75"
+                                                                    src="<?php print RUTA; ?>public/img/ImgConvenio/<?php  print $datos['dataTable'][$i]['FirmaDirector'];  ?>"
+                                                                    alt="Vista previa de la imagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class=" col-sm-6 mb-2 mb-sm-0"><label
+                                                                for="directorAcademico3" class="col-form-label">Sello
+                                                                :
+                                                            </label>
+                                                            <div class="w-100  img-thumbnail ">
+                                                                <img class="w-100 h-75"
+                                                                    src="<?php print RUTA; ?>public/img/ImgConvenio/<?php  print $datos['dataTable'][$i]['Sello'];  ?>"
+                                                                    alt="Vista previa de la imagen">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cancelar</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- eliminar Modal-->
+                                <div class="modal fade"
+                                    id="exampleModal<?php print $datos['dataTable'][$i]['IdConvenio'];?>" tabindex="-1"
+                                    data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title fs-5" id="exampleModalLabel"> Eliminar Convenio:
+                                                </h5>
+                                                <span href="" data-bs-dismiss="modal" aria-label="Close"
+                                                    class="ho">X</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Estas seguro de eliminar este convenio?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <a href="<?php print RUTA;?>AdminControlador/BorrarConvenio/<?php print $datos['dataTable'][$i]['IdConvenio'];?>"
+                                                    type="button" class="btn btn-primary">Si</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </td>
@@ -109,27 +260,7 @@ label {
 
 
 
-<!-- eliminar Modal-->
-<div class="modal fade" id="exampleModal<?php print $datos['dataTable'][$i]['IdBanco'];?>" tabindex="-1"
-    data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fs-5" id="exampleModalLabel"> Eliminar Usuario:
-                </h5>
-                <span href="" data-bs-dismiss="modal" aria-label="Close" class="ho">X</span>
-            </div>
-            <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="<?php print RUTA;?>AdminControlador/BorrarBanco/<?php print $datos['dataTable'][$i]['IdBanco'];?>"
-                    type="button" class="btn btn-primary">Si</a>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- editar Modal-->
 <div class="modal fade" id="staticBackdrop<?php print $datos['dataTable'][$i]['IdBanco'];?>b" data-bs-backdrop="static"
     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -158,67 +289,7 @@ label {
         </form>
     </div>
 </div>
-<!-- ver Modal-->
-<div class="modal fade" id="staticBackdrop<?php print $datos['dataTable'][$i]['IdConvenio'];?>a"
-    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
 
-        <div class="modal-content">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="staticBackdropLabel">Ver
-                        Banco </h4>
-                    <span href="" data-bs-dismiss="modal" aria-label="Close" class="ho">X</span>
-                </div>
-                <div class="modal-body">
-
-                    <div class="mb-2 row">
-                        <div class=" col-sm-6 mb-3 mb-sm-0"><label for="numeroCuenta2" class="col-form-label">Numero
-                                de Cuenta:</label>
-                            <input type="number" value="<?php print $datos['dataTable'][$i]['NumeroCuenta'];?>"
-                                name="numeroCuenta2" class="form-control" disabled>
-                        </div>
-                        <div class=" col-sm-6 mb-2 mb-sm-0"><label for="nombreCuenta2" class="col-form-label">Nombre
-                                de Banco:</label>
-                            <input type="text" value="<?php print $datos['dataTable'][$i]['NombreBanco'];?>"
-                                name="nombreCuenta2" class="form-control" disabled>
-                        </div>
-
-                    </div>
-                    <div class="mb-2">
-                        <label class="col-form-label" for="nombreTitular2">Nombre de
-                            Titular:</label>
-                        <input type="text" value="<?php print $datos['dataTable'][$i]['NombreTitular'];?>"
-                            name="nombreTitular2" class="form-control" disabled>
-                    </div>
-                    <div class="mb-2 row">
-                        <div class=" col-sm-6 mb-3 mb-sm-0">
-                            <label class="col-form-label" for="tipoCuenta2">
-                                Tipo de Cuenta :</label>
-                            <input type="text" disabled value="<?php print $datos['dataTable'][$i]['TipoCuenta'];?>"
-                                name="tipoCuenta2" id="numero_con_coma" class="form-control">
-                        </div>
-                        <div class=" col-sm-6 mb-3 mb-sm-0" for="saldo2"><label class="col-form-label">Saldo:</label>
-                            <input type="number" step="0.01" value="<?php print $datos['dataTable'][$i]['Saldo'];?>"
-                                name="saldo2" class="form-control" disabled>
-                        </div>
-
-
-                    </div>
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 <!-- Agregar Modal-->
 <div class="modal fade" id="staticBackdrop4" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">

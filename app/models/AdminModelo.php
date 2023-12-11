@@ -163,6 +163,15 @@ class AdminModelo
         return $r2;
 
     }
+    public function borrarConvenio($id)
+    {
+
+        $sql = "DELETE  FROM   convenios WHERE IdConvenio=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
     public function AgregarConvenio($data)
     {
 
@@ -181,6 +190,12 @@ class AdminModelo
 
         return $r2;
 
+    }
+    
+    public function obtenerNombreImagen($id){
+        $sql = "SELECT Logo, FirmaDecano, FirmaDirector, Sello FROM convenios WHERE IdConvenio=".$id;
+        $data = $this->db->querySelect($sql);
+        return $data;
     }
 
 }

@@ -680,8 +680,8 @@ class AdminControlador extends Controlador
             }
 
             if (count($errores) == 0) {
-            
-                $ruta ="img\ImgConvenio"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
+
+                $ruta = "img\ImgConvenio"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
                 $rutaTemporal2 = $_FILES['archivo2']['tmp_name'];
@@ -715,15 +715,14 @@ class AdminControlador extends Controlador
                 if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true && $AgregueCarpeta3 == true && $AgregueCarpeta4 == true) {
 
                     $resul = $this->modelo->AgregarConvenio($data2);
-                    
-                    
-                   if ($resul) {
+
+                    if ($resul) {
                         array_push($errores, "Convenio Registrado");
                         $res = $sesion->getUsuario();
                         $data = $this->modelo->getConveniosAdmin();
 
                         // Serializar el array
-                        
+
                         $datos = [
                             "titulo" => "Convenio Admin",
                             //"menu" => false,
@@ -760,7 +759,7 @@ class AdminControlador extends Controlador
 
                     $this->vista("ConveniosAdmin", $datos);*/
                     } else {
-                        
+
                         $data = $this->modelo->getConveniosAdmin();
                         array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
                         $datos = [
@@ -778,7 +777,7 @@ class AdminControlador extends Controlador
                     }
 
                 } else {
-                    
+
                     $data = $this->modelo->getConveniosAdmin();
                     array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
                     $datos = [
@@ -813,6 +812,129 @@ class AdminControlador extends Controlador
 
         }
 
+    }
+    public function BorrarConvenio($id)
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+
+        // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
+        $nombresImagenes = $this->modelo->obtenerNombreImagen($id);
+        if (!empty($array)) {
+            $var=true;
+        $imagen1 = $nombresImagenes[0]['Logo'];
+        $imagen2 = $nombresImagenes[0]['FirmaDecano'];
+        $imagen3 = $nombresImagenes[0]['FirmaDirector'];
+        $imagen4 = $nombresImagenes[0]['Sello'];
+
+
+        unlink('img\ImgConvenio/' . $imagen1);
+        unlink('img\ImgConvenio/' . $imagen2);
+        unlink('img\ImgConvenio/' . $imagen3);
+        unlink('img\ImgConvenio/' . $imagen4);
+
+//verificar si se borro las imagenes
+        $imagenesEliminadas = true;
+
+        if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
+            $imagenesEliminadas = false;
+            
+        }
+        // Recorrer los nombres de las imágenes y borrarlas de la carpeta
+        /*foreach ($nombresImagenes as $imagen) {
+
+            if (file_exists('img\ImgConvenio/' . $imagen)) {
+                unlink('img\ImgConvenio/' . $imagen);
+            }
+        }*/
+        
+        
+        
+
+        if ($imagenesEliminadas) {
+            // Borrar el convenio en la base de datos
+            $dato = $this->modelo->borrarConvenio($id);
+
+            if ($dato) {
+
+                $data = $this->modelo->getConveniosAdmin();
+                array_push($errores, "Convenio Eliminado");
+                $datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ConveniosAdmin", $datos);
+            } else {
+                $data = $this->modelo->getConveniosAdmin();
+                array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ConveniosAdmin", $datos);
+            }
+
+            $data = $this->modelo->getConveniosAdmin();
+            array_push($errores, "Convenio Eliminado");
+            $datos = [
+                "titulo" => "Convenio Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "success",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ConveniosAdmin", $datos);
+        } else {
+            $data = $this->modelo->getConveniosAdmin();
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+            $datos = [
+                "titulo" => "Convenio Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ConveniosAdmin", $datos);
+        }
+
+        // Resto del código para mensajes de éxito y actualización de la vista
+
+        } else {
+            $data = $this->modelo->getConveniosAdmin();
+            array_push($errores, "Convenio Eliminado");
+            $datos = [
+                "titulo" => "Convenio Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "success",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ConveniosAdmin", $datos);
+        }
+       
+        
     }
 
 }
