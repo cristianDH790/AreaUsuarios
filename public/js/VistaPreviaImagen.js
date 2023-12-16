@@ -128,3 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.style.display = "none"; // Ocultar el enlace de quitar
     });
 });
+
+
+

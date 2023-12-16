@@ -1,85 +1,107 @@
-<!-- Footer -->
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; CristianDH 2023</span>
-        </div>
+</section>
+<!-- /.content -->
+</div>
+
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
     </div>
 </footer>
-<!-- End of Footer -->
 
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
 </div>
-<!-- End of Content Wrapper -->
+<!-- ./wrapper -->
 
-</div>
-<!-- End of Page Wrapper -->
+<!-- jQuery -->
+<script src="<?php print RUTA;?>public/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="<?php print RUTA;?>public/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+$.widget.bridge('uibutton', $.ui.button)
+</script>
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
+<!-- ChartJS -->
+<script src="<?php print RUTA;?>/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="<?php print RUTA;?>/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="<?php print RUTA;?>/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="<?php print RUTA;?>/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="<?php print RUTA;?>/plugins/moment/moment.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="<?php print RUTA;?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="<?php print RUTA;?>/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="<?php print RUTA;?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="<?php print RUTA;?>/dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php print RUTA;?>/dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="<?php print RUTA;?>/dist/js/pages/dashboard.js"></script>
 
 
-
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Deseas Cerrar Sesion?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Selecciona "Salir" si quieres salir!</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary" href="<?php  print RUTA;?>AdminControlador/salir">Salir</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Bootstrap core JavaScript-->
-<script src="<?php print RUTA; ?>public/vendor/jquery/jquery.min.js"></script>
-<script src="<?php print RUTA; ?>public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="<?php print RUTA; ?>public/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="<?php print RUTA; ?>public/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<!--<script src="<?php print RUTA; ?>public/vendor/chart.js/Chart.min.js"></script>-->
-
-<!-- Page level custom scripts -->
-<script src="<?php print RUTA; ?>public/js/demo/chart-area-demo.js"></script>
-<script src="<?php print RUTA; ?>public/js/demo/chart-pie-demo.js"></script>
-
-<!-- Page level plugins -->
-<script src="<?php print RUTA; ?>public/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="<?php print RUTA; ?>public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="<?php print RUTA; ?>public/js/demo/datatables-demo.js"></script>
-
-<!-- toast de error-->
-<script src="<?php print RUTA; ?>public/js/toast.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="<?php print RUTA;?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/jszip/jszip.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php print RUTA;?>/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <!-- validar imagen-->
-<script src="<?php print RUTA; ?>public/js/ValidarImg.js"></script>
+<script src="<?php print RUTA;?>public/js/ValidarImg.js"></script>
 <!-- vista previa imagen-->
-<script src="<?php print RUTA; ?>public/js/VistaPreviaImagen.js"></script>
+<script src="<?php print RUTA;?>public/js/VistaPreviaImagen.js"></script>
+<script src="<?php print RUTA;?>public/js/editarImg.js"></script>
+
+
+<script>
+$(function() {
+    $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf",  "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+});
+</script>
 
 
 
 
+
+
+<!-- toast de error-->
+<script src="<?php print RUTA;?>public/js/toast.js"></script>
 
 </body>
 

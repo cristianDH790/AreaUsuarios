@@ -234,19 +234,17 @@ class AdminControlador extends Controlador
             ];
 
             if ($NumeroCuenta == "") {
-                array_push($errores, "el numero de cuenta es requerido    ");
+                array_push($errores, "el numero de cuenta es requerido<br><br>   ");
             }
             if ($NombreBanco == "") {
-                array_push($errores, "<br> el nombre de banco es requerido    ");
+                array_push($errores, "el nombre de banco es requerido <br>   ");
             }
             if ($NombreTitular == "") {
-                array_push($errores, "<br> el nombre de titular es requerido    ");
+                array_push($errores, "el nombre de titular es requerido <br>   ");
             }
-            if ($Saldo == "") {
-                array_push($errores, "<br> el saldo es requerido ");
-            }
+
             if ($TipoCuenta == "") {
-                array_push($errores, "<br> el tipo de cuenta es requerido ");
+                array_push($errores, "el tipo de cuenta es requerido<br> ");
             }
 
             if (count($errores) == 0) {
@@ -343,34 +341,34 @@ class AdminControlador extends Controlador
 
             //validacion
             if ($nombre == "") {
-                array_push($errores, "<br> el nombre es requerido    ");
+                array_push($errores, "el nombre es requerido <br>   ");
             }
             if ($apellidoPaterno == "") {
-                array_push($errores, "<br> el apellido paterno es requerido    ");
+                array_push($errores, "el apellido paterno es requerido<br>    ");
             }
             if ($apellidoMaterno == "") {
-                array_push($errores, "<br> el apellido materno es requerido    ");
+                array_push($errores, "el apellido materno es requerido <br>   ");
             }
             if ($dni == "") {
-                array_push($errores, "<br> el dni es requerido ");
+                array_push($errores, "el dni es requerido <br>");
             }
             if ($celular == "") {
-                array_push($errores, "<br> el celular es requerido ");
+                array_push($errores, "el celular es requerido<br> ");
             }
             if ($rol == "") {
-                array_push($errores, "<br> el rol es requerido    ");
+                array_push($errores, "el rol es requerido <br>   ");
             }
             if ($estado == "") {
-                array_push($errores, "<br> el  estado es requerido    ");
+                array_push($errores, "el  estado es requerido<br>    ");
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                array_push($errores, "<br> el correo  no es valido   ");
+                array_push($errores, "el correo  no es valido<br>   ");
             }
             if (!filter_var($emailIngreso, FILTER_VALIDATE_EMAIL)) {
-                array_push($errores, "<br> el correo ingreso no es valido    ");
+                array_push($errores, "el correo ingreso no es valido <br>   ");
             }
             if ($contrasena == "") {
-                array_push($errores, "<br> la contraseña es requerido     ");
+                array_push($errores, "la contraseña es requerido <br>    ");
             }
 
             if (count($errores) == 0) {
@@ -521,7 +519,7 @@ class AdminControlador extends Controlador
             $NumeroCuenta = isset($_POST["numeroCuenta"]) ? $_POST["numeroCuenta"] : "";
             $NombreBanco = isset($_POST["nombreBanco"]) ? $_POST["nombreBanco"] : "";
             $NombreTitular = isset($_POST["nombreTitular"]) ? $_POST["nombreTitular"] : "";
-            $Saldo = isset($_POST["saldo"]) ? $_POST["saldo"] : "";
+            $Saldo = isset($_POST["saldo"]) ? $_POST["saldo"] : "0.0";
             $TipoCuenta = isset($_POST["tipoCuenta"]) ? $_POST["tipoCuenta"] : "";
 
             $data2 = [
@@ -542,9 +540,7 @@ class AdminControlador extends Controlador
             if ($NombreTitular == "") {
                 array_push($errores, "<br> el nombre de titular es requerido    ");
             }
-            if ($Saldo == "") {
-                array_push($errores, "<br> el saldo es requerido ");
-            }
+
             if ($TipoCuenta == "") {
                 array_push($errores, "<br> el tipo de cuenta es requerido ");
             }
@@ -553,7 +549,7 @@ class AdminControlador extends Controlador
                 $resul = $this->modelo->EditarBanco($data2);
 
                 if ($resul) {
-                    array_push($errores, "Banco Registrado");
+                    array_push($errores, "Banco Editado");
                     $res = $sesion->getUsuario();
                     $data = $this->modelo->getBancosAdmin();
                     $datos = [
@@ -577,7 +573,7 @@ class AdminControlador extends Controlador
                 } else {
 
                     $data = $this->modelo->getBancosAdmin();
-                    array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                    array_push($errores, "Hubo Un Error En la Edicion<br>Si Persiste Comunicate Con Su Proveedor");
                     $datos = [
                         "titulo" => "Banco Admin",
                         //"menu" => false,
@@ -822,41 +818,66 @@ class AdminControlador extends Controlador
         // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
         $nombresImagenes = $this->modelo->obtenerNombreImagen($id);
         if (!empty($array)) {
-            $var=true;
-        $imagen1 = $nombresImagenes[0]['Logo'];
-        $imagen2 = $nombresImagenes[0]['FirmaDecano'];
-        $imagen3 = $nombresImagenes[0]['FirmaDirector'];
-        $imagen4 = $nombresImagenes[0]['Sello'];
+            $var = true;
+            $imagen1 = $nombresImagenes[0]['Logo'];
+            $imagen2 = $nombresImagenes[0]['FirmaDecano'];
+            $imagen3 = $nombresImagenes[0]['FirmaDirector'];
+            $imagen4 = $nombresImagenes[0]['Sello'];
 
+            unlink('img\ImgConvenio/' . $imagen1);
+            unlink('img\ImgConvenio/' . $imagen2);
+            unlink('img\ImgConvenio/' . $imagen3);
+            unlink('img\ImgConvenio/' . $imagen4);
 
-        unlink('img\ImgConvenio/' . $imagen1);
-        unlink('img\ImgConvenio/' . $imagen2);
-        unlink('img\ImgConvenio/' . $imagen3);
-        unlink('img\ImgConvenio/' . $imagen4);
+             //verificar si se borro las imagenes
+            $imagenesEliminadas = true;
 
-//verificar si se borro las imagenes
-        $imagenesEliminadas = true;
+            if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
+                $imagenesEliminadas = false;
 
-        if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
-            $imagenesEliminadas = false;
-            
-        }
-        // Recorrer los nombres de las imágenes y borrarlas de la carpeta
-        /*foreach ($nombresImagenes as $imagen) {
+            }
+            // Recorrer los nombres de las imágenes y borrarlas de la carpeta
+            /*foreach ($nombresImagenes as $imagen) {
 
             if (file_exists('img\ImgConvenio/' . $imagen)) {
-                unlink('img\ImgConvenio/' . $imagen);
+            unlink('img\ImgConvenio/' . $imagen);
             }
-        }*/
-        
-        
-        
+            }*/
 
-        if ($imagenesEliminadas) {
-            // Borrar el convenio en la base de datos
-            $dato = $this->modelo->borrarConvenio($id);
+            if ($imagenesEliminadas) {
+                // Borrar el convenio en la base de datos
+                $dato = $this->modelo->borrarConvenio($id);
 
-            if ($dato) {
+                if ($dato) {
+
+                    $data = $this->modelo->getConveniosAdmin();
+                    array_push($errores, "Convenio Eliminado");
+                    $datos = [
+                        "titulo" => "Convenio Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        //"data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+                    $this->vista("ConveniosAdmin", $datos);
+                } else {
+                    $data = $this->modelo->getConveniosAdmin();
+                    array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Convenio Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        //"data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+                    $this->vista("ConveniosAdmin", $datos);
+                }
 
                 $data = $this->modelo->getConveniosAdmin();
                 array_push($errores, "Convenio Eliminado");
@@ -887,36 +908,7 @@ class AdminControlador extends Controlador
                 $this->vista("ConveniosAdmin", $datos);
             }
 
-            $data = $this->modelo->getConveniosAdmin();
-            array_push($errores, "Convenio Eliminado");
-            $datos = [
-                "titulo" => "Convenio Admin",
-                //"menu" => false,
-                "errores" => $errores,
-                "color" => "success",
-                "data" => $res,
-                //"data2" => $data2,
-                "dataTable" => $data,
-
-            ];
-            $this->vista("ConveniosAdmin", $datos);
-        } else {
-            $data = $this->modelo->getConveniosAdmin();
-            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
-            $datos = [
-                "titulo" => "Convenio Admin",
-                //"menu" => false,
-                "errores" => $errores,
-                "color" => "error",
-                "data" => $res,
-                //"data2" => $data2,
-                "dataTable" => $data,
-
-            ];
-            $this->vista("ConveniosAdmin", $datos);
-        }
-
-        // Resto del código para mensajes de éxito y actualización de la vista
+            // Resto del código para mensajes de éxito y actualización de la vista
 
         } else {
             $data = $this->modelo->getConveniosAdmin();
@@ -933,8 +925,7 @@ class AdminControlador extends Controlador
             ];
             $this->vista("ConveniosAdmin", $datos);
         }
-       
-        
+
     }
 
 }
