@@ -198,4 +198,34 @@ class AdminModelo
         return $data;
     }
 
+    public function EditarConvenio($data)
+    {
+        $r2 = false;
+        //$r=$this->validaCorreo($data["correo"]);
+        //if($r){
+
+            
+
+        $sql = "UPDATE  convenios SET ";
+        $sql .= "NombreInstitucion='" . $data['NombreInstitucion'] . "',";
+        $sql .= "Decano='" . $data['Decano'] . "',";
+        $sql .= "TextoFirmaDecano='" . $data['TextoFirmaDecano'] . "',";
+        $sql .= "DirectorAcademico='" . $data['DirectorAcademico'] . "',";
+        $sql .= "TextoFirmaDirector='" . $data['TextoFirmaDirector'] . "',";
+        $sql .= "Logo='" . $data['Logo'] . "',";
+        $sql .= "FirmaDecano='" . $data['FirmaDecano'] . "',";
+        $sql .= "FirmaDirector='" . $data['FirmaDirector'] . "',";
+        $sql .= "Sello='" . $data['Sello'] . "'";
+        $sql .= " WHERE IdConvenio=" . $data['IdConvenio'] . ";";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+        //}else{
+        // return $r;
+        // }
+
+    }
+
 }

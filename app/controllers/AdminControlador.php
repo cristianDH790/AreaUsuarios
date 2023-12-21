@@ -678,6 +678,7 @@ class AdminControlador extends Controlador
             if (count($errores) == 0) {
 
                 $ruta = "img\ImgConvenio"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
+                
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
                 $rutaTemporal2 = $_FILES['archivo2']['tmp_name'];
@@ -927,5 +928,215 @@ class AdminControlador extends Controlador
         }
 
     }
+
+
+    public function EditarConvenio($id)
+    {
+        
+   $img1="";
+   $img2="";
+   $img3="";
+   $img4="";
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $IdConvenio = isset($_POST["IdConvenio"]) ? $_POST["IdConvenio"] : "";
+            $NombreInstitucion = isset($_POST["nombreInstitucion3"]) ? $_POST["nombreInstitucion3"] : "";
+            $Decano = isset($_POST["decano3"]) ? $_POST["decano3"] : "";
+            $TextoFirmaDecano = isset($_POST["textofirmadecano3"]) ? $_POST["textofirmadecano3"] : "";
+            $DirectorAcademico = isset($_POST["directorAcademico3"]) ? $_POST["directorAcademico3"] : "";
+            $TextoFirmaDirector = isset($_POST["textofirmadirector3"]) ? $_POST["textofirmadirector3"] : "";
+            $Logo = isset($_FILES['archivo1']['name']) ? $_FILES['archivo1']['name'] : "";
+            $FirmaDecano = isset($_FILES['archivo2']['name']) ? $_FILES['archivo2']['name'] : "";
+            $FirmaDirector = isset($_FILES['archivo3']['name']) ? $_FILES['archivo3']['name'] : "";
+            $Sello = isset($_FILES['archivo4']['name']) ? $_FILES['archivo4']['name'] : "";
+
+            $ruta = "img\ImgConvenio";
+            
+            
+            //validacion
+            if ($TextoFirmaDirector == "") {
+                array_push($errores, "El Texto firma director es requerido<br>    ");
+            }
+            if ($DirectorAcademico == "") {
+                array_push($errores, "El director academico es requerido<br>    ");
+            }
+            if ($TextoFirmaDecano == "") {
+                array_push($errores, "El texto firma decano es requerido<br>   ");
+            }
+            if ($Decano == "") {
+                array_push($errores, "El decano es requerido<br>    ");
+            }
+            if ($NombreInstitucion == "") {
+                array_push($errores, "Nombre institucion es requerido<br>    ");
+            }
+            
+
+           if (count($errores) == 0) {
+                $resulid = $this->modelo->obtenerNombreImagen($IdConvenio);
+                
+                #var_dump($resulid);
+                #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello=="" 
+                $logoanterior1 = $resulid[0]['Logo'];
+                $logoanterior2 = $resulid[0]['FirmaDecano'];
+                $logoanterior3 = $resulid[0]['FirmaDirector'];
+                $logoanterior4 = $resulid[0]['Sello'];
+
+                $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
+                
+
+
+                if($Logo==""){
+                    
+                    $img1=$logoanterior1;
+                    print("se no se iso nada");
+                }else{
+                    unlink($ruta."/".$logoanterior1);
+                    
+                    
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Logo);
+                    print("se remplaso");
+                    $img1=$Logo;
+                }
+                
+                if($FirmaDecano==""){
+                    $img2=$logoanterior2;
+                    
+                }else{
+                    unlink($ruta."/".$logoanterior2);
+                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $FirmaDecano);
+                    print("se remplaso");
+                    
+                    $img2=$FirmaDecano;
+                }
+
+                if($FirmaDirector==""){
+                    $img3=$logoanterior3;
+                    
+                }else{
+                    unlink($ruta."/".$logoanterior3);
+                    move_uploaded_file($rutaTemporal3, $ruta . "/" . $FirmaDirector);
+                    print("se remplaso");
+                    $img3=$FirmaDirector;
+                }
+
+                if($Sello==""){
+                    
+                    $img4=$logoanterior4;
+                }else{
+                    unlink($ruta."/".$logoanterior4);
+                    move_uploaded_file($rutaTemporal4, $ruta . "/" . $Sello);
+                    print("se remplaso");
+                    $img4=$Sello;
+                }
+
+               
+              print($img1);
+              print($img2);
+              print($img3);
+              print($img4);  
+
+                $data2 = [
+                    "IdConvenio" => $IdConvenio,
+                    "NombreInstitucion" => $NombreInstitucion,
+                    "Decano" => $Decano,
+                    "TextoFirmaDecano" => $TextoFirmaDecano,
+                    "DirectorAcademico" => $DirectorAcademico,
+                    "TextoFirmaDirector" => $TextoFirmaDirector,
+                    "Logo" => $img1,
+                    "FirmaDecano" => $img2,
+                    "FirmaDirector" => $img3,
+                    "Sello" => $img4,
+                ];
+
+                $resul = $this->modelo->EditarConvenio($data2);
+
+                    if ($resul) {
+                        array_push($errores, "Convenio Editado");
+                        $res = $sesion->getUsuario();
+                        $data = $this->modelo->getConveniosAdmin();
+
+                        // Serializar el array
+
+                        $datos = [
+                            "titulo" => "Convenio Admin",
+                            //"menu" => false,
+                            //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                            //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                            "errores" => $errores,
+                            "color" => "success",
+                            "data" => $res,
+                            "dataTable" => $data,
+
+                            //"url" => "inicioControlador/iniciarsesion",
+                            //"colorBoton" => "btn-success",
+                            //"textoBoton"=>"Iniciar"
+
+                        ];
+                        $data_serialized = urlencode(base64_encode(serialize($datos)));
+                        header("Location:" . RUTA . "AdminControlador/ConveniosAdmin?datos=$data_serialized&registrado=true");
+
+                       
+                    } else {
+
+                        $data = $this->modelo->getConveniosAdmin();
+                        array_push($errores, "Hubo Un Error En Editar Convenio<br>Si Persiste Comunicate Con Su Proveedor");
+                        $datos = [
+                            "titulo" => "Convenio Admin",
+                            //"menu" => false,
+                            "errores" => $errores,
+                            "color" => "error",
+                            "data" => $res,
+                            "data2" => $data2,
+                            "dataTable" => $data,
+
+                        ];
+
+                        $this->vista("ConveniosAdmin", $datos);
+                    }
+
+
+               
+
+                } else {
+
+                    $data = $this->modelo->getConveniosAdmin();
+                    array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Convenio Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("ConveniosAdmin", $datos);
+
+                }
+            } else {
+                $data = $this->modelo->getConveniosAdmin();
+                $datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+
+                $this->vista("ConveniosAdmin", $datos);
+            }
+
+        }
+
+    
+
 
 }

@@ -258,7 +258,7 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <form action="<?php print RUTA;?>AdminControlador/AgregarConvenio"
-                                                        method="POST">
+                                                        method="POST" enctype="multipart/form-data">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">Agregar
                                                                 Convenio:</h4>
@@ -469,8 +469,8 @@
                                             id="modal-default<?php print $datos['dataTable'][$i]['IdConvenio'];?>b">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form action="<?php print RUTA;?>AdminControlador/EditarBanco/"
-                                                        method="POST">
+                                                    <form action="<?php print RUTA;?>AdminControlador/EditarConvenio/"
+                                                        method="POST" enctype="multipart/form-data">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">Editar
                                                                 Convenio:</h4>
@@ -531,7 +531,7 @@
                                                                         class="col-form-label"></label>
                                                                     <input invisible type="hidden"
                                                                         value="<?php print $datos['dataTable'][$i]['IdConvenio']; ?>"
-                                                                        name="vacio" class="form-control">
+                                                                        name="IdConvenio" class="form-control">
                                                                 </div>
 
                                                             </div>
@@ -555,8 +555,7 @@
                                                                     <div class="w-100 img-thumbnail">
                                                                         <img id="newImagePreview5" class="w-100 h-75"
                                                                             src="<?php print RUTA; ?>/img/ImgConvenio/<?php print $datos['dataTable'][$i]['Logo']; ?>"
-                                                                            alt="Vista previa de la imagen"
-                                                                            >
+                                                                            alt="Vista previa de la imagen">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -580,8 +579,7 @@
                                                                     <div class="w-100 img-thumbnail">
                                                                         <img id="newImagePreview6" class="w-100 h-75"
                                                                             src="<?php print RUTA; ?>public/img/ImgConvenio/<?php print $datos['dataTable'][$i]['FirmaDecano']; ?>"
-                                                                            alt="Vista previa de la imagen"
-                                                                           >
+                                                                            alt="Vista previa de la imagen">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -605,8 +603,7 @@
                                                                     <div class="w-100 img-thumbnail">
                                                                         <img id="newImagePreview7" class="w-100 h-75"
                                                                             src="<?php print RUTA; ?>public/img/ImgConvenio/<?php print $datos['dataTable'][$i]['FirmaDirector']; ?>"
-                                                                            alt="Vista previa de la imagen"
-                                                                            >
+                                                                            alt="Vista previa de la imagen">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -629,12 +626,12 @@
                                                                         class="col-form-label">Vista previa: <a href="#"
                                                                             id="newRemoveImageLink8"
                                                                             onclick="quitarImagen(newFileInput8, newImagePreview8)"
-                                                                            class="text-decoration-none text-prymari">[QUITAR]</a> </label>
+                                                                            class="text-decoration-none text-prymari">[QUITAR]</a>
+                                                                    </label>
                                                                     <div class="w-100 img-thumbnail">
                                                                         <img id="newImagePreview8" class="w-100 h-75"
                                                                             src="<?php print RUTA; ?>public/img/ImgConvenio/<?php print $datos['dataTable'][$i]['Sello']; ?>"
-                                                                            alt="Vista previa de la imagen"
-                                                                            >
+                                                                            alt="Vista previa de la imagen">
                                                                     </div>
                                                                 </div>
                                                             </div>
