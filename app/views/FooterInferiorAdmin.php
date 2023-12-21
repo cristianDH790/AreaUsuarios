@@ -78,10 +78,11 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?php print RUTA;?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php print RUTA;?>/dist/js/adminlte.js"></script>
+
 <!-- AdminLTE for demo purposes -->
-<script src="<?php print RUTA;?>/dist/js/demo.js"></script>
+<!--<script src="<?php #print RUTA;?>/dist/js/demo.js"></script>-->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php print RUTA;?>/dist/js/pages/dashboard.js"></script>
+<!--<script src="<?php #print RUTA;?>/dist/js/pages/dashboard.js"></script>-->
 
 
 <!-- DataTables  & Plugins -->
