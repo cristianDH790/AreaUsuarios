@@ -678,7 +678,6 @@ class AdminControlador extends Controlador
             if (count($errores) == 0) {
 
                 $ruta = "img\ImgConvenio"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
-                
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
                 $rutaTemporal2 = $_FILES['archivo2']['tmp_name'];
@@ -830,7 +829,7 @@ class AdminControlador extends Controlador
             unlink('img\ImgConvenio/' . $imagen3);
             unlink('img\ImgConvenio/' . $imagen4);
 
-             //verificar si se borro las imagenes
+            //verificar si se borro las imagenes
             $imagenesEliminadas = true;
 
             if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
@@ -928,15 +927,12 @@ class AdminControlador extends Controlador
         }
 
     }
-
-
     public function EditarConvenio($id)
     {
-        
-   $img1="";
-   $img2="";
-   $img3="";
-   $img4="";
+        $img1 = "";
+        $img2 = "";
+        $img3 = "";
+        $img4 = "";
 
         $sesion = new Sesion();
         $res = $sesion->getUsuario();
@@ -954,8 +950,7 @@ class AdminControlador extends Controlador
             $Sello = isset($_FILES['archivo4']['name']) ? $_FILES['archivo4']['name'] : "";
 
             $ruta = "img\ImgConvenio";
-            
-            
+
             //validacion
             if ($TextoFirmaDirector == "") {
                 array_push($errores, "El Texto firma director es requerido<br>    ");
@@ -972,71 +967,66 @@ class AdminControlador extends Controlador
             if ($NombreInstitucion == "") {
                 array_push($errores, "Nombre institucion es requerido<br>    ");
             }
-            
 
-           if (count($errores) == 0) {
+            if (count($errores) == 0) {
                 $resulid = $this->modelo->obtenerNombreImagen($IdConvenio);
-                
+
                 #var_dump($resulid);
-                #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello=="" 
+                #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello==""
                 $logoanterior1 = $resulid[0]['Logo'];
                 $logoanterior2 = $resulid[0]['FirmaDecano'];
                 $logoanterior3 = $resulid[0]['FirmaDirector'];
                 $logoanterior4 = $resulid[0]['Sello'];
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
-                
 
+                if ($Logo == "") {
 
-                if($Logo==""){
-                    
-                    $img1=$logoanterior1;
+                    $img1 = $logoanterior1;
                     print("se no se iso nada");
-                }else{
-                    unlink($ruta."/".$logoanterior1);
-                    
-                    
+                } else {
+                    unlink($ruta . "/" . $logoanterior1);
+
                     move_uploaded_file($rutaTemporal1, $ruta . "/" . $Logo);
                     print("se remplaso");
-                    $img1=$Logo;
+                    $img1 = $Logo;
                 }
-                
-                if($FirmaDecano==""){
-                    $img2=$logoanterior2;
-                    
-                }else{
-                    unlink($ruta."/".$logoanterior2);
+
+                if ($FirmaDecano == "") {
+                    $img2 = $logoanterior2;
+
+                } else {
+                    unlink($ruta . "/" . $logoanterior2);
                     move_uploaded_file($rutaTemporal2, $ruta . "/" . $FirmaDecano);
                     print("se remplaso");
-                    
-                    $img2=$FirmaDecano;
+
+                    $img2 = $FirmaDecano;
                 }
 
-                if($FirmaDirector==""){
-                    $img3=$logoanterior3;
-                    
-                }else{
-                    unlink($ruta."/".$logoanterior3);
+                if ($FirmaDirector == "") {
+                    $img3 = $logoanterior3;
+
+                } else {
+                    unlink($ruta . "/" . $logoanterior3);
                     move_uploaded_file($rutaTemporal3, $ruta . "/" . $FirmaDirector);
                     print("se remplaso");
-                    $img3=$FirmaDirector;
+                    $img3 = $FirmaDirector;
                 }
 
-                if($Sello==""){
-                    
-                    $img4=$logoanterior4;
-                }else{
-                    unlink($ruta."/".$logoanterior4);
+                if ($Sello == "") {
+
+                    $img4 = $logoanterior4;
+                } else {
+                    unlink($ruta . "/" . $logoanterior4);
                     move_uploaded_file($rutaTemporal4, $ruta . "/" . $Sello);
                     print("se remplaso");
-                    $img4=$Sello;
+                    $img4 = $Sello;
                 }
 
-               
-              print($img1);
-              print($img2);
-              print($img3);
-              print($img4);  
+                print($img1);
+                print($img2);
+                print($img3);
+                print($img4);
 
                 $data2 = [
                     "IdConvenio" => $IdConvenio,
@@ -1053,15 +1043,181 @@ class AdminControlador extends Controlador
 
                 $resul = $this->modelo->EditarConvenio($data2);
 
+                if ($resul) {
+                    array_push($errores, "Convenio Editado");
+                    $res = $sesion->getUsuario();
+                    $data = $this->modelo->getConveniosAdmin();
+
+                    // Serializar el array
+
+                    $datos = [
+                        "titulo" => "Convenio Admin",
+                        //"menu" => false,
+                        //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                        //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        "dataTable" => $data,
+
+                        //"url" => "inicioControlador/iniciarsesion",
+                        //"colorBoton" => "btn-success",
+                        //"textoBoton"=>"Iniciar"
+
+                    ];
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                    header("Location:" . RUTA . "AdminControlador/ConveniosAdmin?datos=$data_serialized&registrado=true");
+
+                } else {
+
+                    $data = $this->modelo->getConveniosAdmin();
+                    array_push($errores, "Hubo Un Error En Editar Convenio<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Convenio Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("ConveniosAdmin", $datos);
+                }
+
+            } else {
+
+                $data = $this->modelo->getConveniosAdmin();
+                array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+
+                $this->vista("ConveniosAdmin", $datos);
+
+            }
+        } else {
+            $data = $this->modelo->getConveniosAdmin();
+            $datos = [
+                "titulo" => "Convenio Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                "data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+
+            $this->vista("ConveniosAdmin", $datos);
+        }
+
+    }
+    public function ExpositoresAdmin()
+    {
+        $sesion = new Sesion();
+        $valorRol = $sesion->getUsuario()['IdRol'];
+        if ($sesion->getLogin() && $valorRol[0] != 4) {
+            // print "hola desde la caratula "."<br>";
+            $res = $sesion->getUsuario();
+            $data = $this->modelo->getExpositoresAdmin();
+            $datos = [
+                "titulo" => "Expositores Admin",
+                "data" => $res,
+                "dataTable" => $data,
+                //"menu" => false
+            ];
+
+            $this->vista("ExpositoresAdmin", $datos);
+
+        } else {
+            header("location:" . RUTA . "InicioControlador");
+        }
+    }
+    public function AgregarExpositor()
+    {
+        $AgregueCarpeta1 = false;
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $Dni = isset($_POST["dni"]) ? $_POST["dni"] : "";
+            $Prefijo = isset($_POST["prefijo"]) ? $_POST["prefijo"] : "";
+            $ApellidoPaterno = isset($_POST["apellidoPaterno"]) ? $_POST["apellidoPaterno"] : "";
+            $ApellidoMaterno = isset($_POST["apellidoMaterno"]) ? $_POST["apellidoMaterno"] : "";
+            $Nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
+            $Telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : "";
+            $Reseña = isset($_POST["reseña"]) ? $_POST["reseña"] : "";
+            $Foto = isset($_FILES['archivo1']['name']) ? $_FILES['archivo1']['name'] : "";
+
+            $data2 = [
+                "Dni" => $Dni,
+                "Prefijo" => strtoupper($Prefijo),
+                "ApellidoPaterno" => strtoupper($ApellidoPaterno),
+                "ApellidoMaterno" => strtoupper($ApellidoMaterno),
+                "Nombre" => strtoupper($Nombre),
+                "Telefono" => $Telefono,
+                "Reseña" => $Reseña,
+                "FotoPerfil" => $Foto,
+
+            ];
+            //validacion
+            if ($Dni == "") {
+                array_push($errores, "El DNI es requerido<br>    ");
+            }
+            if ($Prefijo == "") {
+                array_push($errores, "El Prefijo es requerido<br>    ");
+            }
+            if ($ApellidoPaterno == "") {
+                array_push($errores, "El Apellido Paterno es requerido<br>   ");
+            }
+            if ($ApellidoMaterno == "") {
+                array_push($errores, "El Apellido Materno es requerido<br>    ");
+            }
+            if ($Nombre == "") {
+                array_push($errores, "El Nombre es requerido<br>    ");
+            }
+            if ($Telefono == "") {
+                array_push($errores, "El Telefono es requerido<br>    ");
+            }
+            if ($Reseña == "") {
+                array_push($errores, "La Reseña es requerida<br>    ");
+            }
+
+            if (count($errores) == 0) {
+
+                $ruta = "img\ImgExpositores"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
+
+                $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto)) {
+                    $AgregueCarpeta1 = true;
+                } else {
+                    $AgregueCarpeta1 = false;
+                }
+
+                if ($AgregueCarpeta1 == true) {
+
+                    $resul = $this->modelo->AgregarExpositor($data2);
+
                     if ($resul) {
-                        array_push($errores, "Convenio Editado");
+                        array_push($errores, "Expositor Registrado");
                         $res = $sesion->getUsuario();
-                        $data = $this->modelo->getConveniosAdmin();
+                        $data = $this->modelo->getExpositoresAdmin();
 
                         // Serializar el array
 
                         $datos = [
-                            "titulo" => "Convenio Admin",
+                            "titulo" => "Expositores Admin",
                             //"menu" => false,
                             //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
                             //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
@@ -1076,15 +1232,31 @@ class AdminControlador extends Controlador
 
                         ];
                         $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/ConveniosAdmin?datos=$data_serialized&registrado=true");
+                        header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin?datos=$data_serialized&registrado=true");
 
-                       
+                        /*$datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                    //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    "dataTable" => $data,
+
+                    //"url" => "inicioControlador/iniciarsesion",
+                    //"colorBoton" => "btn-success",
+                    //"textoBoton"=>"Iniciar"
+
+                    ];
+
+                    $this->vista("ConveniosAdmin", $datos);*/
                     } else {
 
-                        $data = $this->modelo->getConveniosAdmin();
-                        array_push($errores, "Hubo Un Error En Editar Convenio<br>Si Persiste Comunicate Con Su Proveedor");
+                        $data = $this->modelo->getExpositoresAdmin();
+                        array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
                         $datos = [
-                            "titulo" => "Convenio Admin",
+                            "titulo" => "Expositores Admin",
                             //"menu" => false,
                             "errores" => $errores,
                             "color" => "error",
@@ -1094,18 +1266,15 @@ class AdminControlador extends Controlador
 
                         ];
 
-                        $this->vista("ConveniosAdmin", $datos);
+                        $this->vista("ExpositoresAdmin", $datos);
                     }
-
-
-               
 
                 } else {
 
                     $data = $this->modelo->getConveniosAdmin();
                     array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
                     $datos = [
-                        "titulo" => "Convenio Admin",
+                        "titulo" => "Expositores Admin",
                         //"menu" => false,
                         "errores" => $errores,
                         "color" => "error",
@@ -1115,13 +1284,13 @@ class AdminControlador extends Controlador
 
                     ];
 
-                    $this->vista("ConveniosAdmin", $datos);
+                    $this->vista("ExpositoresAdmin", $datos);
 
                 }
             } else {
                 $data = $this->modelo->getConveniosAdmin();
                 $datos = [
-                    "titulo" => "Convenio Admin",
+                    "titulo" => "Expositores Admin",
                     //"menu" => false,
                     "errores" => $errores,
                     "color" => "error",
@@ -1131,12 +1300,271 @@ class AdminControlador extends Controlador
 
                 ];
 
-                $this->vista("ConveniosAdmin", $datos);
+                $this->vista("ExpositoresAdmin", $datos);
             }
 
         }
 
-    
+    }
+    public function borrarExpositor($id)
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
 
+        // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
+        $nombresImagenes = $this->modelo->obtenerNombreImagenExpositor($id);
+
+        $var = true;
+        $imagen1 = $nombresImagenes[0]['FotoPerfil'];
+
+        unlink('img\ImgConvenio/' . $imagen1);
+
+        //verificar si se borro las imagenes
+        $imagenesEliminadas = true;
+
+        if (file_exists('img\ImgExpositores/' . $imagen1)) {
+            $imagenesEliminadas = false;
+
+        }
+        // Recorrer los nombres de las imágenes y borrarlas de la carpeta
+        /*foreach ($nombresImagenes as $imagen) {
+
+        if (file_exists('img\ImgConvenio/' . $imagen)) {
+        unlink('img\ImgConvenio/' . $imagen);
+        }
+        }*/
+
+        if ($imagenesEliminadas) {
+            // Borrar el expositor en la base de datos
+            $dato = $this->modelo->borrarExpositor($id);
+
+            if ($dato) {
+
+                $data = $this->modelo->getExpositoresAdmin();
+                array_push($errores, "Expositor Eliminado");
+                $datos = [
+                    "titulo" => "Expositores Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ExpositoresAdmin", $datos);
+            } else {
+                $data = $this->modelo->getExpositoresAdmin();
+                array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Expositores Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ExpositoresAdmin", $datos);
+            }
+
+            $data = $this->modelo->getExpositoresAdmin();
+            array_push($errores, "Expositor Eliminado");
+            $datos = [
+                "titulo" => "Expositores Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "success",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ExpositoresAdmin", $datos);
+        } else {
+            $data = $this->modelo->getExpositoresAdmin();
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+            $datos = [
+                "titulo" => "Expositores Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ExpositoresAdmin", $datos);
+        }
+
+        // Resto del código para mensajes de éxito y actualización de la vista
+
+    }
+    public function EditarExpositor($id)
+    {
+        $img1 = "";
+        
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $IdExpositor = isset($_POST["IdExpositores"]) ? $_POST["IdExpositores"] : "";
+            $Dni = isset($_POST["dni"]) ? $_POST["dni"] : "";
+            $Prefijo = isset($_POST["prefijo"]) ? $_POST["prefijo"] : "";
+            $ApellidoPaterno = isset($_POST["apellidoPaterno"]) ? $_POST["apellidoPaterno"] : "";
+            $ApellidoMaterno = isset($_POST["apellidoMaterno"]) ? $_POST["apellidoMaterno"] : "";
+            $Nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
+            $Telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : "";
+            $Reseña = isset($_POST["reseña"]) ? $_POST["reseña"] : "";
+            $Foto = isset($_FILES['archivo1']['name']) ? $_FILES['archivo1']['name'] : "";
+
+            $ruta = "img\ImgExpositores";
+
+            //validacion
+            
+            if ($Dni == "") {
+                array_push($errores, "El DNI es requerido<br>    ");
+            }
+            if ($Prefijo == "") {
+                array_push($errores, "El Prefijo es requerido<br>    ");
+            }
+            if ($ApellidoPaterno == "") {
+                array_push($errores, "El Apellido Paterno es requerido<br>   ");
+            }
+            if ($ApellidoMaterno == "") {
+                array_push($errores, "El Apellido Materno es requerido<br>    ");
+            }
+            if ($Nombre == "") {
+                array_push($errores, "El Nombre es requerido<br>    ");
+            }
+            if ($Telefono == "") {
+                array_push($errores, "El Telefono es requerido<br>    ");
+            }
+            if ($Reseña == "") {
+                array_push($errores, "La Reseña es requerida<br>    ");
+            }
+
+            if (count($errores) == 0) {
+                $resulid = $this->modelo->obtenerNombreImagenExpositor($IdExpositor);
+
+                #var_dump($resulid);
+                #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello==""
+                $logoanterior1 = $resulid[0]['FotoPerfil'];
+                
+
+                $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
+
+                if ($Foto == "") {
+
+                    $img1 = $logoanterior1;
+                    print("se no se iso nada");
+                } else {
+                    unlink($ruta . "/" . $logoanterior1);
+
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto);
+                    print("se remplaso");
+                    $img1 = $Foto;
+                }
+
+
+                print($img1);
+                
+
+                $data2 = [
+                    "IdExpositor"=> $IdExpositor,
+                    "Dni" => $Dni,
+                    "Prefijo" => strtoupper($Prefijo),
+                    "ApellidoPaterno" => strtoupper($ApellidoPaterno),
+                    "ApellidoMaterno" => strtoupper($ApellidoMaterno),
+                    "Nombre" => strtoupper($Nombre),
+                    "Telefono" => $Telefono,
+                    "Reseña" => $Reseña,
+                    "FotoPerfil" => $img1,
+    
+                ];
+
+                $resul = $this->modelo->EditarExpositor($data2);
+
+                if ($resul) {
+                    array_push($errores, "Expositor Editado");
+                    $res = $sesion->getUsuario();
+                    $data = $this->modelo->getExpositoresAdmin();
+
+                    // Serializar el array
+
+                    $datos = [
+                        "titulo" => "Expositores Admin",
+                        //"menu" => false,
+                        //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                        //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        "dataTable" => $data,
+
+                        //"url" => "inicioControlador/iniciarsesion",
+                        //"colorBoton" => "btn-success",
+                        //"textoBoton"=>"Iniciar"
+
+                    ];
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                    header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin?datos=$data_serialized&registrado=true");
+
+                } else {
+
+                    $data = $this->modelo->getExpositoresAdmin();
+                    array_push($errores, "Hubo Un Error En Editar Convenio<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Expositores Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("ExpositoresAdmin", $datos);
+                }
+
+            } else {
+
+                $data = $this->modelo->getExpositoresAdmin();
+                array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Expositores Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+
+                $this->vista("ExpositoresAdmin", $datos);
+
+            }
+        } else {
+            $data = $this->modelo->getExpositoresAdmin();
+            $datos = [
+                "titulo" => "Expositores Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                "data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+
+            $this->vista("ExpositoresAdmin", $datos);
+        }
+
+    }
 
 }

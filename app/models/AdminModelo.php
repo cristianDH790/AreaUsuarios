@@ -228,4 +228,74 @@ class AdminModelo
 
     }
 
+    public function getExpositoresAdmin()
+    {
+        $sql = "SELECT * FROM expositores ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+
+    }
+    public function AgregarExpositor($data)
+    {
+
+        $sql = "INSERT INTO expositores VALUES(0,";
+        $sql .= "'" . $data['Dni'] . "',";
+        $sql .= "'" . $data['Prefijo'] . "',";
+        $sql .= "'" . $data['ApellidoPaterno'] . "',";
+        $sql .= "'" . $data['ApellidoMaterno'] . "',";
+        $sql .= "'" . $data['Nombre'] . "',";
+        $sql .= "'" . $data['Telefono'] . "',";
+        $sql .= "'" . $data['Reseña'] . "',";
+        $sql .= "'" . $data['FotoPerfil'] . "');";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+    }
+    public function borrarExpositor($id)
+    {
+
+        $sql = "DELETE  FROM   expositores WHERE IdExpositores=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
+    public function obtenerNombreImagenExpositor($id){
+        $sql = "SELECT FotoPerfil FROM expositores WHERE IdExpositores=".$id;
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    public function EditarExpositor($data)
+    {
+        $r2 = false;
+        //$r=$this->validaCorreo($data["correo"]);
+        //if($r){
+
+            
+
+        $sql = "UPDATE  expositores SET ";
+        $sql .= "Dni='" . $data['Dni'] . "',";
+        $sql .= "Prefijo='" . $data['Prefijo'] . "',";
+        $sql .= "ApellidoPaterno='" . $data['ApellidoPaterno'] . "',";
+        $sql .= "ApellidoMaterno='" . $data['ApellidoMaterno'] . "',";
+        $sql .= "Nombre='" . $data['Nombre'] . "',";
+        $sql .= "Telefono='" . $data['Telefono'] . "',";
+        $sql .= "Reseña='" . $data['Reseña'] . "',";
+        $sql .= "FotoPerfil='" . $data['FotoPerfil'] . "'";
+        $sql .= " WHERE IdExpositores=" . $data['IdExpositor'] . ";";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+        //}else{
+        // return $r;
+        // }
+
+    }
+
+    
+
 }
