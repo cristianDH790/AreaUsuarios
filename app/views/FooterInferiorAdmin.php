@@ -2,6 +2,36 @@
 <!-- /.content -->
 </div>
 
+
+<!-- SAlirl-->
+<div class="modal fade" id="modal-defaultsalir">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Estas Seguro De Salir?:</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Estas seguro de cerrar sesion?
+                    
+                </p>
+
+
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="<?php print RUTA;?>AdminControlador/salir"
+                    type="button" class="btn btn-primary">Si</a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
 <!-- /.content-wrapper -->
 <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
@@ -81,7 +111,7 @@ $(function() {
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf",  "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
         "paging": true,

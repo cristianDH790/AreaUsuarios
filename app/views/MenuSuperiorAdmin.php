@@ -93,6 +93,14 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
+                <li>
+                    <a class="nav-link" data-toggle="modal" data-target="#modal-defaultsalir" >
+                        <i class="fas fa-sign-out-alt"></i>
+
+
+                    </a>
+                </li>
+
 
             </ul>
         </nav>
@@ -184,10 +192,10 @@ print $datos["data"]["Nombre"];?></a>
             <!-- /.sidebar -->
         </aside>
 
-        
 
 
-                <?php
+
+        <?php
 if(isset($_GET['datos'])) {
     // Acceder a $_GET['datos'] aquí
     
@@ -202,14 +210,14 @@ $datos = unserialize(base64_decode(urldecode($data_serialized)));
 if (isset($datos["errores"])) {
     if (count($datos["errores"]) > 0) {
         ?>
-                <script>
-                toastr.<?php print ($datos['color'])?>('<?php
+        <script>
+        toastr.<?php print ($datos['color'])?>('<?php
         foreach($datos["errores"] as $key=>$value){
             print "".$value."";         
             }
         ?>')
-                </script>
-                <?php
+        </script>
+        <?php
 }
 }
 
@@ -217,21 +225,21 @@ if (isset($datos["errores"])) {
 
 } else {
     ?>
-                <?php
+        <?php
 if (isset($datos["errores"])) {
     if (count($datos["errores"]) > 0) {
         ?>
-                <script>
-                toastr.<?php print ($datos['color'])?>('<?php
+        <script>
+        toastr.<?php print ($datos['color'])?>('<?php
         foreach($datos["errores"] as $key=>$value){
             print "".$value."";         
             }
         ?>')
-                </script>
-                <?php
+        </script>
+        <?php
 }
 }
 ?>
-                <?php
+        <?php
 }
 ?>
