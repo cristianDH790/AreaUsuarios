@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Bancos</h1>
+                    <h1 class="m-0">Productos</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -62,6 +62,7 @@
                                     </button>
                                 </div>
 
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -69,11 +70,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>NUMERO CUENTA</th>
-                                            <th>NOMBRE BANCO</th>
-                                            <th>TITULAR</th>
-                                            <th>SALDO</th>
-                                            <th>TIPO CUENTA</th>
+                                            <th>NOMBRE PRODUCTO</th>
+
+                                            <th>DOMINIO</th>
+                                            <th>DESCRIPCION</th>
+
                                             <th>ACCION</th>
                                         </tr>
                                     </thead>
@@ -82,36 +83,36 @@
                                         <?php for ($i = 0; $i < count($datos["dataTable"]); $i++) {?>
 
                                         <tr class="align-items-center">
-                                            <td> <?php print $datos["dataTable"][$i]["IdBanco"];?> </td>
-                                            <td> <?php print $datos["dataTable"][$i]["NumeroCuenta"];?> </td>
-                                            <td> <?php print $datos["dataTable"][$i]["NombreBanco"];?> </td>
-                                            <td> <?php print $datos["dataTable"][$i]["NombreTitular"];?> </td>
-                                            <td> <?php print $datos["dataTable"][$i]["Saldo"];?> </td>
-                                            <td> <?php print $datos["dataTable"][$i]["TipoCuenta"];?> </td>
+                                            <td> <?php print $datos["dataTable"][$i]["IdProducto"];?> </td>
+                                            <td> <?php print $datos["dataTable"][$i]["NombreProducto"];?> </td>
+                                            <td> <?php print $datos["dataTable"][$i]["Dominio"];?> </td>
+                                            <td> <?php print $datos["dataTable"][$i]["Descripcion"];?> </td>
+
+                                            
                                             <td>
                                                 <div class=" btn-image  w-100 d-flex justify-content-center">
 
 
                                                     <button type="button" class="btn btn-primary btn-sm  m-1"
                                                         data-toggle="modal"
-                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>a">
+                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>a">
                                                         <img src="<?php print RUTA;?>public/img/search2.png">
                                                     </button>
                                                     <button type="button" class="btn btn-warning btn-sm  m-1"
                                                         data-toggle="modal"
-                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>b">
+                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>b">
                                                         <img src="<?php print RUTA;?>public/img/editar2.png">
                                                     </button>
                                                     <button type="button" class="btn btn-danger btn-sm  m-1"
                                                         data-toggle="modal"
-                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>">
+                                                        data-target="#modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>">
                                                         <img src="<?php print RUTA;?>public/img/borrar.png">
                                                     </button>
 
                                                 </div>
                                                 <!-- eliminar Modal-->
                                                 <div class="modal fade"
-                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>">
+                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -146,7 +147,7 @@
                                                 </div>
                                                 <!-- editar Modal-->
                                                 <div class="modal fade"
-                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>b">
+                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>b">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form
@@ -238,11 +239,11 @@
 
                                                                         // Escuchar el evento de entrada para el campo
                                                                         campoNumero.addEventListener('input',
-                                                                        function() {
-                                                                            // Reemplazar los puntos por comas en el valor del campo
-                                                                            this.value = this.value.replace(
-                                                                                /\./g, ',');
-                                                                        });
+                                                                            function() {
+                                                                                // Reemplazar los puntos por comas en el valor del campo
+                                                                                this.value = this.value.replace(
+                                                                                    /\./g, ',');
+                                                                            });
                                                                         </script>
                                                                         <input type="number"
                                                                             value="<?php print $datos['dataTable'][$i]['IdBanco'];?>"
@@ -263,7 +264,7 @@
                                                 </div>
                                                 <!-- ver Modal-->
                                                 <div class="modal fade"
-                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdBanco'];?>a">
+                                                    id="modal-default<?php print $datos['dataTable'][$i]['IdProducto'];?>a">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -347,11 +348,11 @@
                                     <tfoot>
                                         <tr>
                                             <th>#</th>
-                                            <th>NUMERO CUENTA</th>
-                                            <th>NOMBRE BANCO</th>
-                                            <th>TITULAR</th>
-                                            <th>SALDO</th>
-                                            <th>TIPO CUENTA</th>
+                                            <th>NOMBRE PRODUCTO</th>
+
+                                            <th>DOMINIO</th>
+                                            <th>DESCRIPCION</th>
+
                                             <th>ACCION</th>
                                         </tr>
                                         <p style="color:green"></p>
@@ -382,57 +383,30 @@
                         <div class="modal-body">
 
                             <div class="mb-2 row">
-                                <div class=" col-sm-6 mb-3 mb-sm-0"><label for="numeroCuenta3"
-                                        class="col-form-label">Numero de Cuenta:</label>
+                                <div class=" col-sm-12 mb-3 mb-sm-0"><label for="numeroCuenta3"
+                                        class="col-form-label">Nombre Producto:</label>
                                     <input type="number" value="<?php //print $datos['dataTable'][$i]['Correo']; ?>"
-                                        name="numeroCuenta3" class="form-control">
+                                        name="NombreProducto" class="form-control">
                                 </div>
-                                <div class=" col-sm-6 mb-2 mb-sm-0"><label for="nombreBanco3"
-                                        class="col-form-label">Nombre
-                                        de Banco:</label>
-                                    <input type="text" value="<?php //print $datos['dataTable'][$i]['Correo']; ?>"
-                                        name="nombreBanco3" class="form-control">
-                                </div>
+                                
 
                             </div>
                             <div class="mb-2">
-                                <label class="col-form-label" for="nombreTitular3">Nombre de
-                                    Titular:</label>
+                                <label class="col-form-label" for="nombreTitular3">Dominio:</label>
                                 <input type="text" value="<?php //print $datos['dataTable'][$i]['Correo']; ?>"
-                                    name="nombreTitular3" class="form-control">
+                                    name="Dominio" class="form-control">
                             </div>
-                            <div class="mb-2 row">
-                                <div class=" col-sm-6 mb-3 mb-sm-0"><label for="tipoCuenta3" class="col-form-label">
-                                        Tipo de Cuenta :</label>
-                                    <select class="form-control form-control" name="tipoCuenta3">
-                                        <option value="" disabled="" selected="" hidden="">
-                                            Seleciona </option>
+                            <hr width="98%" size="1" style="border-color: #858796; border-style: dashed;">
+                            <div class="mb-1 row">
+                                <div class=" col-sm-12 mb-3 mb-sm-0"><label for="textofirmadecano3"
+                                        class="col-form-label">Descripcion:</label>
+                                    <textarea class="form-control" name="Descripcion" rows="8"></textarea>
 
-                                        <option value="AHORROS">AHORROS</option>
 
-                                        <option value="CORRIENTE">CORRIENTE</option>
-
-                                    </select>
                                 </div>
-                                <div class=" col-sm-6 mb-3 mb-sm-0"><label for="saldo3"
-                                        class="col-form-label">Saldo:</label>
-                                    <input type="number" step="0.01"
-                                        value="<?php //print $datos['dataTable'][$i]['Correo']; ?>" name="saldo3"
-                                        id="numero_con_coma2" class="form-control">
-                                </div>
-                                <script>
-                                // Obtener el campo de entrada
-                                var campoNumero = document.getElementById(
-                                    'numero_con_coma2');
-
-                                // Escuchar el evento de entrada para el campo
-                                campoNumero.addEventListener('input', function() {
-                                    // Reemplazar los puntos por comas en el valor del campo
-                                    this.value = this.value.replace(/\./g, ',');
-                                });
-                                </script>
 
                             </div>
+                            
 
 
 
@@ -447,4 +421,4 @@
         </div>
 
 
-<?php require_once "FooterInferiorAdmin.php"?>
+        <?php require_once "FooterInferiorAdmin.php"?>

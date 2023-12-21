@@ -295,6 +295,74 @@ class AdminModelo
         // }
 
     }
+    public function getFirmasAdmin()
+    {
+        $sql = "SELECT * FROM firmas ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+
+    }
+    public function AgregarFirma($data)
+    {
+
+        $sql = "INSERT INTO firmas VALUES(0,";
+        $sql .= "'" . $data['Alias'] . "',";
+        $sql .= "'" . $data['Texto1'] . "',";
+        $sql .= "'" . $data['Texto2'] . "',";
+        $sql .= "'" . $data['ImagenFirma'] . "',";
+        $sql .= "'" . $data['ImagenSello'] . "');";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+    }
+    public function obtenerNombreImagenesFirma($id){
+        $sql = "SELECT ImagenFirma , ImagenSello FROM firmas WHERE IdDirectorioFirmas=".$id;
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    public function borrarFirma($id)
+    {
+
+        $sql = "DELETE  FROM   firmas WHERE IdDirectorioFirmas=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
+    public function EditarFirma($data)
+    {
+        $r2 = false;
+        //$r=$this->validaCorreo($data["correo"]);
+        //if($r){
+
+            
+
+        $sql = "UPDATE  firmas SET ";
+        $sql .= "Alias='" . $data['Alias'] . "',";
+        $sql .= "Texto1='" . $data['Texto1'] . "',";
+        $sql .= "Texto2='" . $data['Texto2'] . "',";
+        $sql .= "ImagenFirma='" . $data['ImagenFirma'] . "',";
+        $sql .= "ImagenSello='" . $data['ImagenSello'] . "'";
+        $sql .= " WHERE IdDirectorioFirmas	=" . $data['IdDirectorioFirmas'] . ";";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+        //}else{
+        // return $r;
+        // }
+
+    }
+    public function getProductosAdmin()
+    {
+        $sql = "SELECT * FROM producto ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+
+    }
 
     
 

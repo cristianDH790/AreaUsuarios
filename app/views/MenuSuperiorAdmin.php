@@ -96,8 +96,6 @@
                 <li>
                     <a class="nav-link" data-toggle="modal" data-target="#modal-defaultsalir" >
                         <i class="fas fa-sign-out-alt"></i>
-
-
                     </a>
                 </li>
 
@@ -176,14 +174,37 @@ print $datos["data"]["Nombre"];?></a>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/uplot.html" class="nav-link">
+                                    <a href="<?php print RUTA;?>AdminControlador/FirmasAdmin" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Firmas</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?php print RUTA;?>AdminControlador/ProductosAdmin" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Productos</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-header">EXAMPLES</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>
+                                    Servicios
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php print RUTA;?>AdminControlador/BancosAdmin" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Productos</p>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </li>
 
                     </ul>
                 </nav>

@@ -1405,7 +1405,6 @@ class AdminControlador extends Controlador
     public function EditarExpositor($id)
     {
         $img1 = "";
-        
 
         $sesion = new Sesion();
         $res = $sesion->getUsuario();
@@ -1424,7 +1423,7 @@ class AdminControlador extends Controlador
             $ruta = "img\ImgExpositores";
 
             //validacion
-            
+
             if ($Dni == "") {
                 array_push($errores, "El DNI es requerido<br>    ");
             }
@@ -1453,7 +1452,6 @@ class AdminControlador extends Controlador
                 #var_dump($resulid);
                 #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello==""
                 $logoanterior1 = $resulid[0]['FotoPerfil'];
-                
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
 
@@ -1469,12 +1467,10 @@ class AdminControlador extends Controlador
                     $img1 = $Foto;
                 }
 
-
                 print($img1);
-                
 
                 $data2 = [
-                    "IdExpositor"=> $IdExpositor,
+                    "IdExpositor" => $IdExpositor,
                     "Dni" => $Dni,
                     "Prefijo" => strtoupper($Prefijo),
                     "ApellidoPaterno" => strtoupper($ApellidoPaterno),
@@ -1483,7 +1479,7 @@ class AdminControlador extends Controlador
                     "Telefono" => $Telefono,
                     "Reseña" => $Reseña,
                     "FotoPerfil" => $img1,
-    
+
                 ];
 
                 $resul = $this->modelo->EditarExpositor($data2);
@@ -1565,6 +1561,460 @@ class AdminControlador extends Controlador
             $this->vista("ExpositoresAdmin", $datos);
         }
 
+    }
+    public function FirmasAdmin()
+    {
+        $sesion = new Sesion();
+        $valorRol = $sesion->getUsuario()['IdRol'];
+        if ($sesion->getLogin() && $valorRol[0] != 4) {
+            // print "hola desde la caratula "."<br>";
+            $res = $sesion->getUsuario();
+            $data = $this->modelo->getFirmasAdmin();
+            $datos = [
+                "titulo" => "Firmas Admin",
+                "data" => $res,
+                "dataTable" => $data,
+                //"menu" => false
+            ];
+
+            $this->vista("FirmasAdmin", $datos);
+
+        } else {
+            header("location:" . RUTA . "InicioControlador");
+        }
+    }
+    public function AgregarFirma()
+    {
+        $AgregueCarpeta1 = false;
+        $AgregueCarpeta2 = false;
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $Alias = isset($_POST["Alias"]) ? $_POST["Alias"] : "";
+            $Texto1 = isset($_POST["Texto1"]) ? $_POST["Texto1"] : "";
+            $Texto2 = isset($_POST["Texto2"]) ? $_POST["Texto2"] : "";
+
+            $Foto1 = isset($_FILES['ImagenFirma']['name']) ? $_FILES['ImagenFirma']['name'] : "";
+            $Foto2 = isset($_FILES['ImagenSello']['name']) ? $_FILES['ImagenSello']['name'] : "";
+
+            $data2 = [
+                "Alias" => $Alias,
+                "Texto1" => $Texto1,
+                "Texto2" => $Texto2,
+                "ImagenFirma" => $Foto1,
+                "ImagenSello" => $Foto2,
+
+            ];
+            //validacion
+            if ($Alias == "") {
+                array_push($errores, "El Alias es requerido<br>    ");
+            }
+            if ($Texto1 == "") {
+                array_push($errores, "El Texto1 es requerido<br>    ");
+            }
+            if ($Texto2 == "") {
+                array_push($errores, "El Texto2 Paterno es requerido<br>   ");
+            }
+
+            if (count($errores) == 0) {
+
+                $ruta = "img\ImgFirmas"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
+
+                $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
+                $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto1)) {
+                    $AgregueCarpeta1 = true;
+                } else {
+                    $AgregueCarpeta1 = false;
+                }
+                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $Foto2)) {
+                    $AgregueCarpeta2 = true;
+                } else {
+                    $AgregueCarpeta2 = false;
+                }
+
+                if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true) {
+
+                    $resul = $this->modelo->AgregarFirma($data2);
+
+                    if ($resul) {
+                        array_push($errores, "Firma Registrada");
+                        $res = $sesion->getUsuario();
+                        $data = $this->modelo->getFirmasAdmin();
+
+                        // Serializar el array
+
+                        $datos = [
+                            "titulo" => "Firmas Admin",
+                            //"menu" => false,
+                            //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                            //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                            "errores" => $errores,
+                            "color" => "success",
+                            "data" => $res,
+                            "dataTable" => $data,
+
+                            //"url" => "inicioControlador/iniciarsesion",
+                            //"colorBoton" => "btn-success",
+                            //"textoBoton"=>"Iniciar"
+
+                        ];
+                        $data_serialized = urlencode(base64_encode(serialize($datos)));
+                        header("Location:" . RUTA . "AdminControlador/FirmasAdmin?datos=$data_serialized&registrado=true");
+
+                        /*$datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                    //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    "dataTable" => $data,
+
+                    //"url" => "inicioControlador/iniciarsesion",
+                    //"colorBoton" => "btn-success",
+                    //"textoBoton"=>"Iniciar"
+
+                    ];
+
+                    $this->vista("ConveniosAdmin", $datos);*/
+                    } else {
+
+                        $data = $this->modelo->getFirmasAdmin();
+                        array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                        $datos = [
+                            "titulo" => "Firmas Admin",
+                            //"menu" => false,
+                            "errores" => $errores,
+                            "color" => "error",
+                            "data" => $res,
+                            "data2" => $data2,
+                            "dataTable" => $data,
+
+                        ];
+
+                        $this->vista("FirmasAdmin", $datos);
+                    }
+
+                } else {
+
+                    $data = $this->modelo->getFirmasAdmin();
+                    array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Firmas Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("FirmasAdmin", $datos);
+
+                }
+            } else {
+                $data = $this->modelo->getFirmasAdmin();
+                $datos = [
+                    "titulo" => "Firmas Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+
+                $this->vista("FirmasAdmin", $datos);
+            }
+
+        }
+
+    }
+    public function borrarFirma($id)
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+
+        // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
+        $nombresImagenes = $this->modelo->obtenerNombreImagenesFirma($id);
+
+        $var = true;
+        $imagen1 = $nombresImagenes[0]['ImagenFirma'];
+        $imagen2 = $nombresImagenes[0]['ImagenSello'];
+
+        unlink('img\ImgFirmas/' . $imagen1);
+        unlink('img\ImgFirmas/' . $imagen2);
+
+        //verificar si se borro las imagenes
+        $imagenesEliminadas = true;
+
+        if (file_exists('img\ImgFirmas/' . $imagen1)) {
+            $imagenesEliminadas = false;
+
+        }
+        if (file_exists('img\ImgFirmas/' . $imagen2)) {
+            $imagenesEliminadas = false;
+
+        }
+        // Recorrer los nombres de las imágenes y borrarlas de la carpeta
+        /*foreach ($nombresImagenes as $imagen) {
+
+        if (file_exists('img\ImgConvenio/' . $imagen)) {
+        unlink('img\ImgConvenio/' . $imagen);
+        }
+        }*/
+
+        if ($imagenesEliminadas) {
+            // Borrar el expositor en la base de datos
+            $dato = $this->modelo->borrarFirma($id);
+
+            if ($dato) {
+
+                $data = $this->modelo->getFirmasAdmin();
+                array_push($errores, "Firma Eliminada");
+                $datos = [
+                    "titulo" => "Firmas Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("FirmasAdmin", $datos);
+            } else {
+                $data = $this->modelo->getFirmasAdmin();
+                array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Firmas Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("FirmasAdmin", $datos);
+            }
+
+            $data = $this->modelo->getFirmasAdmin();
+            array_push($errores, "Expositor Eliminado");
+            $datos = [
+                "titulo" => "Firmas Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "success",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("FirmasAdmin", $datos);
+        } else {
+            $data = $this->modelo->getFirmasAdmin();
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+            $datos = [
+                "titulo" => "Firmas Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("FirmasAdmin", $datos);
+        }
+
+        // Resto del código para mensajes de éxito y actualización de la vista
+
+    }
+    public function EditarFirma($id)
+    {
+        $img1 = "";
+        $img2 = "";
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $IdFirmas = isset($_POST["IdDirectorioFirmas"]) ? $_POST["IdDirectorioFirmas"] : "";
+            $Alias = isset($_POST["Alias"]) ? $_POST["Alias"] : "";
+            $Texto1 = isset($_POST["Texto1"]) ? $_POST["Texto1"] : "";
+            $Texto2 = isset($_POST["Texto2"]) ? $_POST["Texto2"] : "";
+
+            $Foto1 = isset($_FILES['ImagenFirma']['name']) ? $_FILES['ImagenFirma']['name'] : "";
+            $Foto2 = isset($_FILES['ImagenSello']['name']) ? $_FILES['ImagenSello']['name'] : "";
+
+            $ruta = "img\ImgFirmas";
+
+            //validacion
+
+            //validacion
+            if ($Alias == "") {
+                array_push($errores, "El Alias es requerido<br>    ");
+            }
+            if ($Texto1 == "") {
+                array_push($errores, "El Texto1 es requerido<br>    ");
+            }
+            if ($Texto2 == "") {
+                array_push($errores, "El Texto2 Paterno es requerido<br>   ");
+            }
+
+            if (count($errores) == 0) {
+                $resulid = $this->modelo->obtenerNombreImagenesFirma($IdFirmas);
+
+                #var_dump($resulid);
+                #|| $FirmaDecano==""  || $FirmaDirector=="" ||  $Sello==""
+                $logoanterior1 = $resulid[0]['ImagenFirma'];
+                $logoanterior2 = $resulid[0]['ImagenSello'];
+
+                $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
+                $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
+
+                if ($Foto1 == "") {
+
+                    $img1 = $logoanterior1;
+                    print("se no se iso nada");
+                } else {
+                    unlink($ruta . "/" . $logoanterior1);
+
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto1);
+                    print("se remplaso");
+                    $img1 = $Foto1;
+                }
+                if ($Foto2 == "") {
+
+                    $img2 = $logoanterior2;
+                    print("se no se iso nada");
+                } else {
+                    unlink($ruta . "/" . $logoanterior2);
+
+                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $Foto2);
+                    print("se remplaso");
+                    $img2 = $Foto2;
+                }
+
+                $data2 = [
+                    "IdDirectorioFirmas" => $IdFirmas,
+                    "Alias" => $Alias,
+                    "Texto1" => $Texto1,
+                    "Texto2" => $Texto2,
+                    "ImagenFirma" => $img1,
+                    "ImagenSello" => $img2,
+
+                ];
+
+                $resul = $this->modelo->EditarFirma($data2);
+
+                if ($resul) {
+                    array_push($errores, "Firma Editada");
+                    $res = $sesion->getUsuario();
+                    $data = $this->modelo->getFirmasAdmin();
+
+                    // Serializar el array
+
+                    $datos = [
+                        "titulo" => "Firmas Admin",
+                        //"menu" => false,
+                        //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                        //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        "dataTable" => $data,
+
+                        //"url" => "inicioControlador/iniciarsesion",
+                        //"colorBoton" => "btn-success",
+                        //"textoBoton"=>"Iniciar"
+
+                    ];
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                    header("Location:" . RUTA . "AdminControlador/FirmasAdmin?datos=$data_serialized&registrado=true");
+
+                } else {
+
+                    $data = $this->modelo->getFirmasAdmin();
+                    array_push($errores, "Hubo Un Error En Editar Convenio<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Firmas Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("FirmasAdmin", $datos);
+                }
+
+            } else {
+
+                $data = $this->modelo->getFirmasAdmin();
+                array_push($errores, "Hubo Un Error En El Registro<br>Olvido Seleccionar La Imagen?<br>Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Firmas Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+
+                $this->vista("FirmasAdmin", $datos);
+
+            }
+        } else {
+            $data = $this->modelo->getFirmasAdmin();
+            $datos = [
+                "titulo" => "Firmas Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                "data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+
+            $this->vista("FirmasAdmin", $datos);
+        }
+
+    }
+    public function ProductosAdmin()
+    {
+        $sesion = new Sesion();
+        $valorRol = $sesion->getUsuario()['IdRol'];
+        if ($sesion->getLogin() && $valorRol[0] != 4) {
+            // print "hola desde la caratula "."<br>";
+            $res = $sesion->getUsuario();
+            $data = $this->modelo->getProductosAdmin();
+            $datos = [
+                "titulo" => "Productos Admin",
+                "data" => $res,
+                "dataTable" => $data,
+                //"menu" => false
+            ];
+
+            $this->vista("ProductosAdmin", $datos);
+
+        } else {
+            header("location:" . RUTA . "InicioControlador");
+        }
     }
 
 }
