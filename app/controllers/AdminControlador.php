@@ -268,7 +268,9 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $this->vista("BancosAdmin", $datos);
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                        header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
+                    
 
                 } else {
                     $data = $this->modelo->getBancosAdmin();
@@ -2016,5 +2018,253 @@ class AdminControlador extends Controlador
             header("location:" . RUTA . "InicioControlador");
         }
     }
+    public function AgregarProductos()
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $Dominio = isset($_POST["Dominio"]) ? $_POST["Dominio"] : "";
+            $NombreProducto = isset($_POST["NombreProducto"]) ? $_POST["NombreProducto"] : "";
+            $Descripcion = isset($_POST["Descripcion"]) ? $_POST["Descripcion"] : "";
+           
+
+            $data2 = [
+                "NombreProducto" => strtoupper($Dominio),
+                "Dominio" => strtoupper($NombreProducto),
+                "Descripcion" => strtoupper($Descripcion),
+                
+            ];
+
+            if ($Dominio == "") {
+                array_push($errores, "el Dominio es requerido<br><br>   ");
+            }
+            if ($NombreProducto == "") {
+                array_push($errores, "el Nombre Producto es requerido <br>   ");
+            }
+            if ($Descripcion == "") {
+                array_push($errores, "el Descripcion es requerido <br>   ");
+            }
+
+            
+
+            if (count($errores) == 0) {
+                $resul = $this->modelo->AgregarProductos($data2);
+                if ($resul) {
+                    array_push($errores, "Producto Registrado");
+                    $res = $sesion->getUsuario();
+                    $data = $this->modelo->getProductosAdmin();
+                    $datos = [
+                        "titulo" => "Productos Admin",
+                        //"menu" => false,
+                        //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                        //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        "dataTable" => $data,
+
+                        //"url" => "inicioControlador/iniciarsesion",
+                        //"colorBoton" => "btn-success",
+                        //"textoBoton"=>"Iniciar"
+
+                    ];
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                        header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
+                    
+                
+
+                } else {
+                    $data = $this->modelo->getProductosAdmin();
+                    array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Productos Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("ProductosAdmin", $datos);
+                }
+
+            } else {
+                $data = $this->modelo->getProductosAdmin();
+                $datos = [
+                    "titulo" => "Productos Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ProductosAdmin", $datos);
+
+            }
+
+        }
+
+    }
+    public function BorrarProductos($id)
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+
+        $dato = $this->modelo->borrarProductos($id);
+        if ($dato) {
+            $data = $this->modelo->getProductosAdmin();
+            array_push($errores, "Producto Eliminado");
+            $datos = [
+                "titulo" => "Productos Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "success",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ProductosAdmin", $datos);
+        } else {
+            $data = $this->modelo->getProductosAdmin();
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+            $datos = [
+                "titulo" => "Productos Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ProductosAdmin", $datos);
+        }
+
+    }
+    public function EditarProducto()
+    {
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $IdProducto = isset($_POST["IdProducto"]) ? $_POST["IdProducto"] : "";
+            $Dominio = isset($_POST["Dominio"]) ? $_POST["Dominio"] : "";
+            $NombreProducto = isset($_POST["NombreProducto"]) ? $_POST["NombreProducto"] : "";
+            $Descripcion = isset($_POST["Descripcion"]) ? $_POST["Descripcion"] : "";
+
+            $data2 = [
+                "IdProducto" => $IdProducto,
+                "Dominio" => strtoupper($Dominio),
+                "NombreProducto" => $NombreProducto,
+                "Descripcion" => $Descripcion,
+                
+            ];
+            //validacion
+            if ($Dominio == "") {
+                array_push($errores, "el Dominio es requerido    ");
+            }
+            if ($NombreProducto == "") {
+                array_push($errores, "<br> el Nombre Producto es requerido    ");
+            }
+            if ($Descripcion == "") {
+                array_push($errores, "<br> el Descripcion es requerido    ");
+            }
+
+
+            if (count($errores) == 0) {
+                $resul = $this->modelo->EditarProducto($data2);
+
+                if ($resul) {
+                    array_push($errores, "Producto Editado");
+                    $res = $sesion->getUsuario();
+                    $data = $this->modelo->getProductosAdmin();
+                    $datos = [
+                        "titulo" => "Productos Admin",
+                        //"menu" => false,
+                        //"subtitulo" => "Bienvenid@ a Volver a vivir von Responsabilidad",
+                        //"texto"=>"Bienvenid@ , usted se registro correctamente <br>Al ingresar al nuestra pagina le recomendamos ver cada uno de nuestros eventos programados.<br>Al registrarse usted recibira notificaciones para avisarle de los nuevos eventos programados.<br>Buen dia. ",
+                        "errores" => $errores,
+                        "color" => "success",
+                        "data" => $res,
+                        "dataTable" => $data,
+
+                        //"url" => "inicioControlador/iniciarsesion",
+                        //"colorBoton" => "btn-success",
+                        //"textoBoton"=>"Iniciar"
+
+                    ];
+                    $data_serialized = urlencode(base64_encode(serialize($datos)));
+                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
+
+                } else {
+
+                    $data = $this->modelo->getProductosAdmin();
+                    array_push($errores, "Hubo Un Error En la Edicion<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Productos Admin",
+                        //"menu" => false,
+                        "errores" => $errores,
+                        "color" => "error",
+                        "data" => $res,
+                        "data2" => $data2,
+                        "dataTable" => $data,
+
+                    ];
+
+                    $this->vista("ProductosAdmin", $datos);
+                }
+
+            } else {
+                $data = $this->modelo->getProductosAdmin();
+                $datos = [
+                    "titulo" => "Productos Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    "data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ProductosAdmin", $datos);
+            }
+        }
+
+    }
+    ///
+    public function ServiciosAdmin()
+    {
+        $sesion = new Sesion();
+        $valorRol = $sesion->getUsuario()['IdRol'];
+        if ($sesion->getLogin() && $valorRol[0] != 4) {
+            // print "hola desde la caratula "."<br>";
+            $res = $sesion->getUsuario();
+            $data = $this->modelo->getServiciosAdmin();
+            $expositores = $this->modelo->getExpositoresServicioAdmin();
+            
+            
+            $datos = [
+                "titulo" => "Servicios Admin",
+                "data" => $res,
+                "dataTable" => $data,
+                "datatable2"=> $expositores,
+                //"menu" => false
+            ];
+
+            $this->vista("ServiciosAdmin", $datos);
+
+        } else {
+            header("location:" . RUTA . "InicioControlador");
+        }
+
+    }   
 
 }

@@ -88,7 +88,7 @@
                                             <td> <?php print $datos["dataTable"][$i]["Dominio"];?> </td>
                                             <td> <?php print $datos["dataTable"][$i]["Descripcion"];?> </td>
 
-                                            
+
                                             <td>
                                                 <div class=" btn-image  w-100 d-flex justify-content-center">
 
@@ -117,26 +117,20 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Eliminar
-                                                                    Banco:</h4>
+                                                                    Producto:</h4>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Estas seguro de eliminar a:</p>
-                                                                <?php print $datos["dataTable"][$i]["NumeroCuenta"];
-                                                        print " <br> ";
-                                                        print $datos["dataTable"][$i]["NombreTitular"];
-                                                        print "<br> ";
-                                                        print $datos["dataTable"][$i]["TipoCuenta"];
-                                                        ?>
+                                                                <p>Estas seguro de eliminar a:  <?php print $datos["dataTable"][$i]["NombreProducto"];   ?></p>                                             
 
                                                             </div>
                                                             <div class="modal-footer justify-content-end">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
-                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarBanco/<?php print $datos['dataTable'][$i]['IdBanco'];?>"
+                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarProductos/<?php print $datos['dataTable'][$i]['IdProducto'];?>"
                                                                     type="button" class="btn btn-primary">Si</a>
                                                             </div>
 
@@ -151,7 +145,7 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form
-                                                                action="<?php print RUTA;?>AdminControlador/EditarBanco/"
+                                                                action="<?php print RUTA;?>AdminControlador/EditarProducto/"
                                                                 method="POST">
                                                                 <div class="modal-header">
                                                                     <h4 class="modal-title">Editar
@@ -162,94 +156,50 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
+
                                                                     <div class="mb-2 row">
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                            <label for="numeroCuenta"
-                                                                                class="col-form-label">Numero de
-                                                                                Cuenta:</label>
-                                                                            <input type="number"
-                                                                                value="<?php print $datos['dataTable'][$i]['NumeroCuenta'];?>"
-                                                                                name="numeroCuenta"
-                                                                                class="form-control">
-                                                                        </div>
-                                                                        <div class="col-sm-6 mb-2 mb-sm-0">
-                                                                            <label for="nombreBanco"
-                                                                                class="col-form-label">Nombre de
-                                                                                Banco:</label>
+                                                                        <div class=" col-sm-12 mb-3 mb-sm-0"><label
+                                                                                for="numeroCuenta3"
+                                                                                class="col-form-label">Nombre
+                                                                                Producto:</label>
                                                                             <input type="text"
-                                                                                value="<?php print $datos['dataTable'][$i]['NombreBanco'];?>"
-                                                                                name="nombreBanco" class="form-control">
+                                                                                value="<?php print $datos['dataTable'][$i]['NombreProducto']; ?>"
+                                                                                name="NombreProducto"
+                                                                                class="form-control">
+                                                                            <input type="text"
+                                                                                value="<?php print $datos['dataTable'][$i]['IdProducto']; ?>"
+                                                                                name="IdProducto"
+                                                                                class="form-control d-none">
+
                                                                         </div>
+
+
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="nombreTitular"
-                                                                            class="col-form-label">Nombre
-                                                                            de
-                                                                            Titular:</label>
+                                                                        <label class="col-form-label"
+                                                                            for="nombreTitular3">Dominio:</label>
                                                                         <input type="text"
-                                                                            value="<?php print $datos['dataTable'][$i]['NombreTitular'];?>"
-                                                                            name="nombreTitular" class="form-control">
+                                                                            value="<?php print $datos['dataTable'][$i]['Dominio']; ?>"
+                                                                            name="Dominio" class="form-control">
                                                                     </div>
-                                                                    <div class="mb-2 row">
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                            <label for="tipoCuenta"
-                                                                                class="col-form-label">Tipo
-                                                                                de
-                                                                                Cuenta:</label>
-                                                                            <select class="form-control form-control"
-                                                                                name="tipoCuenta" id="exampleSelect">
-                                                                                <?php
-                                                                if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
-                                                                    ?>
+                                                                    <hr width="98%" size="1"
+                                                                        style="border-color: #858796; border-style: dashed;">
+                                                                    <div class="mb-1 row">
+                                                                        <div class=" col-sm-12 mb-3 mb-sm-0"><label
+                                                                                for="textofirmadecano3"
+                                                                                class="col-form-label">Descripcion:</label>
+                                                                            <textarea class="form-control"
+                                                                                name="Descripcion"
+                                                                                rows="8"><?php print $datos['dataTable'][$i]['Descripcion']; ?></textarea>
 
 
-                                                                                <option selected value="AHORROS">AHORROS
-                                                                                </option>
-                                                                                <option value="CORRIENTE">CORRIENTE
-                                                                                </option>
-
-                                                                                <?php
-                                                                }
-                                                                if ($datos["dataTable"][$i]["TipoCuenta"] == "CORRIENTE") {
-                                                                    ?>
-
-
-                                                                                <option value="AHORROS">AHORROS</option>
-                                                                                <option selected value="CORRIENTE">
-                                                                                    CORRIENTE
-                                                                                </option>
-                                                                                <?php
-                                                                }
-
-                                                                ?>
-                                                                            </select>
                                                                         </div>
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                            <label for="saldo"
-                                                                                class="col-form-label">Saldo:</label>
-                                                                            <input type="number" step="0.01"
-                                                                                value="<?php print $datos['dataTable'][$i]['Saldo'];?>"
-                                                                                name="saldo" id="numero_con_coma"
-                                                                                class="form-control">
-                                                                        </div>
-                                                                        <script>
-                                                                        // Obtener el campo de entrada
-                                                                        var campoNumero = document.getElementById(
-                                                                            'numero_con_coma');
-
-                                                                        // Escuchar el evento de entrada para el campo
-                                                                        campoNumero.addEventListener('input',
-                                                                            function() {
-                                                                                // Reemplazar los puntos por comas en el valor del campo
-                                                                                this.value = this.value.replace(
-                                                                                    /\./g, ',');
-                                                                            });
-                                                                        </script>
-                                                                        <input type="number"
-                                                                            value="<?php print $datos['dataTable'][$i]['IdBanco'];?>"
-                                                                            name="idBanco" class="form-control d-none">
 
                                                                     </div>
+
+
+
+
                                                                 </div>
 
                                                                 <div class="modal-footer">
@@ -278,53 +228,39 @@
                                                             <div class="modal-body">
 
                                                                 <div class="mb-2 row">
-                                                                    <div class=" col-sm-6 mb-3 mb-sm-0"><label
-                                                                            for="numeroCuenta2"
-                                                                            class="col-form-label">Numero
-                                                                            de Cuenta:</label>
-                                                                        <input type="number"
-                                                                            value="<?php print $datos['dataTable'][$i]['NumeroCuenta'];?>"
-                                                                            name="numeroCuenta2" class="form-control"
-                                                                            disabled>
-                                                                    </div>
-                                                                    <div class=" col-sm-6 mb-2 mb-sm-0"><label
-                                                                            for="nombreCuenta2"
+                                                                    <div class=" col-sm-12 mb-3 mb-sm-0"><label
+                                                                            for="numeroCuenta3"
                                                                             class="col-form-label">Nombre
-                                                                            de Banco:</label>
+                                                                            Producto:</label>
                                                                         <input type="text"
-                                                                            value="<?php print $datos['dataTable'][$i]['NombreBanco'];?>"
-                                                                            name="nombreCuenta2" class="form-control"
-                                                                            disabled>
+                                                                            value="<?php print $datos['dataTable'][$i]['NombreProducto']; ?>"
+                                                                            name="NombreProducto" class="form-control">
                                                                     </div>
+
 
                                                                 </div>
                                                                 <div class="mb-2">
                                                                     <label class="col-form-label"
-                                                                        for="nombreTitular2">Nombre de
-                                                                        Titular:</label>
+                                                                        for="nombreTitular3">Dominio:</label>
                                                                     <input type="text"
-                                                                        value="<?php print $datos['dataTable'][$i]['NombreTitular'];?>"
-                                                                        name="nombreTitular2" class="form-control"
-                                                                        disabled>
+                                                                        value="<?php print $datos['dataTable'][$i]['Dominio']; ?>"
+                                                                        name="Dominio" class="form-control">
                                                                 </div>
-                                                                <div class="mb-2 row">
-                                                                    <div class=" col-sm-6 mb-3 mb-sm-0">
-                                                                        <label class="col-form-label" for="tipoCuenta2">
-                                                                            Tipo de Cuenta :</label>
-                                                                        <input type="text" disabled
-                                                                            value="<?php print $datos['dataTable'][$i]['TipoCuenta'];?>"
-                                                                            name="tipoCuenta2" id="numero_con_coma"
-                                                                            class="form-control">
-                                                                    </div>
-                                                                    <div class=" col-sm-6 mb-3 mb-sm-0" for="saldo2">
-                                                                        <label class="col-form-label">Saldo:</label>
-                                                                        <input type="number" step="0.01"
-                                                                            value="<?php print $datos['dataTable'][$i]['Saldo'];?>"
-                                                                            name="saldo2" class="form-control" disabled>
-                                                                    </div>
+                                                                <hr width="98%" size="1"
+                                                                    style="border-color: #858796; border-style: dashed;">
+                                                                <div class="mb-1 row">
+                                                                    <div class=" col-sm-12 mb-3 mb-sm-0"><label
+                                                                            for="textofirmadecano3"
+                                                                            class="col-form-label">Descripcion:</label>
+                                                                        <textarea class="form-control"
+                                                                            name="Descripcion"
+                                                                            rows="8"><?php print $datos['dataTable'][$i]['Descripcion']; ?></textarea>
 
 
+                                                                    </div>
+
                                                                 </div>
+
 
 
 
@@ -372,10 +308,10 @@
         <div class="modal fade" id="modal-defaultagregar">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="<?php print RUTA;?>AdminControlador/AgregarBanco" method="POST">
+                    <form action="<?php print RUTA;?>AdminControlador/AgregarProductos" method="POST">
                         <div class="modal-header">
                             <h4 class="modal-title">Agregar
-                                Usuario:</h4>
+                                Productos:</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -385,10 +321,10 @@
                             <div class="mb-2 row">
                                 <div class=" col-sm-12 mb-3 mb-sm-0"><label for="numeroCuenta3"
                                         class="col-form-label">Nombre Producto:</label>
-                                    <input type="number" value="<?php //print $datos['dataTable'][$i]['Correo']; ?>"
+                                    <input type="text" value="<?php //print $datos['dataTable'][$i]['Correo']; ?>"
                                         name="NombreProducto" class="form-control">
                                 </div>
-                                
+
 
                             </div>
                             <div class="mb-2">
@@ -406,7 +342,7 @@
                                 </div>
 
                             </div>
-                            
+
 
 
 

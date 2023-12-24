@@ -152,7 +152,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- editar Modal-->
-                                                <div class="modal fade"
+                                                <div class="modal  fade "
                                                     id="modal-default<?php print $datos['dataTable'][$i]['IdUsuarios'];?>b">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">

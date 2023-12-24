@@ -191,9 +191,10 @@ class AdminModelo
         return $r2;
 
     }
-    
-    public function obtenerNombreImagen($id){
-        $sql = "SELECT Logo, FirmaDecano, FirmaDirector, Sello FROM convenios WHERE IdConvenio=".$id;
+
+    public function obtenerNombreImagen($id)
+    {
+        $sql = "SELECT Logo, FirmaDecano, FirmaDirector, Sello FROM convenios WHERE IdConvenio=" . $id;
         $data = $this->db->querySelect($sql);
         return $data;
     }
@@ -203,8 +204,6 @@ class AdminModelo
         $r2 = false;
         //$r=$this->validaCorreo($data["correo"]);
         //if($r){
-
-            
 
         $sql = "UPDATE  convenios SET ";
         $sql .= "NombreInstitucion='" . $data['NombreInstitucion'] . "',";
@@ -262,8 +261,9 @@ class AdminModelo
         return $r2;
 
     }
-    public function obtenerNombreImagenExpositor($id){
-        $sql = "SELECT FotoPerfil FROM expositores WHERE IdExpositores=".$id;
+    public function obtenerNombreImagenExpositor($id)
+    {
+        $sql = "SELECT FotoPerfil FROM expositores WHERE IdExpositores=" . $id;
         $data = $this->db->querySelect($sql);
         return $data;
     }
@@ -272,8 +272,6 @@ class AdminModelo
         $r2 = false;
         //$r=$this->validaCorreo($data["correo"]);
         //if($r){
-
-            
 
         $sql = "UPDATE  expositores SET ";
         $sql .= "Dni='" . $data['Dni'] . "',";
@@ -317,8 +315,9 @@ class AdminModelo
         return $r2;
 
     }
-    public function obtenerNombreImagenesFirma($id){
-        $sql = "SELECT ImagenFirma , ImagenSello FROM firmas WHERE IdDirectorioFirmas=".$id;
+    public function obtenerNombreImagenesFirma($id)
+    {
+        $sql = "SELECT ImagenFirma , ImagenSello FROM firmas WHERE IdDirectorioFirmas=" . $id;
         $data = $this->db->querySelect($sql);
         return $data;
     }
@@ -336,8 +335,6 @@ class AdminModelo
         $r2 = false;
         //$r=$this->validaCorreo($data["correo"]);
         //if($r){
-
-            
 
         $sql = "UPDATE  firmas SET ";
         $sql .= "Alias='" . $data['Alias'] . "',";
@@ -363,7 +360,66 @@ class AdminModelo
         return $data;
 
     }
+    public function AgregarProductos($data)
+    {
 
+        $sql = "INSERT INTO producto VALUES(0,";
+        $sql .= "'" . $data['NombreProducto'] . "',";
+        $sql .= "'" . $data['Dominio'] . "',";
+
+        $sql .= "'" . $data['Descripcion'] . "');";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+    }
+    public function borrarProductos($id)
+    {
+
+        $sql = "DELETE  FROM   producto WHERE IdProducto=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
+    public function EditarProducto($data)
+    {
+        
+        //$r=$this->validaCorreo($data["correo"]);
+        //if($r){
+
+        $sql = "UPDATE  producto SET ";
+        $sql .= "NombreProducto='" . $data['NombreProducto'] . "', ";
+        $sql .= "Dominio='" . $data['Dominio'] . "', ";
+        $sql .= "Descripcion='" . $data['Descripcion'] . "' ";
+        
+        $sql .= " WHERE IdProducto=" . $data['IdProducto'] . ";";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $sql;
+
+        //}else{
+        // return $r;
+        // }
+
+    }
+    public function getServiciosAdmin()
+    {
+        $sql = "SELECT * FROM servicios ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+
+    }
+    public function getExpositoresServicioAdmin()
+    {
+        $sql = "SELECT * FROM expositoresservicio ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    
+    
     
 
 }

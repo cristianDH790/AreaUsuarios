@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title><?php print $datos["titulo"];?></title>
     <!-- jQuery -->
     <script src="<?php print RUTA;?>/plugins/jquery/jquery.min.js"></script>
@@ -94,7 +95,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link" data-toggle="modal" data-target="#modal-defaultsalir" >
+                    <a class="nav-link" data-toggle="modal" data-target="#modal-defaultsalir">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
@@ -197,12 +198,12 @@ print $datos["data"]["Nombre"];?></a>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?php print RUTA;?>AdminControlador/BancosAdmin" class="nav-link">
+                                    <a href="<?php print RUTA;?>AdminControlador/ServiciosAdmin" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Productos</p>
+                                        <p>Servicios</p>
                                     </a>
                                 </li>
-                               
+
                             </ul>
                         </li>
 
