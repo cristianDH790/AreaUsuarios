@@ -2249,6 +2249,9 @@ class AdminControlador extends Controlador
             $res = $sesion->getUsuario();
             $data = $this->modelo->getServiciosAdmin();
             $expositores = $this->modelo->getExpositoresServicioAdmin();
+            $Tipos = $this->modelo->getTiposCursosAdmin();
+            $Productos = $this->modelo->getProductosServiciosAdmin();
+            $Expositores = $this->modelo->getExpositoresServiciosAdmin();
             
             
             $datos = [
@@ -2256,6 +2259,9 @@ class AdminControlador extends Controlador
                 "data" => $res,
                 "dataTable" => $data,
                 "datatable2"=> $expositores,
+                "datatable3"=> $Tipos,
+                "datatable4"=> $Productos,
+                "datatable5"=> $Expositores,
                 //"menu" => false
             ];
 

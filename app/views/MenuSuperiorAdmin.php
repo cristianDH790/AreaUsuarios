@@ -55,10 +55,23 @@
     <script src="<?php print RUTA;?>public/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?php print RUTA;?>public/plugins/toastr/toastr.min.js"></script>
-
-
     <!-- Bootstrap 4 -->
     <script src="<?php print RUTA;?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?php print RUTA;?>public/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?php print RUTA;?>public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?php print RUTA;?>public/dist/css/adminlte.min.css">
+
+
+
+    <!-- Estilos de Summernote -->
+    <link rel="stylesheet" href="<?php print RUTA;?>public/plugins/summernote/summernote-bs4.min.css">
+
+
+
 
 </head>
 

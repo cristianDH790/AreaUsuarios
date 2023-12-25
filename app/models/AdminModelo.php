@@ -418,6 +418,24 @@ class AdminModelo
         $data = $this->db->querySelect($sql);
         return $data;
     }
+    public function getTiposCursosAdmin()
+    {
+        $sql = "SELECT * FROM tiposdeservicios ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    public function getProductosServiciosAdmin()
+    {
+        $sql = "SELECT * FROM producto ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    public function getExpositoresServiciosAdmin()
+    {
+        $sql = "SELECT * FROM expositores ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
     
     
     

@@ -15,15 +15,14 @@
             </div>
             <div class="modal-body">
                 <p>Estas seguro de cerrar sesion?
-                    
+
                 </p>
 
 
             </div>
             <div class="modal-footer justify-content-end">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <a href="<?php print RUTA;?>AdminControlador/salir"
-                    type="button" class="btn btn-primary">Si</a>
+                <a href="<?php print RUTA;?>AdminControlador/salir" type="button" class="btn btn-primary">Si</a>
             </div>
 
         </div>
@@ -105,6 +104,11 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?php print RUTA;?>public/js/VistaPreviaImagen.js"></script>
 <script src="<?php print RUTA;?>public/js/editarImg.js"></script>
 
+<!-- Select2 -->
+<script src="<?php print RUTA;?>public/plugins/select2/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="<?php print RUTA;?>public/plugins/moment/moment.min.js"></script>
+<script src="<?php print RUTA;?>public/plugins/inputmask/jquery.inputmask.min.js"></script>
 
 <script>
 $(function() {
@@ -123,6 +127,14 @@ $(function() {
         "autoWidth": false,
         "responsive": true,
     });
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
 });
 </script>
 
@@ -133,6 +145,57 @@ $(function() {
 
 <!-- toast de error-->
 <script src="<?php print RUTA;?>public/js/toast.js"></script>
+
+<script src="<?php print RUTA;?>public/js/OcultarImputs.js"></script>
+
+
+
+
+
+
+<!-- ./wrapper -->
+
+
+<!-- Summernote -->
+<script src="<?php print RUTA;?>public/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- CodeMirror -->
+<script src="<?php print RUTA;?>public/plugins/codemirror/codemirror.js"></script>
+<script src="<?php print RUTA;?>public/plugins/codemirror/mode/css/css.js"></script>
+<script src="<?php print RUTA;?>public/plugins/codemirror/mode/xml/xml.js"></script>
+<script src="<?php print RUTA;?>public/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+<!-- Page specific script -->
+<script>
+$(function() {
+    // Inicializar Summernote
+    var summernote = $('#summernote');
+    summernote.summernote({
+        // Restringir la edición
+        callbacks: {
+            onInit: function() {
+                $('.note-editable').attr('contenteditable', false);
+            }
+        }
+    });
+
+    // Deshabilitar CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+        mode: "htmlmixed",
+        theme: "monokai",
+        readOnly: true // Esto hará que el editor de CodeMirror sea solo de lectura
+    });
+});
+$(function() {
+    // Summernote
+    $('#summernote2').summernote()
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+        mode: "htmlmixed",
+        theme: "monokai"
+    });
+})
+</script>
 
 </body>
 
