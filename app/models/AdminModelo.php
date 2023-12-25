@@ -430,12 +430,55 @@ class AdminModelo
         $data = $this->db->querySelect($sql);
         return $data;
     }
+    public function getConveniosServiciosAdmin()
+    {
+        $sql = "SELECT * FROM convenios ";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
     public function getExpositoresServiciosAdmin()
     {
         $sql = "SELECT * FROM expositores ";
         $data = $this->db->querySelect($sql);
         return $data;
     }
+    public function AgregarServicios($data)
+    {
+        $sql = "INSERT INTO servicios VALUES(0,";
+        $sql .= "'" . $data['NumeroMayor'] . "',";
+        $sql .= "'" . $data['NombreServicio'] . "',";
+        $sql .= "'" . $data['Año'] . "',";
+        $sql .= "'" . $data['Precio'] . "',";
+        $sql .= "'" . $data['FechaInicio'] . "',";
+        $sql .= "'" . $data['FechaFin'] . "',";
+        $sql .= "'" . $data['Examen'] . "',";
+        $sql .= "'" . $data['Hora'] . "',";
+        $sql .= "'" . $data['TipoHora'] . "',";
+        $sql .= "'" . $data['Tipo'] . "',";
+        $sql .= "'" . $data['FechaExamen'] . "',";
+        $sql .= "'" . $data['Certificado'] . "',";
+        $sql .= "'" . $data['Convenio'] . "',";
+        $sql .= "'" . $data['Producto'] . "',";
+        $sql .= "'" . $data['Expositores'] . "',";
+        $sql .= "'" . $data['CertificadoFrontal'] . "',";
+        $sql .= "'" . $data['CertificadoReverso'] . "',";
+        $sql .= "'" . $data['Banner'] . "',";
+        $sql .= "'" . $data['TituloDescripcion'] . "',";
+        $sql .= "'" . $data['Descripcion'] . "',";
+        $sql .= "'" . $data['Inversion'] . "');";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+    }
+    public function getNumeroMayorServicios()
+    {
+        $sql = "SELECT MAX(IdNumeroServicio) AS numero_mayor FROM servicios;";
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
+    
     
     
     

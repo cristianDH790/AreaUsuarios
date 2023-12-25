@@ -269,8 +269,7 @@ class AdminControlador extends Controlador
 
                     ];
                     $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
-                    
+                    header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
 
                 } else {
                     $data = $this->modelo->getBancosAdmin();
@@ -2027,13 +2026,12 @@ class AdminControlador extends Controlador
             $Dominio = isset($_POST["Dominio"]) ? $_POST["Dominio"] : "";
             $NombreProducto = isset($_POST["NombreProducto"]) ? $_POST["NombreProducto"] : "";
             $Descripcion = isset($_POST["Descripcion"]) ? $_POST["Descripcion"] : "";
-           
 
             $data2 = [
                 "NombreProducto" => strtoupper($Dominio),
                 "Dominio" => strtoupper($NombreProducto),
                 "Descripcion" => strtoupper($Descripcion),
-                
+
             ];
 
             if ($Dominio == "") {
@@ -2045,8 +2043,6 @@ class AdminControlador extends Controlador
             if ($Descripcion == "") {
                 array_push($errores, "el Descripcion es requerido <br>   ");
             }
-
-            
 
             if (count($errores) == 0) {
                 $resul = $this->modelo->AgregarProductos($data2);
@@ -2070,9 +2066,7 @@ class AdminControlador extends Controlador
 
                     ];
                     $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
-                    
-                
+                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
 
                 } else {
                     $data = $this->modelo->getProductosAdmin();
@@ -2165,7 +2159,7 @@ class AdminControlador extends Controlador
                 "Dominio" => strtoupper($Dominio),
                 "NombreProducto" => $NombreProducto,
                 "Descripcion" => $Descripcion,
-                
+
             ];
             //validacion
             if ($Dominio == "") {
@@ -2177,7 +2171,6 @@ class AdminControlador extends Controlador
             if ($Descripcion == "") {
                 array_push($errores, "<br> el Descripcion es requerido    ");
             }
-
 
             if (count($errores) == 0) {
                 $resul = $this->modelo->EditarProducto($data2);
@@ -2252,16 +2245,17 @@ class AdminControlador extends Controlador
             $Tipos = $this->modelo->getTiposCursosAdmin();
             $Productos = $this->modelo->getProductosServiciosAdmin();
             $Expositores = $this->modelo->getExpositoresServiciosAdmin();
-            
-            
+            $Convenios = $this->modelo->getConveniosServiciosAdmin();
+
             $datos = [
                 "titulo" => "Servicios Admin",
                 "data" => $res,
                 "dataTable" => $data,
-                "datatable2"=> $expositores,
-                "datatable3"=> $Tipos,
-                "datatable4"=> $Productos,
-                "datatable5"=> $Expositores,
+                "datatable2" => $expositores,
+                "datatable3" => $Tipos,
+                "datatable4" => $Productos,
+                "datatable5" => $Expositores,
+                "datatable6" => $Convenios,
                 //"menu" => false
             ];
 
@@ -2271,6 +2265,290 @@ class AdminControlador extends Controlador
             header("location:" . RUTA . "InicioControlador");
         }
 
-    }   
+    }
+
+    public function AgregarServicios()
+    {
+        $AgregueCarpeta1 = false;
+        $AgregueCarpeta2 = false;
+        $AgregueCarpeta3 = false;
+
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+            $NumeroMayor = $this->modelo->getNumeroMayorServicios();
+            //var_dump($NumeroMayor[0]["numero_mayor"]);
+            $numeroSumado = $NumeroMayor[0]["numero_mayor"] + 1;
+            //print("<br>".$numeroSumado);
+        
+            $NombreServicio = isset($_POST["NombreServicio"]) ? $_POST["NombreServicio"] : "";
+            $Año = isset($_POST["Año"]) ? $_POST["Año"] : "";
+            $Precio = isset($_POST["Precio"]) ? $_POST["Precio"] : "";
+            $FechaInicio = isset($_POST["FechaInicio"]) ? $_POST["FechaInicio"] : "";
+            $FechaFin = isset($_POST["FechaFin"]) ? $_POST["FechaFin"] : "";
+            $Tipo = isset($_POST["Tipo"]) ? $_POST["Tipo"] : "";
+            $Certificado = isset($_POST["Certificado"]) ? $_POST["Certificado"] : "";
+            $Examen = isset($_POST["Examen"]) ? $_POST["Examen"] : "";
+            $Convenio = isset($_POST["Convenio"]) ? $_POST["Convenio"] : "";
+            $FechaExamen = isset($_POST["FechaExamen"]) ? $_POST["FechaExamen"] : "";
+            $Hora = isset($_POST["Hora"]) ? $_POST["Hora"] : "";
+            $TipoHora = isset($_POST["TipoHora"]) ? $_POST["TipoHora"] : "";
+            $Producto = isset($_POST["Producto"]) ? $_POST["Producto"] : "";
+            $Expositores = isset($_POST["Expositores"]) ? $_POST["Expositores"] : "";
+            $TituloDescripcion = isset($_POST["TituloDescripcion"]) ? $_POST["TituloDescripcion"] : "";
+            $Inversion = isset($_POST["Inversion"]) ? $_POST["Inversion"] : "";
+            $descripcion = isset($_POST["descripcion"]) ? $_POST["descripcion"] : "";
+            
+            $CertificadoFrontal = isset($_FILES['CertificadoFrontal']['name']) ? $_FILES['CertificadoFrontal']['name'] : "";
+            $CertificadoReverso = isset($_FILES['CertificadoReverso']['name']) ? $_FILES['CertificadoReverso']['name'] : "";
+            $Banner = isset($_FILES['Banner']['name']) ? $_FILES['Banner']['name'] : "";
+
+            if ($NombreServicio == "") {
+                array_push($errores, "el Nombre Servicio es requerido<br>   ");
+            }
+            if ($Año == "") {
+                array_push($errores, "el Año es requerido <br>   ");
+            }
+            if ($Precio == "") {
+                array_push($errores, "el Precio es requerido <br>   ");
+            }
+            if ($FechaInicio == "") {
+                array_push($errores, "el Fecha Inicio es requerido <br>   ");
+            }
+            if ($FechaFin == "") {
+                array_push($errores, "el  Fecha Fin es requerido <br>   ");
+            }
+            if ($Tipo == "") {
+                array_push($errores, "el Tipo es requerido <br>   ");
+            }
+            if ($Convenio == "") {
+                array_push($errores, "el Convenio es requerido <br>   ");
+            }
+            if ($Certificado == "") {
+                array_push($errores, "el Certificado es requerido <br>   ");
+            }
+            if ($Producto == "") {
+                array_push($errores, "el Producto es requerido <br>   ");
+            }
+            if ($CertificadoFrontal == "") {
+                array_push($errores, "el Certificado Frontal es requerido <br>   ");
+            }
+            if ($CertificadoReverso == "") {
+                array_push($errores, "el Certificado Reverso es requerido <br>   ");
+            }
+            if ($Banner == "") {
+                array_push($errores, "el Banner  es requerido <br>   ");
+            }
+            if ($TituloDescripcion == "") {
+                array_push($errores, "el Titulo Descripcion  es requerido <br>   ");
+            }
+            if ($descripcion == "") {
+                array_push($errores, "el descripcion  es requerido <br>   ");
+            }
+            if ($Expositores == "") {
+                array_push($errores, "el Expositores  es requerido <br>   ");
+            }if ($Inversion == "") {
+                array_push($errores, "el Inversion  es requerido <br>   ");
+            }
+
+            if ($Tipo == "TALLER" || $Tipo == "SEMINARIO") {
+                $Examen == "NO LLEVA EXAMEN";
+                $FechaExamen == "";
+            } else {
+                
+                if($Examen=="SIN EXAMEN"){
+                    $FechaExamen="";
+                }else{
+                    if ($Examen == "") {
+                        array_push($errores, "el Examen es requerido<br>   ");
+                    }
+                    if ($FechaExamen == "") {
+                        array_push($errores, "el Fecha Examen es requerido<br>   ");
+                    }
+                }
+                
+                
+            }
+            if ($Certificado == "SIN CERTIFICADO") {
+                $Hora = "0";
+                $TipoHora = "";
+
+            } else {
+                if ($Hora == "") {
+                    array_push($errores, "el Hora es requerido<br>   ");
+                }
+                if ($TipoHora == "") {
+                    array_push($errores, "el Tipo Hora es requerido<br>   ");
+                }
+            }
+
+            $data2 = [
+                "NumeroMayor" => $numeroSumado,
+                "NombreServicio" => strtoupper($NombreServicio),
+                "Año" => $Año,
+                "Precio" => $Precio,
+                "FechaInicio" => $FechaInicio,
+                "FechaFin" => $FechaFin,
+                "Tipo" => $Tipo,
+                "Certificado" => $Certificado,
+                "Producto" => $Producto,
+                "CertificadoFrontal" => $CertificadoFrontal,
+                "CertificadoReverso" => $CertificadoReverso,
+                "Banner" => $Banner,
+                "Examen" => $Examen,
+                "Expositores" => $Expositores,
+                "FechaExamen" => $FechaExamen,
+                "Hora" => $Hora,
+                "TipoHora" => strtoupper($TipoHora),
+                "Inversion" => $Inversion,
+                "Descripcion" => $descripcion,
+                "TituloDescripcion" => $TituloDescripcion,
+                "Convenio" => $Convenio,
+            ];
+
+            if (count($errores) == 0) {
+
+                $ruta = "img\ImgServicios"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
+
+                $rutaTemporal1 = $_FILES['CertificadoFrontal']['tmp_name'];
+                $rutaTemporal2 = $_FILES['CertificadoReverso']['tmp_name'];
+                $rutaTemporal3 = $_FILES['Banner']['tmp_name'];
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $CertificadoFrontal)) {
+                    $AgregueCarpeta1 = true;
+                } else {
+                    $AgregueCarpeta1 = false;
+                }
+                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $CertificadoReverso)) {
+                    $AgregueCarpeta2 = true;
+                } else {
+                    $AgregueCarpeta2 = false;
+                }
+                if (move_uploaded_file($rutaTemporal3, $ruta . "/" . $Banner)) {
+                    $AgregueCarpeta3 = true;
+                } else {
+                    $AgregueCarpeta3 = false;
+                }
+
+                if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true && $AgregueCarpeta3 == true) {
+
+                    $resul = $this->modelo->AgregarServicios($data2);
+
+                    if ($resul) {
+                        array_push($errores, "Servicio Registrado");
+                        $res = $sesion->getUsuario();
+                        $data = $this->modelo->getServiciosAdmin();
+                        $expositores = $this->modelo->getExpositoresServicioAdmin();
+                        $Tipos = $this->modelo->getTiposCursosAdmin();
+                        $Productos = $this->modelo->getProductosServiciosAdmin();
+                        $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+                        $Convenios = $this->modelo->getConveniosServiciosAdmin();
+            
+                        $datos = [
+                            "titulo" => "Servicios Admin",
+                            "data" => $res,
+                            "dataTable" => $data,
+                            "datatable2" => $expositores,
+                            "datatable3" => $Tipos,
+                            "datatable4" => $Productos,
+                            "datatable5" => $Expositores,
+                            "errores" => $errores,
+                            "color" => "success",
+                            
+                            //"menu" => false
+                        ];
+                    
+                        $data_serialized = urlencode(base64_encode(serialize($datos)));
+                        header("Location:" . RUTA . "AdminControlador/ServiciosAdmin?datos=$data_serialized&registrado=true");
+
+                       
+                    } else {
+                        $data = $this->modelo->getServiciosAdmin();
+                        $expositores = $this->modelo->getExpositoresServicioAdmin();
+                        $Tipos = $this->modelo->getTiposCursosAdmin();
+                        $Productos = $this->modelo->getProductosServiciosAdmin();
+                        $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+                        $Convenios = $this->modelo->getConveniosServiciosAdmin();
+                        
+                        array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                        $datos = [
+                            "titulo" => "Servicios Admin",
+                            "data" => $res,
+                            "dataTable" => $data,
+                            "datatable2" => $expositores,
+                            "datatable3" => $Tipos,
+                            "datatable4" => $Productos,
+                            "datatable5" => $Expositores,
+                            "datatable6" => $Convenios,
+                            "errores" => $errores,
+                            "color" => "error",
+                            
+                            
+                            
+
+                        ];
+
+                        $this->vista("ServiciosAdmin", $datos);
+                    }
+
+                } else {
+
+                    $data = $this->modelo->getServiciosAdmin();
+                    $expositores = $this->modelo->getExpositoresServicioAdmin();
+                    $Tipos = $this->modelo->getTiposCursosAdmin();
+                    $Productos = $this->modelo->getProductosServiciosAdmin();
+                    $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+                    $Convenios = $this->modelo->getConveniosServiciosAdmin();
+                    
+                    array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                    $datos = [
+                        "titulo" => "Servicios Admin",
+                        "data" => $res,
+                        "dataTable" => $data,
+                        "datatable2" => $expositores,
+                        "datatable3" => $Tipos,
+                        "datatable4" => $Productos,
+                        "datatable5" => $Expositores,
+                        "datatable6" => $Convenios,
+                        "errores" => $errores,
+                        "color" => "error",
+                        
+
+                    ];
+
+                    $this->vista("ServiciosAdmin", $datos);
+
+                }
+            } else {
+                $data = $this->modelo->getServiciosAdmin();
+                $expositores = $this->modelo->getExpositoresServicioAdmin();
+                $Tipos = $this->modelo->getTiposCursosAdmin();
+                $Productos = $this->modelo->getProductosServiciosAdmin();
+                $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+                $Convenios = $this->modelo->getConveniosServiciosAdmin();
+                
+                array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Servicios Admin",
+                    "data" => $res,
+                    "dataTable" => $data,
+                    "datatable2" => $expositores,
+                    "datatable3" => $Tipos,
+                    "datatable4" => $Productos,
+                    "datatable5" => $Expositores,
+                    "datatable6" => $Convenios,
+                    "errores" => $errores,
+                    "color" => "error",
+                    
+
+                ];
+
+                $this->vista("ServiciosAdmin", $datos);
+            }
+        }
+
+    }
 
 }

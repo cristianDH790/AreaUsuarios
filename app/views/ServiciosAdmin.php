@@ -536,7 +536,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
         <div class="modal fade" id="modal-defaultagregar">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <form action="<?php print RUTA;?>AdminControlador/AgregarBanco" method="POST">
+                    <form action="<?php print RUTA;?>AdminControlador/AgregarServicios" method="POST"  enctype="multipart/form-data">
                         <div class="modal-header">
                             <h4 class="modal-title">Agregar
                                 Servicio:</h4>
@@ -608,7 +608,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                         class="col-form-label">Examen:</label>
                                     <div class="form-group">
 
-                                        <select id="miSelect2" name="Examen" class="form-control select2"
+                                        <select id="miSelect3" name="Examen" class="form-control select2"
                                             style="width: 100%;">
                                             <option selected="selected">Selecciona</option>
                                             <option value="SIN EXAMEN">SIN EXAMEN</option>
@@ -616,7 +616,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                         </select>
                                     </div>
                                 </div>
-                                <div id="divOcultar2" class="col-sm-3 mb-2 mb-sm-0">
+                                <div id="divOcultar2"  class="col-sm-3 mb-2 mb-sm-0  ocult">
                                     <label for="numeroCuenta" class="col-form-label">Fecha Examen:</label>
                                     <input type="date" value="<?php //print $datos['dataTable'][$i]['NumeroCuenta'];?>"
                                         name="FechaExamen" class="form-control">
@@ -666,12 +666,25 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                     style="border-color: #858796; border-style: dashed;">
                             </div>
                             <div class="mb-1 row">
-                                <div class="col-sm-6 mb-2 mb-sm-0">
+                                <div class="col-sm-4 mb-2 mb-sm-0">
                                     <label for="numeroCuenta" class="col-form-label">Titulo Descripcion:</label>
                                     <input type="text" value="<?php //print $datos['dataTable'][$i]['NumeroCuenta'];?>"
                                         name="TituloDescripcion" placeholder="Titulo Descripcion" class="form-control">
                                 </div>
-                                <div class="col-sm-6 mb-2 mb-sm-0">
+                                <div class="col-sm-4 mb-2 mb-sm-0">
+                                    <label for="saldo3" class="col-form-label">
+                                        Convenio:</label>
+                                    <div class="form-group  ">
+
+                                        <select class="select2" name="Convenio" 
+                                            data-placeholder="Selecciona Convenio" style="width: 100%;">
+                                            <?php foreach ($datos['datatable6'] as $elemento) {
+                                            echo "<option value=".$elemento['NombreInstitucion'].">" . $elemento['NombreInstitucion'] ." </option>";  
+                                    }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-2 mb-sm-0">
                                     <label for="numeroCuenta" class="col-form-label">Inversion:</label>
                                     <input type="number"
                                         value="<?php //print $datos['dataTable'][$i]['NumeroCuenta'];?>"
@@ -681,7 +694,8 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                             <hr width="98%" size="1" class="mb-1" style="border-color: #858796; border-style: dashed;">
                             <div class="mb-1 row">
                                 <div class="col-sm-12 mb-2 mb-sm-0">
-                                    <textarea id="summernote2">
+                                <label for="numeroCuenta" class="col-form-label">Cuerpo Descripcion:</label>
+                                    <textarea name="descripcion" id="summernote2">
                                         Escribe <em>tu</em> <u>descripcion</u> <strong>aqui</strong>
                                     </textarea>
                                     <?php //TEXBOX2 ?>
