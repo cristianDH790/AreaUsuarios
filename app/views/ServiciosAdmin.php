@@ -432,9 +432,12 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                                                     <div class=" col-sm-12 mb-3 mb-sm-0">
                                                                         <label class="col-form-label" for="tipoCuenta2">
                                                                             Cuerpo Descripcion:</label>
-                                                                        <textarea id="summernote">
-                                                                              <?php print $datos['dataTable'][$i]['CuerpoDescripcion'];?>
-                                                                        </textarea>
+                                                                        <div class='border  p-2 rounded pt-1 pb-1' style='background-color: #E2E7EA;
+                                                                        border-color: #D1D1D1 !important;' >
+                                                                        <?php print $datos['dataTable'][$i]['CuerpoDescripcion'];?>
+                                                                        </div>
+                                                                              
+                                                                        
 
 
 

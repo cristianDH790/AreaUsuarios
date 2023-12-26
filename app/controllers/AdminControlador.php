@@ -174,8 +174,16 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/UsuariosAdmin?datos=$data_serialized&registrado=true");
+
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/UsuariosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -268,8 +276,18 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/BancosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+                    //$data_serialized = urlencode(base64_encode(serialize($datos)));
+                    // header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
 
                 } else {
                     $data = $this->modelo->getBancosAdmin();
@@ -395,8 +413,18 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/UsuariosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/UsuariosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+                    //$data_serialized = urlencode(base64_encode(serialize($datos)));
+                    //header("Location:" . RUTA . "AdminControlador/UsuariosAdmin?datos=$data_serialized&registrado=true");
 
                 } else {
 
@@ -453,7 +481,17 @@ class AdminControlador extends Controlador
                 "dataTable" => $data,
 
             ];
-            $this->vista("UsuariosAdmin", $datos);
+            // Inicia o reanuda la sesión
+            session_start();
+
+            // Almacena los datos en la sesión
+            $_SESSION['datos'] = $datos;
+
+            // Redirige a la página de destino
+            header("Location:" . RUTA . "AdminControlador/UsuariosAdmin");
+            exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+            
         } else {
             $data = $this->modelo->getUsuariosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -491,7 +529,17 @@ class AdminControlador extends Controlador
                 "dataTable" => $data,
 
             ];
-            $this->vista("BancosAdmin", $datos);
+            // Inicia o reanuda la sesión
+            session_start();
+
+            // Almacena los datos en la sesión
+            $_SESSION['datos'] = $datos;
+
+            // Redirige a la página de destino
+            header("Location:" . RUTA . "AdminControlador/BancosAdmin");
+            exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+            
         } else {
             $data = $this->modelo->getBancosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -568,8 +616,15 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/BancosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/BancosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -648,17 +703,7 @@ class AdminControlador extends Controlador
             $FirmaDirector = isset($_FILES['archivo3']['name']) ? $_FILES['archivo3']['name'] : "";
             $Sello = isset($_FILES['archivo4']['name']) ? $_FILES['archivo4']['name'] : "";
 
-            $data2 = [
-                "NombreInstitucion" => $NombreInstitucion,
-                "Decano" => $Decano,
-                "TextoFirmaDecano" => $TextoFirmaDecano,
-                "DirectorAcademico" => $DirectorAcademico,
-                "TextoFirmaDirector" => $TextoFirmaDirector,
-                "Logo" => $Logo,
-                "FirmaDecano" => $FirmaDecano,
-                "FirmaDirector" => $FirmaDirector,
-                "Sello" => $Sello,
-            ];
+            
             //validacion
             if ($TextoFirmaDirector == "") {
                 array_push($errores, "El Texto firma director es requerido<br>    ");
@@ -685,25 +730,47 @@ class AdminControlador extends Controlador
                 $rutaTemporal3 = $_FILES['archivo3']['tmp_name'];
                 $rutaTemporal4 = $_FILES['archivo4']['tmp_name'];
 
-                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $Logo)) {
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Logo);
+                $nombreArchivo2 = generarNombreUnico($FirmaDecano);
+                $nombreArchivo3 = generarNombreUnico($FirmaDirector);
+                $nombreArchivo4 = generarNombreUnico($Sello);
+
+                $data2 = [
+                    "NombreInstitucion" => $NombreInstitucion,
+                    "Decano" => $Decano,
+                    "TextoFirmaDecano" => $TextoFirmaDecano,
+                    "DirectorAcademico" => $DirectorAcademico,
+                    "TextoFirmaDirector" => $TextoFirmaDirector,
+                    "Logo" => $nombreArchivo1,
+                    "FirmaDecano" => $nombreArchivo2,
+                    "FirmaDirector" => $nombreArchivo3,
+                    "Sello" => $nombreArchivo4,
+                ];
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
                     $AgregueCarpeta1 = true;
                 } else {
                     $AgregueCarpeta1 = false;
                 }
 
-                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $FirmaDecano)) {
+                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $nombreArchivo2)) {
                     $AgregueCarpeta2 = true;
                 } else {
                     $AgregueCarpeta2 = false;
                 }
 
-                if (move_uploaded_file($rutaTemporal3, $ruta . "/" . $FirmaDirector)) {
+                if (move_uploaded_file($rutaTemporal3, $ruta . "/" . $nombreArchivo3)) {
                     $AgregueCarpeta3 = true;
                 } else {
                     $AgregueCarpeta3 = false;
                 }
 
-                if (move_uploaded_file($rutaTemporal4, $ruta . "/" . $Sello)) {
+                if (move_uploaded_file($rutaTemporal4, $ruta . "/" . $nombreArchivo4)) {
                     $AgregueCarpeta4 = true;
                 } else {
                     $AgregueCarpeta4 = false;
@@ -735,8 +802,15 @@ class AdminControlador extends Controlador
                             //"textoBoton"=>"Iniciar"
 
                         ];
-                        $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/ConveniosAdmin?datos=$data_serialized&registrado=true");
+                        // Inicia o reanuda la sesión
+                        session_start();
+
+                        // Almacena los datos en la sesión
+                        $_SESSION['datos'] = $datos;
+
+                        // Redirige a la página de destino
+                        header("Location:" . RUTA . "AdminControlador/ConveniosAdmin");
+                        exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                         /*$datos = [
                     "titulo" => "Convenio Admin",
@@ -818,7 +892,7 @@ class AdminControlador extends Controlador
 
         // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
         $nombresImagenes = $this->modelo->obtenerNombreImagen($id);
-        if (!empty($array)) {
+        /*if (!empty($array)) {*/
             $var = true;
             $imagen1 = $nombresImagenes[0]['Logo'];
             $imagen2 = $nombresImagenes[0]['FirmaDecano'];
@@ -863,7 +937,17 @@ class AdminControlador extends Controlador
                         "dataTable" => $data,
 
                     ];
-                    $this->vista("ConveniosAdmin", $datos);
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/ConveniosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+                    
                 } else {
                     $data = $this->modelo->getConveniosAdmin();
                     array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -880,19 +964,7 @@ class AdminControlador extends Controlador
                     $this->vista("ConveniosAdmin", $datos);
                 }
 
-                $data = $this->modelo->getConveniosAdmin();
-                array_push($errores, "Convenio Eliminado");
-                $datos = [
-                    "titulo" => "Convenio Admin",
-                    //"menu" => false,
-                    "errores" => $errores,
-                    "color" => "success",
-                    "data" => $res,
-                    //"data2" => $data2,
-                    "dataTable" => $data,
-
-                ];
-                $this->vista("ConveniosAdmin", $datos);
+                
             } else {
                 $data = $this->modelo->getConveniosAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -911,7 +983,7 @@ class AdminControlador extends Controlador
 
             // Resto del código para mensajes de éxito y actualización de la vista
 
-        } else {
+        /*} else {
             $data = $this->modelo->getConveniosAdmin();
             array_push($errores, "Convenio Eliminado");
             $datos = [
@@ -925,7 +997,7 @@ class AdminControlador extends Controlador
 
             ];
             $this->vista("ConveniosAdmin", $datos);
-        }
+        }*/
 
     }
     public function EditarConvenio($id)
@@ -980,48 +1052,62 @@ class AdminControlador extends Controlador
                 $logoanterior4 = $resulid[0]['Sello'];
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
+                $rutaTemporal2 = $_FILES['archivo2']['tmp_name'];
+                $rutaTemporal3 = $_FILES['archivo3']['tmp_name'];
+                $rutaTemporal4 = $_FILES['archivo4']['tmp_name'];
+
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Logo);
+                $nombreArchivo2 = generarNombreUnico($FirmaDecano);
+                $nombreArchivo3 = generarNombreUnico($FirmaDirector);
+                $nombreArchivo4 = generarNombreUnico($Sello);
+
 
                 if ($Logo == "") {
 
-                    $img1 = $logoanterior1;
+                    $nombreArchivo1 = $logoanterior1;
                     print("se no se iso nada");
                 } else {
                     unlink($ruta . "/" . $logoanterior1);
 
-                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Logo);
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1);
                     print("se remplaso");
-                    $img1 = $Logo;
+                    $img1 = $nombreArchivo1;
                 }
 
                 if ($FirmaDecano == "") {
-                    $img2 = $logoanterior2;
+                    $nombreArchivo2 = $logoanterior2;
 
                 } else {
                     unlink($ruta . "/" . $logoanterior2);
-                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $FirmaDecano);
+                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $nombreArchivo2);
                     print("se remplaso");
 
-                    $img2 = $FirmaDecano;
+                    $img2 = $nombreArchivo2;
                 }
 
                 if ($FirmaDirector == "") {
-                    $img3 = $logoanterior3;
+                    $nombreArchivo3 = $logoanterior3;
 
                 } else {
                     unlink($ruta . "/" . $logoanterior3);
-                    move_uploaded_file($rutaTemporal3, $ruta . "/" . $FirmaDirector);
+                    move_uploaded_file($rutaTemporal3, $ruta . "/" . $nombreArchivo3);
                     print("se remplaso");
-                    $img3 = $FirmaDirector;
+                    $img3 = $nombreArchivo3;
                 }
 
                 if ($Sello == "") {
 
-                    $img4 = $logoanterior4;
+                    $nombreArchivo4 = $logoanterior4;
                 } else {
                     unlink($ruta . "/" . $logoanterior4);
-                    move_uploaded_file($rutaTemporal4, $ruta . "/" . $Sello);
+                    move_uploaded_file($rutaTemporal4, $ruta . "/" . $nombreArchivo4);
                     print("se remplaso");
-                    $img4 = $Sello;
+                    $img4 = $nombreArchivo4;
                 }
 
                 print($img1);
@@ -1066,8 +1152,15 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/ConveniosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/ConveniosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -1200,7 +1293,15 @@ class AdminControlador extends Controlador
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
 
-                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto)) {
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Foto);
+                
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
                     $AgregueCarpeta1 = true;
                 } else {
                     $AgregueCarpeta1 = false;
@@ -1232,8 +1333,16 @@ class AdminControlador extends Controlador
                             //"textoBoton"=>"Iniciar"
 
                         ];
-                        $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin?datos=$data_serialized&registrado=true");
+
+                        // Inicia o reanuda la sesión
+                        session_start();
+
+                        // Almacena los datos en la sesión
+                        $_SESSION['datos'] = $datos;
+
+                        // Redirige a la página de destino
+                        header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin");
+                        exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                         /*$datos = [
                     "titulo" => "Convenio Admin",
@@ -1354,7 +1463,17 @@ class AdminControlador extends Controlador
                     "dataTable" => $data,
 
                 ];
-                $this->vista("ExpositoresAdmin", $datos);
+                // Inicia o reanuda la sesión
+                session_start();
+
+                // Almacena los datos en la sesión
+                $_SESSION['datos'] = $datos;
+
+                // Redirige a la página de destino
+                header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin");
+                exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+               
             } else {
                 $data = $this->modelo->getExpositoresAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -1456,16 +1575,24 @@ class AdminControlador extends Controlador
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
 
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Foto);
+                
+
                 if ($Foto == "") {
 
-                    $img1 = $logoanterior1;
+                    $nombreArchivo1 = $logoanterior1;
                     print("se no se iso nada");
                 } else {
                     unlink($ruta . "/" . $logoanterior1);
 
-                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto);
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1);
                     print("se remplaso");
-                    $img1 = $Foto;
+                    $img1 = $nombreArchivo1;
                 }
 
                 print($img1);
@@ -1507,8 +1634,16 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin?datos=$data_serialized&registrado=true");
+
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -1600,14 +1735,7 @@ class AdminControlador extends Controlador
             $Foto1 = isset($_FILES['ImagenFirma']['name']) ? $_FILES['ImagenFirma']['name'] : "";
             $Foto2 = isset($_FILES['ImagenSello']['name']) ? $_FILES['ImagenSello']['name'] : "";
 
-            $data2 = [
-                "Alias" => $Alias,
-                "Texto1" => $Texto1,
-                "Texto2" => $Texto2,
-                "ImagenFirma" => $Foto1,
-                "ImagenSello" => $Foto2,
-
-            ];
+           
             //validacion
             if ($Alias == "") {
                 array_push($errores, "El Alias es requerido<br>    ");
@@ -1626,12 +1754,29 @@ class AdminControlador extends Controlador
                 $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
                 $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
 
-                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto1)) {
+
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Foto1);
+                $nombreArchivo2 = generarNombreUnico($Foto2);
+                $data2 = [
+                    "Alias" => $Alias,
+                    "Texto1" => $Texto1,
+                    "Texto2" => $Texto2,
+                    "ImagenFirma" => $nombreArchivo1,
+                    "ImagenSello" => $nombreArchivo2,
+    
+                ];
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
                     $AgregueCarpeta1 = true;
                 } else {
                     $AgregueCarpeta1 = false;
                 }
-                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $Foto2)) {
+                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $nombreArchivo2)) {
                     $AgregueCarpeta2 = true;
                 } else {
                     $AgregueCarpeta2 = false;
@@ -1663,8 +1808,15 @@ class AdminControlador extends Controlador
                             //"textoBoton"=>"Iniciar"
 
                         ];
-                        $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/FirmasAdmin?datos=$data_serialized&registrado=true");
+                        // Inicia o reanuda la sesión
+                        session_start();
+
+                        // Almacena los datos en la sesión
+                        $_SESSION['datos'] = $datos;
+
+                        // Redirige a la página de destino
+                        header("Location:" . RUTA . "AdminControlador/FirmasAdmin");
+                        exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                         /*$datos = [
                     "titulo" => "Convenio Admin",
@@ -1740,6 +1892,7 @@ class AdminControlador extends Controlador
     }
     public function borrarFirma($id)
     {
+        
         $sesion = new Sesion();
         $res = $sesion->getUsuario();
         $errores = array();
@@ -1791,7 +1944,17 @@ class AdminControlador extends Controlador
                     "dataTable" => $data,
 
                 ];
-                $this->vista("FirmasAdmin", $datos);
+                // Inicia o reanuda la sesión
+                session_start();
+
+                // Almacena los datos en la sesión
+                $_SESSION['datos'] = $datos;
+
+                // Redirige a la página de destino
+                header("Location:" . RUTA . "AdminControlador/FirmasAdmin");
+                exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+                
             } else {
                 $data = $this->modelo->getFirmasAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -1883,28 +2046,37 @@ class AdminControlador extends Controlador
                 $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
                 $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
 
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($Foto1);
+                $nombreArchivo2 = generarNombreUnico($Foto2);
+
                 if ($Foto1 == "") {
 
-                    $img1 = $logoanterior1;
+                    $nombreArchivo1 = $logoanterior1;
                     print("se no se iso nada");
                 } else {
                     unlink($ruta . "/" . $logoanterior1);
 
-                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $Foto1);
+                    move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1);
                     print("se remplaso");
                     $img1 = $Foto1;
                 }
                 if ($Foto2 == "") {
 
-                    $img2 = $logoanterior2;
+                    $nombreArchivo2 = $logoanterior2;
                     print("se no se iso nada");
                 } else {
                     unlink($ruta . "/" . $logoanterior2);
 
-                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $Foto2);
+                    move_uploaded_file($rutaTemporal2, $ruta . "/" . $nombreArchivo2);
                     print("se remplaso");
                     $img2 = $Foto2;
                 }
+                
 
                 $data2 = [
                     "IdDirectorioFirmas" => $IdFirmas,
@@ -1940,8 +2112,15 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/FirmasAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/FirmasAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -2065,8 +2244,15 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
                     $data = $this->modelo->getProductosAdmin();
@@ -2124,7 +2310,17 @@ class AdminControlador extends Controlador
                 "dataTable" => $data,
 
             ];
-            $this->vista("ProductosAdmin", $datos);
+            // Inicia o reanuda la sesión
+            session_start();
+
+            // Almacena los datos en la sesión
+            $_SESSION['datos'] = $datos;
+
+            // Redirige a la página de destino
+            header("Location:" . RUTA . "AdminControlador/ProductosAdmin");
+            exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+            
         } else {
             $data = $this->modelo->getProductosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -2194,8 +2390,15 @@ class AdminControlador extends Controlador
                         //"textoBoton"=>"Iniciar"
 
                     ];
-                    $data_serialized = urlencode(base64_encode(serialize($datos)));
-                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin?datos=$data_serialized&registrado=true");
+                    // Inicia o reanuda la sesión
+                    session_start();
+
+                    // Almacena los datos en la sesión
+                    $_SESSION['datos'] = $datos;
+
+                    // Redirige a la página de destino
+                    header("Location:" . RUTA . "AdminControlador/ProductosAdmin");
+                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
                 } else {
 
@@ -2282,7 +2485,7 @@ class AdminControlador extends Controlador
             //var_dump($NumeroMayor[0]["numero_mayor"]);
             $numeroSumado = $NumeroMayor[0]["numero_mayor"] + 1;
             //print("<br>".$numeroSumado);
-        
+
             $NombreServicio = isset($_POST["NombreServicio"]) ? $_POST["NombreServicio"] : "";
             $Año = isset($_POST["Año"]) ? $_POST["Año"] : "";
             $Precio = isset($_POST["Precio"]) ? $_POST["Precio"] : "";
@@ -2300,7 +2503,7 @@ class AdminControlador extends Controlador
             $TituloDescripcion = isset($_POST["TituloDescripcion"]) ? $_POST["TituloDescripcion"] : "";
             $Inversion = isset($_POST["Inversion"]) ? $_POST["Inversion"] : "";
             $descripcion = isset($_POST["descripcion"]) ? $_POST["descripcion"] : "";
-            
+
             $CertificadoFrontal = isset($_FILES['CertificadoFrontal']['name']) ? $_FILES['CertificadoFrontal']['name'] : "";
             $CertificadoReverso = isset($_FILES['CertificadoReverso']['name']) ? $_FILES['CertificadoReverso']['name'] : "";
             $Banner = isset($_FILES['Banner']['name']) ? $_FILES['Banner']['name'] : "";
@@ -2357,10 +2560,10 @@ class AdminControlador extends Controlador
                 $Examen == "NO LLEVA EXAMEN";
                 $FechaExamen == "";
             } else {
-                
-                if($Examen=="SIN EXAMEN"){
-                    $FechaExamen="";
-                }else{
+
+                if ($Examen == "SIN EXAMEN") {
+                    $FechaExamen = "";
+                } else {
                     if ($Examen == "") {
                         array_push($errores, "el Examen es requerido<br>   ");
                     }
@@ -2368,8 +2571,7 @@ class AdminControlador extends Controlador
                         array_push($errores, "el Fecha Examen es requerido<br>   ");
                     }
                 }
-                
-                
+
             }
             if ($Certificado == "SIN CERTIFICADO") {
                 $Hora = "0";
@@ -2384,29 +2586,7 @@ class AdminControlador extends Controlador
                 }
             }
 
-            $data2 = [
-                "NumeroMayor" => $numeroSumado,
-                "NombreServicio" => strtoupper($NombreServicio),
-                "Año" => $Año,
-                "Precio" => $Precio,
-                "FechaInicio" => $FechaInicio,
-                "FechaFin" => $FechaFin,
-                "Tipo" => $Tipo,
-                "Certificado" => $Certificado,
-                "Producto" => $Producto,
-                "CertificadoFrontal" => $CertificadoFrontal,
-                "CertificadoReverso" => $CertificadoReverso,
-                "Banner" => $Banner,
-                "Examen" => $Examen,
-                "Expositores" => $Expositores,
-                "FechaExamen" => $FechaExamen,
-                "Hora" => $Hora,
-                "TipoHora" => strtoupper($TipoHora),
-                "Inversion" => $Inversion,
-                "Descripcion" => $descripcion,
-                "TituloDescripcion" => $TituloDescripcion,
-                "Convenio" => $Convenio,
-            ];
+           
 
             if (count($errores) == 0) {
 
@@ -2416,21 +2596,53 @@ class AdminControlador extends Controlador
                 $rutaTemporal2 = $_FILES['CertificadoReverso']['tmp_name'];
                 $rutaTemporal3 = $_FILES['Banner']['tmp_name'];
 
-                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $CertificadoFrontal)) {
+                function generarNombreUnico($nombreOriginal) {
+                    return uniqid() . '_' . $nombreOriginal;
+                }
+                
+                // Generar nombres únicos para los archivos
+                $nombreArchivo1 = generarNombreUnico($CertificadoFrontal);
+                $nombreArchivo2 = generarNombreUnico($CertificadoReverso);
+                $nombreArchivo3 = generarNombreUnico($Banner);
+
+                if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
                     $AgregueCarpeta1 = true;
                 } else {
                     $AgregueCarpeta1 = false;
                 }
-                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $CertificadoReverso)) {
+                if (move_uploaded_file($rutaTemporal2, $ruta . "/" . $nombreArchivo2)) {
                     $AgregueCarpeta2 = true;
                 } else {
                     $AgregueCarpeta2 = false;
                 }
-                if (move_uploaded_file($rutaTemporal3, $ruta . "/" . $Banner)) {
+                if (move_uploaded_file($rutaTemporal3, $ruta . "/" . $nombreArchivo3)) {
                     $AgregueCarpeta3 = true;
                 } else {
                     $AgregueCarpeta3 = false;
                 }
+                $data2 = [
+                    "NumeroMayor" => $numeroSumado,
+                    "NombreServicio" => strtoupper($NombreServicio),
+                    "Año" => $Año,
+                    "Precio" => $Precio,
+                    "FechaInicio" => $FechaInicio,
+                    "FechaFin" => $FechaFin,
+                    "Tipo" => $Tipo,
+                    "Certificado" => $Certificado,
+                    "Producto" => $Producto,
+                    "CertificadoFrontal" => $nombreArchivo1,
+                    "CertificadoReverso" => $nombreArchivo2,
+                    "Banner" => $nombreArchivo3,
+                    "Examen" => $Examen,
+                    "Expositores" => $Expositores,
+                    "FechaExamen" => $FechaExamen,
+                    "Hora" => $Hora,
+                    "TipoHora" => strtoupper($TipoHora),
+                    "Inversion" => $Inversion,
+                    "Descripcion" => $descripcion,
+                    "TituloDescripcion" => $TituloDescripcion,
+                    "Convenio" => $Convenio,
+                ];
 
                 if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true && $AgregueCarpeta3 == true) {
 
@@ -2445,7 +2657,7 @@ class AdminControlador extends Controlador
                         $Productos = $this->modelo->getProductosServiciosAdmin();
                         $Expositores = $this->modelo->getExpositoresServiciosAdmin();
                         $Convenios = $this->modelo->getConveniosServiciosAdmin();
-            
+
                         $datos = [
                             "titulo" => "Servicios Admin",
                             "data" => $res,
@@ -2454,16 +2666,22 @@ class AdminControlador extends Controlador
                             "datatable3" => $Tipos,
                             "datatable4" => $Productos,
                             "datatable5" => $Expositores,
+                            "datatable6" => $Convenios,
                             "errores" => $errores,
                             "color" => "success",
-                            
+
                             //"menu" => false
                         ];
-                    
-                        $data_serialized = urlencode(base64_encode(serialize($datos)));
-                        header("Location:" . RUTA . "AdminControlador/ServiciosAdmin?datos=$data_serialized&registrado=true");
+                        // Inicia o reanuda la sesión
+                        session_start();
 
-                       
+                        // Almacena los datos en la sesión
+                        $_SESSION['datos'] = $datos;
+
+                        // Redirige a la página de destino
+                        header("Location:" . RUTA . "AdminControlador/ServiciosAdmin");
+                        exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
                     } else {
                         $data = $this->modelo->getServiciosAdmin();
                         $expositores = $this->modelo->getExpositoresServicioAdmin();
@@ -2471,7 +2689,7 @@ class AdminControlador extends Controlador
                         $Productos = $this->modelo->getProductosServiciosAdmin();
                         $Expositores = $this->modelo->getExpositoresServiciosAdmin();
                         $Convenios = $this->modelo->getConveniosServiciosAdmin();
-                        
+
                         array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
                         $datos = [
                             "titulo" => "Servicios Admin",
@@ -2484,9 +2702,6 @@ class AdminControlador extends Controlador
                             "datatable6" => $Convenios,
                             "errores" => $errores,
                             "color" => "error",
-                            
-                            
-                            
 
                         ];
 
@@ -2501,7 +2716,7 @@ class AdminControlador extends Controlador
                     $Productos = $this->modelo->getProductosServiciosAdmin();
                     $Expositores = $this->modelo->getExpositoresServiciosAdmin();
                     $Convenios = $this->modelo->getConveniosServiciosAdmin();
-                    
+
                     array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
                     $datos = [
                         "titulo" => "Servicios Admin",
@@ -2514,7 +2729,6 @@ class AdminControlador extends Controlador
                         "datatable6" => $Convenios,
                         "errores" => $errores,
                         "color" => "error",
-                        
 
                     ];
 
@@ -2528,7 +2742,7 @@ class AdminControlador extends Controlador
                 $Productos = $this->modelo->getProductosServiciosAdmin();
                 $Expositores = $this->modelo->getExpositoresServiciosAdmin();
                 $Convenios = $this->modelo->getConveniosServiciosAdmin();
-                
+
                 array_push($errores, "Hubo Un Error En El Registro<br>Si Persiste Comunicate Con Su Proveedor");
                 $datos = [
                     "titulo" => "Servicios Admin",
@@ -2541,7 +2755,6 @@ class AdminControlador extends Controlador
                     "datatable6" => $Convenios,
                     "errores" => $errores,
                     "color" => "error",
-                    
 
                 ];
 

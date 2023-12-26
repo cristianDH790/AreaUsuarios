@@ -231,34 +231,34 @@ print $datos["data"]["Nombre"];?></a>
 
 
         <?php
-if(isset($_GET['datos'])) {
-    // Acceder a $_GET['datos'] aquí
-    
-// Recuperar los datos serializados de la URL
-$data_serialized = $_GET['datos'];
-// Deserializar y obtener el array original
-$datos = unserialize(base64_decode(urldecode($data_serialized)));
 
-//var_dump ($datos["color"]);
-//print ($datos["errores"][0]);
+        // Inicia o reanuda la sesión
 
-if (isset($datos["errores"])) {
-    if (count($datos["errores"]) > 0) {
-        ?>
-        <script>
-        toastr.<?php print ($datos['color'])?>('<?php
-        foreach($datos["errores"] as $key=>$value){
-            print "".$value."";         
+
+// Verifica si existen datos en la sesión
+if (isset($_SESSION['datos'])) {
+    // Recupera los datos de la sesión
+    $datos = $_SESSION['datos'];
+    // Utiliza los datos según sea necesario en la página de destino
+    if (isset($datos["errores"])) {
+        if (count($datos["errores"]) > 0) {
+            ?>
+            <script>
+            toastr.<?php print ($datos['color'])?>('<?php
+            foreach($datos["errores"] as $key=>$value){
+                print "".$value."";         
+                }
+            ?>')
+            </script>
+            <?php
             }
-        ?>')
-        </script>
-        <?php
-}
-}
+    }
+    // Por ejemplo, puedes acceder a $datos['errores'] o cualquier otro dato dentro de $datos
 
+    // Luego, si ya no necesitas estos datos en la sesión, podrías limpiarlos
+    unset($_SESSION['datos']);
+}else{
 
-
-} else {
     ?>
         <?php
 if (isset($datos["errores"])) {
@@ -276,5 +276,6 @@ if (isset($datos["errores"])) {
 }
 ?>
         <?php
+
 }
 ?>

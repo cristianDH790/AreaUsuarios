@@ -133,7 +133,7 @@
                                                             <div class="modal-footer justify-content-end">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
-                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarConvenio/<?php print $datos['dataTable'][$i]['IdBanco'];?>"
+                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarConvenio/<?php print $datos['dataTable'][$i]['IdConvenio'];?>"
                                                                     type="button" class="btn btn-primary">Si</a>
                                                             </div>
 
