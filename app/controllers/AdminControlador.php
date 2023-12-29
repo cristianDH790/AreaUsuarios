@@ -2634,7 +2634,7 @@ class AdminControlador extends Controlador
                     "CertificadoReverso" => $nombreArchivo2,
                     "Banner" => $nombreArchivo3,
                     "Examen" => $Examen,
-                    "Expositores" => $Expositores,
+                    "Expositores" => $numeroSumado,
                     "FechaExamen" => $FechaExamen,
                     "Hora" => $Hora,
                     "TipoHora" => strtoupper($TipoHora),
@@ -2643,11 +2643,36 @@ class AdminControlador extends Controlador
                     "TituloDescripcion" => $TituloDescripcion,
                     "Convenio" => $Convenio,
                 ];
+                //ver los expositores
+                //$cantidadSeleccionada = count($Expositores);
+    
+                
+                
 
                 if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true && $AgregueCarpeta3 == true) {
 
+                    $n=0;
                     $resul = $this->modelo->AgregarServicios($data2);
-
+                    //agregamos los expositores
+                    foreach ($Expositores as $expositor) {
+                       
+                    
+                        $dataExpositores = [
+                            "Id" => $numeroSumado,
+                            "Expositores" => $expositor,
+                        ];
+                    
+                        $resul2 = $this->modelo->AgregarExpositoresServicios($dataExpositores);
+                    
+                        if ($resul2) {
+                            $n++;
+                        }
+                    }
+                    var_dump($Expositores);
+                    print"<br>";
+                    print_r($n);
+                    
+                    
                     if ($resul) {
                         array_push($errores, "Servicio Registrado");
                         $res = $sesion->getUsuario();
@@ -2760,6 +2785,59 @@ class AdminControlador extends Controlador
 
                 $this->vista("ServiciosAdmin", $datos);
             }
+        }
+
+    }
+
+    public function BorrarServicio($IdServicios,$IdExpositor)
+    {
+        $sesion = new Sesion();
+        $res = $sesion->getUsuario();
+        $errores = array();
+
+        $dato = $this->modelo->borrarServicios($IdServicios);
+        $dato2 = $this->modelo->borrarExpositiresServicios($IdExpositor);
+        if ($dato && $dato2) {
+            $data = $this->modelo->getServiciosAdmin();
+            array_push($errores, "Servicio Eliminado");
+            
+            
+            $datos = [
+                "titulo" => "Servicios Admin",
+                "data" => $res,
+                "dataTable" => $data,
+                "datatable2" => $expositores,
+                "datatable3" => $Tipos,
+                "datatable4" => $Productos,
+                "datatable5" => $Expositores,
+                "datatable6" => $Convenios,
+                //"menu" => false
+            ];
+            // Inicia o reanuda la sesión
+            session_start();
+
+            // Almacena los datos en la sesión
+            $_SESSION['datos'] = $datos;
+
+            // Redirige a la página de destino
+            header("Location:" . RUTA . "AdminControlador/ServiciosAdmin");
+            exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+            
+        } else {
+            $data = $this->modelo->getProductosAdmin();
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+            $datos = [
+                "titulo" => "Servicios Admin",
+                //"menu" => false,
+                "errores" => $errores,
+                "color" => "error",
+                "data" => $res,
+                //"data2" => $data2,
+                "dataTable" => $data,
+
+            ];
+            $this->vista("ServiciosAdmin", $datos);
         }
 
     }

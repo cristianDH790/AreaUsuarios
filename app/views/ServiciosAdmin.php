@@ -119,26 +119,21 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Eliminar
-                                                                    Banco:</h4>
+                                                                    Servicio:</h4>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Estas seguro de eliminar a:</p>
-                                                                <?php print $datos["dataTable"][$i]["NumeroCuenta"];
-    print " <br> ";
-    print $datos["dataTable"][$i]["NombreTitular"];
-    print "<br> ";
-    print $datos["dataTable"][$i]["TipoCuenta"];
-    ?>
+                                                                <p>Estas seguro de eliminar:</p>
+                                                                <?php print $datos["dataTable"][$i]["NombreServicio"];?>
 
                                                             </div>
                                                             <div class="modal-footer justify-content-end">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
-                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarBanco/<?php print $datos['dataTable'][$i]['IdBanco'];?>"
+                                                                <a href="<?php print RUTA;?>AdminControlador/BorrarServicio/<?php print $datos['dataTable'][$i]['IdServicio'];?>/<?php print $datos['dataTable'][$i]['IdExpositoresServicio'];?>"
                                                                     type="button" class="btn btn-primary">Si</a>
                                                             </div>
 
@@ -201,8 +196,8 @@
                                                                             <select class="form-control form-control"
                                                                                 name="tipoCuenta" id="exampleSelect">
                                                                                 <?php
-if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
-        ?>
+                                                                                if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
+                                                                                        ?>
 
 
                                                                                 <option selected value="AHORROS">AHORROS
@@ -212,9 +207,9 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                                                                 </option>
 
                                                                                 <?php
-}
-    if ($datos["dataTable"][$i]["TipoCuenta"] == "CORRIENTE") {
-        ?>
+                                                                                 }
+                                                                                     if ($datos["dataTable"][$i]["TipoCuenta"] == "CORRIENTE") {
+                                                                                         ?>
 
 
                                                                                 <option value="AHORROS">AHORROS
@@ -223,9 +218,9 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                                                                     CORRIENTE
                                                                                 </option>
                                                                                 <?php
-}
+                                                                        }
 
-    ?>
+                                                                            ?>
                                                                             </select>
                                                                         </div>
                                                                         <div class="col-sm-6 mb-3 mb-sm-0">
@@ -269,7 +264,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                                     </div>
                                                 </div>
                                                 <!-- ver Modal-->
-                                                <div class="modal fade"
+                                                <div class="modal fade"                                                                                
                                                     id="modal-default<?php print $datos['dataTable'][$i]['IdServicio'];?>a">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
@@ -432,12 +427,13 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                                                     <div class=" col-sm-12 mb-3 mb-sm-0">
                                                                         <label class="col-form-label" for="tipoCuenta2">
                                                                             Cuerpo Descripcion:</label>
-                                                                        <div class='border  p-2 rounded pt-1 pb-1' style='background-color: #E2E7EA;
-                                                                        border-color: #D1D1D1 !important;' >
-                                                                        <?php print $datos['dataTable'][$i]['CuerpoDescripcion'];?>
+                                                                        <div class='border  p-2 rounded pt-1 pb-1'
+                                                                            style='background-color: #E2E7EA;
+                                                                        border-color: #D1D1D1 !important;'>
+                                                                            <?php print $datos['dataTable'][$i]['CuerpoDescripcion'];?>
                                                                         </div>
-                                                                              
-                                                                        
+
+
 
 
 
@@ -539,7 +535,8 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
         <div class="modal fade" id="modal-defaultagregar">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <form action="<?php print RUTA;?>AdminControlador/AgregarServicios" method="POST"  enctype="multipart/form-data">
+                    <form action="<?php print RUTA;?>AdminControlador/AgregarServicios" method="POST"
+                        enctype="multipart/form-data">
                         <div class="modal-header">
                             <h4 class="modal-title">Agregar
                                 Servicio:</h4>
@@ -585,8 +582,8 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                             <option selected="selected">Selecciona</option>
 
                                             <?php foreach ($datos['datatable3'] as $elemento) {
-                                            echo "<option value=".$elemento['Tipo'].">" . $elemento['Tipo'] . "</option>";  
-                                    }?>
+                                                echo "<option value=" . $elemento['Tipo'] . ">" . $elemento['Tipo'] . "</option>";
+                                            }?>
 
                                         </select>
                                     </div>
@@ -619,7 +616,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                         </select>
                                     </div>
                                 </div>
-                                <div id="divOcultar2"  class="col-sm-3 mb-2 mb-sm-0  ocult">
+                                <div id="divOcultar2" class="col-sm-3 mb-2 mb-sm-0  ocult">
                                     <label for="numeroCuenta" class="col-form-label">Fecha Examen:</label>
                                     <input type="date" value="<?php //print $datos['dataTable'][$i]['NumeroCuenta'];?>"
                                         name="FechaExamen" class="form-control">
@@ -647,21 +644,24 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                             <option selected="selected">Selecciona</option>
 
                                             <?php foreach ($datos['datatable4'] as $elemento) {
-                                            echo "<option value=".$elemento['NombreProducto'].">" . $elemento['NombreProducto'] . "</option>";  
-                                    }?>
+                                                
+                                                echo "<option value=" . $elemento['NombreProducto'] . ">" . $elemento['NombreProducto'] . "</option>";
+                                            }?>
 
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 mb-2 mb-sm-0">
                                     <label for="saldo3" class="col-form-label">Expositores:</label>
-                                    <div class="form-group  ">
+                                    <div class="form-group  ">                                            
 
-                                        <select class="select2" name="Expositores" multiple="multiple"
+                                        <select class="select2" name="Expositores[]" multiple="multiple"
                                             data-placeholder="Selecciona los expositores" style="width: 100%;">
                                             <?php foreach ($datos['datatable5'] as $elemento) {
-                                            echo "<option value=". $elemento['Prefijo'] ." ". $elemento['ApellidoPaterno']  . " ". $elemento['ApellidoMaterno']  ." ". $elemento['Nombre']  .">" . $elemento['Prefijo'] ." ". $elemento['ApellidoPaterno']  . " ". $elemento['ApellidoMaterno']  ." ". $elemento['Nombre']  ."</option>";  
-                                    }?>
+                                                $valor = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                $textoVisible = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                echo "<option value='" . htmlspecialchars($valor) . "'>" . htmlspecialchars($textoVisible) . "</option>";
+                                            }?>
                                         </select>
                                     </div>
                                 </div>
@@ -679,11 +679,12 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                         Convenio:</label>
                                     <div class="form-group  ">
 
-                                        <select class="select2" name="Convenio" 
-                                            data-placeholder="Selecciona Convenio" style="width: 100%;">
+                                        <select class="select2" name="Convenio" data-placeholder="Selecciona Convenio"
+                                            style="width: 100%;">
+                                            <option selected="selected">Selecciona</option>
                                             <?php foreach ($datos['datatable6'] as $elemento) {
-                                            echo "<option value=".$elemento['NombreInstitucion'].">" . $elemento['NombreInstitucion'] ." </option>";  
-                                    }?>
+                                            echo "<option value=" . $elemento['NombreInstitucion'] . ">" . $elemento['NombreInstitucion'] . " </option>";
+                                            }?>
                                         </select>
                                     </div>
                                 </div>
@@ -697,7 +698,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                             <hr width="98%" size="1" class="mb-1" style="border-color: #858796; border-style: dashed;">
                             <div class="mb-1 row">
                                 <div class="col-sm-12 mb-2 mb-sm-0">
-                                <label for="numeroCuenta" class="col-form-label">Cuerpo Descripcion:</label>
+                                    <label for="numeroCuenta" class="col-form-label">Cuerpo Descripcion:</label>
                                     <textarea name="descripcion" id="summernote2">
                                         Escribe <em>tu</em> <u>descripcion</u> <strong>aqui</strong>
                                     </textarea>
@@ -724,7 +725,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                             class="text-decoration-none text-prymari">[QUITAR]</a></label>
                                     <div class="w-100  img-thumbnail ">
                                         <img id="imagePreview3" class="w-100 h-75"
-                                            src="<?php print RUTA; ?>public/img/fondoblanco.png"
+                                            src="<?php print RUTA;?>public/img/fondoblanco.png"
                                             alt="Vista previa de la imagen">
 
                                     </div>
@@ -749,7 +750,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                             class="text-decoration-none text-prymari">[QUITAR]</a></label>
                                     <div class="w-100  img-thumbnail ">
                                         <img id="imagePreview4" class="w-100 h-75"
-                                            src="<?php print RUTA; ?>public/img/fondoblanco.png"
+                                            src="<?php print RUTA;?>public/img/fondoblanco.png"
                                             alt="Vista previa de la imagen">
 
                                     </div>
@@ -774,7 +775,7 @@ if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
                                             class="text-decoration-none text-prymari">[QUITAR]</a></label>
                                     <div class="w-100  img-thumbnail ">
                                         <img id="imagePreview2" class="w-100 h-75"
-                                            src="<?php print RUTA; ?>public/img/fondoblanco.png"
+                                            src="<?php print RUTA;?>public/img/fondoblanco.png"
                                             alt="Vista previa de la imagen">
 
                                     </div>

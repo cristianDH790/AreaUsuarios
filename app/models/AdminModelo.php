@@ -478,6 +478,36 @@ class AdminModelo
         $data = $this->db->querySelect($sql);
         return $data;
     }
+    public function AgregarExpositoresServicios($dataExpositores)
+    {
+        $sql = "INSERT INTO expositoresservicio VALUES(0,";
+        $sql .= "'" . $dataExpositores['Id'] . "',"; 
+        $sql .= "'" . $dataExpositores['Expositores'] . "');";
+
+        $r2 = $this->db->queryNoSelect($sql);
+
+        return $r2;
+
+    }
+    public function borrarServicios($id)
+    {
+
+        $sql = "DELETE  FROM   servicios WHERE IdServicio=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
+    public function borrarExpositiresServicios($id)
+    {
+
+        $sql = "DELETE  FROM   expositoresservicio WHERE IdExpositoresServicio=" . $id;
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }
+    
     
     
     
