@@ -159,99 +159,408 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <div class="mb-2 row">
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-8 mb-2 mb-sm-0">
                                                                             <label for="numeroCuenta"
-                                                                                class="col-form-label">Numero de
-                                                                                Cuenta:</label>
-                                                                            <input type="number"
-                                                                                value="<?php print $datos['dataTable'][$i]['NumeroCuenta'];?>"
-                                                                                name="numeroCuenta"
+                                                                                class="col-form-label">Nombre
+                                                                                Servicio:</label>
+                                                                            <input type="text"
+                                                                                placeholder="Nombre del servicio"
+                                                                                name="NombreServicio"
+                                                                                class="form-control"
+                                                                                value="<?php print $datos['dataTable'][$i]['NombreServicio'];?>">
+                                                                        </div>
+                                                                        <div class="col-sm-2 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Año:</label>
+                                                                            <input type="text"
+                                                                                value="<?php print $datos['dataTable'][$i]['Año'];?>"
+                                                                                name="Año" placeholder="Año"
                                                                                 class="form-control">
+                                                                        </div>
+                                                                        <div class=" col-sm-2 mb-2 mb-sm-0"><label
+                                                                                for="saldo3"
+                                                                                class="col-form-label">Precio:</label>
+                                                                            <input type="number" step="0.01"
+                                                                                value="<?php print $datos['dataTable'][$i]['Precio']; ?>"
+                                                                                name="Precio" placeholder="Precio"
+                                                                                id="numero_con_coma2"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-3 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Fecha
+                                                                                Inico:</label>
+                                                                            <input type="date"
+                                                                                value="<?php print $datos['dataTable'][$i]['FechaInicio']; ?>"
+                                                                                name="FechaInicio" class="form-control">
+                                                                        </div>
+                                                                        <div class="col-sm-3 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Fecha
+                                                                                Fin:</label>
+                                                                            <input type="date"
+                                                                                value="<?php print $datos['dataTable'][$i]['FechaFin'];?>"
+                                                                                name="FechaFin" class="form-control">
+                                                                        </div>
+                                                                        <div class="col-sm-3 mb-2 mb-sm-0"><label
+                                                                                for="saldo3"
+                                                                                class="col-form-label">Tipo:</label>
+                                                                            <div class="form-group">
+                                                                                <select class="form-control select2"
+                                                                                    name="Tipo" style="width: 100%;">
+
+                                                                                    <?php foreach ($datos['datatable3'] as $elemento) {
+                                                                                        $selected = ($elemento['Tipo'] === $datos['dataTable'][$i]['Tipo']) ? 'selected' : '';
+                                                                                        echo "<option value=" . $elemento['Tipo'] . " $selected>" . $elemento['Tipo'] . "</option>";
+                                                                                    }?>
+
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-3 mb-2 mb-sm-0"><label
+                                                                                for="saldo3"
+                                                                                class="col-form-label">Certificado:</label>
+                                                                            <div class="form-group">
+
+                                                                                <select name="Certificado"
+                                                                                    class="form-control select2"
+                                                                                    style="width: 100%;">
+                                                                                    <?php if($datos['dataTable'][$i]['Certificado']=="CON CERTIFICADO"){
+                                                                                        ?>
+                                                                                    <option value="SIN CERTIFICADO">SIN
+                                                                                        CERTIFICADO</option>
+                                                                                    <option selected
+                                                                                        value="CON CERTIFICADO">CON
+                                                                                        CERTIFICADO</option>
+                                                                                    <?php
+                                                                                    }else{
+                                                                                        ?>
+                                                                                    <option selected
+                                                                                        value="SIN CERTIFICADO">SIN
+                                                                                        CERTIFICADO</option>
+                                                                                    <option value="CON CERTIFICADO">CON
+                                                                                        CERTIFICADO</option>
+                                                                                    <?php
+                                                                                    } ?>
+
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="mb-1 row">
+
+                                                                        <div id="divOcultar1Nuevo"
+                                                                            class="col-sm-4 mb-2 mb-sm-0"><label
+                                                                                for="saldo3"
+                                                                                class="col-form-label">Examen:</label>
+                                                                            <div class="form-group">
+
+                                                                                <select name="Examen"
+                                                                                    class="form-control select2"
+                                                                                    style="width: 100%;">
+                                                                                    <?php if($datos['dataTable'][$i]['Certificado']=="CON EXAMEN"){
+                                                                                        ?>
+                                                                                    <option value="SIN EXAMEN">SIN
+                                                                                        EXAMEN</option>
+                                                                                    <option selected value="CON EXAMEN">
+                                                                                        CON
+                                                                                        EXAMEN</option>
+                                                                                    <?php
+                                                                                    }else{
+                                                                                        ?>
+                                                                                    <option selected value="SIN EXAMEN">
+                                                                                        SIN
+                                                                                        EXAMEN</option>
+                                                                                    <option value="CON EXAMEN">CON
+                                                                                        EXAMEN</option>
+                                                                                    <?php
+                                                                                    } ?>
+
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class=" col-sm-3 mb-3 mb-sm-0"
+                                                                            for="saldo2">
+                                                                            <label class="col-form-label">Fecha
+                                                                                Examen:</label>
+                                                                            <input type="date"
+                                                                                value="<?php print $datos['dataTable'][$i]['FechaExamen'];?>"
+                                                                                name="saldo2" class="form-control">
+                                                                        </div>
+
+
+                                                                        <div id="divOcultarCert1Nuevo"
+                                                                            class="col-sm-2 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">hora:</label>
+                                                                            <input type="number " placeholder="Hora"
+                                                                                inputmode="numeric"
+                                                                                value="<?php print $datos['dataTable'][$i]['Hora'];?>"
+                                                                                name="Hora" class="form-control">
+                                                                        </div>
+                                                                        <div id="divOcultarCert2Nuevo"
+                                                                            class=" col-sm-3 mb-2 mb-sm-0"><label
+                                                                                for="saldo3" class="col-form-label">tipo
+                                                                                Hora:</label>
+                                                                            <input type="text" placeholder="Tipo Hora "
+                                                                                value="<?php print $datos['dataTable'][$i]['TipoHora']; ?>"
+                                                                                name="TipoHora" id="numero_con_coma2"
+                                                                                class="form-control">
+                                                                        </div>
+
+
+
+
+
+
+
+                                                                        <div class="col-sm-6 mb-2 mb-sm-0"><label
+                                                                                for="saldo3"
+                                                                                class="col-form-label">Producto:</label>
+                                                                            <div class="form-group">
+
+                                                                                <select name="Producto"
+                                                                                    class="form-control select2"
+                                                                                    style="width: 100%;">
+
+                                                                                    <?php foreach ($datos['datatable4'] as $elemento) {
+                                                                                        $selected = ($elemento['NombreProducto'] === $datos['dataTable'][$i]['Producto']) ? 'selected' : '';
+                                                                                        echo "<option value=" . $elemento['NombreProducto'] . " $selected>" . $elemento['NombreProducto'] . "</option>";
+                                                                                    }?>
+
+
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col-sm-6 mb-2 mb-sm-0">
-                                                                            <label for="nombreBanco"
-                                                                                class="col-form-label">Nombre de
-                                                                                Banco:</label>
+                                                                            <label for="saldo3"
+                                                                                class="col-form-label">Expositores:</label>
+                                                                            <div class="form-group  ">
+
+                                                                                <select class="select2"
+                                                                                    name="Expositores[]"
+                                                                                    multiple="multiple"
+                                                                                    data-placeholder="Selecciona los expositores"
+                                                                                    style="width: 100%;">
+
+                                                                                    <?php 
+                                                                                    $arrayFiltrado = [];
+                                                                                    // Filtrar los expositores seleccionados con 'IdExpositoresServicio' igual a 1
+                                                                                    foreach ($datos['datatable2'] as $elemento) {
+                                                                                        if ($elemento["IdExpositoresServicio"] === $datos['dataTable'][$i]['IdNumeroServicio']) {
+                                                                                            $arrayFiltrado[] = $elemento;
+                                                                                        }
+                                                                                    }
+                                                                                    
+                                                                                    // Generar las opciones del menú desplegable
+                                                                                    foreach ($datos['datatable5'] as $elemento) {
+                                                                                        $valor = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                                                        $textoVisible = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                                                    
+                                                                                        // Verificar si el expositor está en la lista de expositores seleccionados
+                                                                                        $encontrado = false;
+                                                                                        foreach ($arrayFiltrado as $expositorSeleccionado) {
+                                                                                            if ($valor === $expositorSeleccionado['NombreExpositor']) {
+                                                                                                $encontrado = true;
+                                                                                                break;
+                                                                                            }
+                                                                                        }
+                                                                                    
+                                                                                        // Establecer 'selected' si el expositor está en la lista de seleccionados
+                                                                                        $selected = $encontrado ? 'selected' : '';
+                                                                                    
+                                                                                        echo "<option value='" . htmlspecialchars($valor) . "' $selected >" . htmlspecialchars($textoVisible) . "</option>";
+                                                                                    }
+                                                                                    
+                                                                                        //$valor = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                                                        //$textoVisible = $elemento['Prefijo'] . " " . $elemento['ApellidoPaterno'] . " " . $elemento['ApellidoMaterno'] . " " . $elemento['Nombre'];
+                                                                                        //echo "<option value='" . htmlspecialchars($valor) . "'>" . htmlspecialchars($textoVisible) . "</option>";
+                                                                                    ?>
+
+
+                                                                                </select>
+
+
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr width="98%" size="1" class="mb-1"
+                                                                            style="border-color: #858796; border-style: dashed;">
+                                                                    </div>
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-4 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Titulo
+                                                                                Descripcion:</label>
                                                                             <input type="text"
-                                                                                value="<?php print $datos['dataTable'][$i]['NombreBanco'];?>"
-                                                                                name="nombreBanco" class="form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mb-2">
-                                                                        <label for="nombreTitular"
-                                                                            class="col-form-label">Nombre
-                                                                            de
-                                                                            Titular:</label>
-                                                                        <input type="text"
-                                                                            value="<?php print $datos['dataTable'][$i]['NombreTitular'];?>"
-                                                                            name="nombreTitular" class="form-control">
-                                                                    </div>
-                                                                    <div class="mb-2 row">
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                            <label for="tipoCuenta"
-                                                                                class="col-form-label">Tipo
-                                                                                de
-                                                                                Cuenta:</label>
-                                                                            <select class="form-control form-control"
-                                                                                name="tipoCuenta" id="exampleSelect">
-                                                                                <?php
-                                                                                if ($datos["dataTable"][$i]["TipoCuenta"] == "AHORROS") {
-                                                                                        ?>
-
-
-                                                                                <option selected value="AHORROS">AHORROS
-                                                                                </option>
-                                                                                <option value="CORRIENTE">
-                                                                                    CORRIENTE
-                                                                                </option>
-
-                                                                                <?php
-                                                                                 }
-                                                                                     if ($datos["dataTable"][$i]["TipoCuenta"] == "CORRIENTE") {
-                                                                                         ?>
-
-
-                                                                                <option value="AHORROS">AHORROS
-                                                                                </option>
-                                                                                <option selected value="CORRIENTE">
-                                                                                    CORRIENTE
-                                                                                </option>
-                                                                                <?php
-                                                                        }
-
-                                                                            ?>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                            <label for="saldo"
-                                                                                class="col-form-label">Saldo:</label>
-                                                                            <input type="number" step="0.01"
-                                                                                value="<?php print $datos['dataTable'][$i]['Saldo'];?>"
-                                                                                name="saldo" id="numero_con_coma"
+                                                                                value="<?php print $datos['dataTable'][$i]['TituloDescripcion'];?>"
+                                                                                name="TituloDescripcion"
+                                                                                placeholder="Titulo Descripcion"
                                                                                 class="form-control">
                                                                         </div>
-                                                                        <script>
-                                                                        // Obtener el campo de entrada
-                                                                        var campoNumero = document
-                                                                            .getElementById(
-                                                                                'numero_con_coma');
+                                                                        <div class="col-sm-4 mb-2 mb-sm-0">
+                                                                            <label for="saldo3" class="col-form-label">
+                                                                                Convenio:</label>
+                                                                            <div class="form-group  ">
 
-                                                                        // Escuchar el evento de entrada para el campo
-                                                                        campoNumero.addEventListener('input',
-                                                                            function() {
-                                                                                // Reemplazar los puntos por comas en el valor del campo
-                                                                                this.value = this.value
-                                                                                    .replace(
-                                                                                        /\./g, ',');
-                                                                            });
-                                                                        </script>
-                                                                        <input type="number"
-                                                                            value="<?php print $datos['dataTable'][$i]['IdBanco'];?>"
-                                                                            name="idBanco" class="form-control d-none">
+                                                                                <select class="select2" name="Convenio"
+                                                                                    data-placeholder="Selecciona Convenio"
+                                                                                    style="width: 100%;">
+                                                                                    
+                                                                                    <?php /*foreach ($datos['datatable6'] as $elemento) {
+                                                                                    echo "<option value=" . $elemento['NombreInstitucion'] . ">" . $elemento['NombreInstitucion'] . " </option>";
+                                                                                    }*/?>
+                                                                                    <?php foreach ($datos['datatable6'] as $elemento) {
+                                                                                        $selected = ($elemento['NombreInstitucion'] === $datos['dataTable'][$i]['Convenio']) ? 'selected' : '';
+                                                                                        echo "<option value=" . $elemento['NombreInstitucion'] . " $selected>" . $elemento['NombreInstitucion'] . "</option>";
+                                                                                    }?>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Inversion:</label>
+                                                                            <input type="number"
+                                                                                value="<?php print $datos['dataTable'][$i]['Inversion'];?>"
+                                                                                name="Inversion" placeholder="Inversion"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr width="98%" size="1" class="mb-1"
+                                                                        style="border-color: #858796; border-style: dashed;">
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-12 mb-2 mb-sm-0">
+                                                                            <label for="numeroCuenta"
+                                                                                class="col-form-label">Cuerpo
+                                                                                Descripcion:</label>
+                                                                            <textarea class="summernote2"
+                                                                                name="descripcion" id="summernote2">
+                                                                                <?php print $datos['dataTable'][$i]['CuerpoDescripcion'];?>
+                                                                            </textarea>
+                                                                            <?php //TEXBOX2 ?>
+                                                                            <script>
+
+                                                                            </script>
+
+                                                                        </div>
 
                                                                     </div>
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-7 mb-3 mb-sm-0">
+                                                                            <label>Seleccionar Certificado Frontal
+                                                                                :</label>
+                                                                            <div class="custom-file">
+                                                                                <input type="file"
+                                                                                    class="custom-file-input"
+                                                                                    id="newFileInput7" accept="image/*"
+                                                                                    name="CertificadoFrontal"
+                                                                                    onchange="mostrarVistaPrevia(this, newImagePreview7)">
+                                                                                <label class="custom-file-label"
+                                                                                    for="newFileInput7">Elegir
+                                                                                    archivo</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-5 mb-2 mb-sm-0">
+                                                                            <label for="directorAcademico3"
+                                                                                class="col-form-label">Vista previa:
+                                                                            </label>
+                                                                            <div class="w-100 img-thumbnail">
+                                                                                <img id="newImagePreview7"
+                                                                                    class="w-100 h-75"
+                                                                                    src="<?php print RUTA; ?>public/img/ImgServicios/<?php print $datos['dataTable'][$i]['CertificadoFrontal']; ?>"
+                                                                                    alt="Vista previa de la imagen">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr width="98%" size="1"
+                                                                        style="border-color: #858796; border-style: dashed;">
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-7 mb-3 mb-sm-0">
+                                                                            <label>Seleccionar Certificado
+                                                                                Reverso::</label>
+                                                                            <div class="custom-file">
+                                                                                <input type="file"
+                                                                                    class="custom-file-input"
+                                                                                    id="newFileInput8" accept="image/*"
+                                                                                    name="CertificadoReverso"
+                                                                                    onchange="mostrarVistaPrevia(this, newImagePreview8)">
+                                                                                <label class="custom-file-label"
+                                                                                    for="newFileInput8">Elegir
+                                                                                    archivo</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-5 mb-2 mb-sm-0">
+                                                                            <label for="directorAcademico3"
+                                                                                class="col-form-label">Vista previa:
+                                                                            </label>
+                                                                            <div class="w-100 img-thumbnail">
+                                                                                <img id="newImagePreview8"
+                                                                                    class="w-100 h-75"
+                                                                                    src="<?php print RUTA; ?>public/img/ImgServicios/<?php print $datos['dataTable'][$i]['CertificadoReverso']; ?>"
+                                                                                    alt="Vista previa de la imagen">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr width="98%" size="1"
+                                                                        style="border-color: #858796; border-style: dashed;">
+                                                                    <div class="mb-1 row">
+                                                                        <div class="col-sm-7 mb-3 mb-sm-0">
+                                                                            <label>Seleccionar Banner
+                                                                                :</label>
+                                                                            <div class="custom-file">
+                                                                                <input type="file"
+                                                                                    class="custom-file-input"
+                                                                                    id="newFileInput9" accept="image/*"
+                                                                                    name="Banner"
+                                                                                    onchange="mostrarVistaPrevia(this, newImagePreview9)">
+                                                                                <label class="custom-file-label"
+                                                                                    for="newFileInput9">Elegir
+                                                                                    archivo</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-5 mb-2 mb-sm-0">
+                                                                            <label for="directorAcademico3"
+                                                                                class="col-form-label">Vista previa:
+                                                                            </label>
+                                                                            <div class="w-100 img-thumbnail">
+                                                                                <img id="newImagePreview9"
+                                                                                    class="w-100 h-75"
+                                                                                    src="<?php print RUTA; ?>public/img/ImgServicios/<?php print $datos['dataTable'][$i]['Banner']; ?>"
+                                                                                    alt="Vista previa de la imagen">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+
+
+
+
+                                                                    <script>
+                                                                    // Obtener el campo de entrada
+                                                                    var campoNumero = document.getElementById(
+                                                                        'numero_con_coma2');
+
+                                                                    // Escuchar el evento de entrada para el campo
+                                                                    campoNumero.addEventListener('input', function() {
+                                                                        // Reemplazar los puntos por comas en el valor del campo
+                                                                        this.value = this.value.replace(/\./g,
+                                                                            ',');
+                                                                    });
+                                                                    </script>
+
+
+
+
                                                                 </div>
+
 
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-default"
@@ -264,7 +573,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- ver Modal-->
-                                                <div class="modal fade"                                                                                
+                                                <div class="modal fade"
                                                     id="modal-default<?php print $datos['dataTable'][$i]['IdServicio'];?>a">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
@@ -392,7 +701,7 @@
                                                                         echo "<ol class='border  rounded pt-1 pb-1' style='background-color: #E2E7EA;
                                                                         border-color: #D1D1D1 !important;'>";
                                                                         foreach ($datos['datatable2'] as $elemento) {
-                                                                            if ($elemento['IdExpositoresServicio'] === '1') {
+                                                                            if ($elemento['IdExpositoresServicio'] === $datos['dataTable'][$i]['IdNumeroServicio']) {
                                                                                 echo "<li>" . $elemento['NombreExpositor'] . "</li>";
 
                                                                             }
@@ -492,6 +801,8 @@
 
 
                                                             </div>
+
+
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default"
                                                                     data-dismiss="modal">Close</button>
@@ -639,8 +950,7 @@
                                         class="col-form-label">Producto:</label>
                                     <div class="form-group">
 
-                                        <select id="miSelect" name="Producto" class="form-control select2"
-                                            style="width: 100%;">
+                                        <select name="Producto" class="form-control select2" style="width: 100%;">
                                             <option selected="selected">Selecciona</option>
 
                                             <?php foreach ($datos['datatable4'] as $elemento) {
@@ -653,7 +963,7 @@
                                 </div>
                                 <div class="col-sm-6 mb-2 mb-sm-0">
                                     <label for="saldo3" class="col-form-label">Expositores:</label>
-                                    <div class="form-group  ">                                            
+                                    <div class="form-group  ">
 
                                         <select class="select2" name="Expositores[]" multiple="multiple"
                                             data-placeholder="Selecciona los expositores" style="width: 100%;">
@@ -699,10 +1009,13 @@
                             <div class="mb-1 row">
                                 <div class="col-sm-12 mb-2 mb-sm-0">
                                     <label for="numeroCuenta" class="col-form-label">Cuerpo Descripcion:</label>
-                                    <textarea name="descripcion" id="summernote2">
+                                    <textarea name="descripcion" id="summernote">
                                         Escribe <em>tu</em> <u>descripcion</u> <strong>aqui</strong>
                                     </textarea>
                                     <?php //TEXBOX2 ?>
+                                    <script>
+
+                                    </script>
 
                                 </div>
 

@@ -146,14 +146,12 @@ $(function() {
 <!-- toast de error-->
 <script src="<?php print RUTA;?>public/js/toast.js"></script>
 
-<script src="<?php print RUTA;?>public/js/OcultarImputs.js"></script>
 
 
 
 
 
 
-<!-- ./wrapper -->
 
 
 <!-- Summernote -->
@@ -167,27 +165,18 @@ $(function() {
 <!-- Page specific script -->
 <script>
 $(function() {
-    // Inicializar Summernote
-    var summernote = $('#summernote');
-    summernote.summernote({
-        // Restringir la edición
-        callbacks: {
-            onInit: function() {
-                $('.note-editable').attr('contenteditable', false);
-            }
-        }
-    });
+    // Summernote
+    $('.summernote2').summernote();
 
-    // Deshabilitar CodeMirror
+    // CodeMirror
     CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
         mode: "htmlmixed",
-        theme: "monokai",
-        readOnly: true // Esto hará que el editor de CodeMirror sea solo de lectura
+        theme: "monokai"
     });
-});
+})
 $(function() {
     // Summernote
-    $('#summernote2').summernote()
+    $('#summernote').summernote();
 
     // CodeMirror
     CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {

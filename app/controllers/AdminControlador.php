@@ -491,7 +491,6 @@ class AdminControlador extends Controlador
             header("Location:" . RUTA . "AdminControlador/UsuariosAdmin");
             exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-            
         } else {
             $data = $this->modelo->getUsuariosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -539,7 +538,6 @@ class AdminControlador extends Controlador
             header("Location:" . RUTA . "AdminControlador/BancosAdmin");
             exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-            
         } else {
             $data = $this->modelo->getBancosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -703,7 +701,6 @@ class AdminControlador extends Controlador
             $FirmaDirector = isset($_FILES['archivo3']['name']) ? $_FILES['archivo3']['name'] : "";
             $Sello = isset($_FILES['archivo4']['name']) ? $_FILES['archivo4']['name'] : "";
 
-            
             //validacion
             if ($TextoFirmaDirector == "") {
                 array_push($errores, "El Texto firma director es requerido<br>    ");
@@ -730,10 +727,11 @@ class AdminControlador extends Controlador
                 $rutaTemporal3 = $_FILES['archivo3']['tmp_name'];
                 $rutaTemporal4 = $_FILES['archivo4']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Logo);
                 $nombreArchivo2 = generarNombreUnico($FirmaDecano);
@@ -893,78 +891,60 @@ class AdminControlador extends Controlador
         // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
         $nombresImagenes = $this->modelo->obtenerNombreImagen($id);
         /*if (!empty($array)) {*/
-            $var = true;
-            $imagen1 = $nombresImagenes[0]['Logo'];
-            $imagen2 = $nombresImagenes[0]['FirmaDecano'];
-            $imagen3 = $nombresImagenes[0]['FirmaDirector'];
-            $imagen4 = $nombresImagenes[0]['Sello'];
+        $var = true;
+        $imagen1 = $nombresImagenes[0]['Logo'];
+        $imagen2 = $nombresImagenes[0]['FirmaDecano'];
+        $imagen3 = $nombresImagenes[0]['FirmaDirector'];
+        $imagen4 = $nombresImagenes[0]['Sello'];
 
-            unlink('img\ImgConvenio/' . $imagen1);
-            unlink('img\ImgConvenio/' . $imagen2);
-            unlink('img\ImgConvenio/' . $imagen3);
-            unlink('img\ImgConvenio/' . $imagen4);
+        unlink('img\ImgConvenio/' . $imagen1);
+        unlink('img\ImgConvenio/' . $imagen2);
+        unlink('img\ImgConvenio/' . $imagen3);
+        unlink('img\ImgConvenio/' . $imagen4);
 
-            //verificar si se borro las imagenes
-            $imagenesEliminadas = true;
+        //verificar si se borro las imagenes
+        $imagenesEliminadas = true;
 
-            if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
-                $imagenesEliminadas = false;
+        if (file_exists('img\ImgConvenio/' . $imagen1) && file_exists('img\ImgConvenio/' . $imagen2) && file_exists('img\ImgConvenio/' . $imagen3) && file_exists('img\ImgConvenio/' . $imagen4)) {
+            $imagenesEliminadas = false;
 
-            }
-            // Recorrer los nombres de las imágenes y borrarlas de la carpeta
-            /*foreach ($nombresImagenes as $imagen) {
+        }
+        // Recorrer los nombres de las imágenes y borrarlas de la carpeta
+        /*foreach ($nombresImagenes as $imagen) {
 
-            if (file_exists('img\ImgConvenio/' . $imagen)) {
-            unlink('img\ImgConvenio/' . $imagen);
-            }
-            }*/
+        if (file_exists('img\ImgConvenio/' . $imagen)) {
+        unlink('img\ImgConvenio/' . $imagen);
+        }
+        }*/
 
-            if ($imagenesEliminadas) {
-                // Borrar el convenio en la base de datos
-                $dato = $this->modelo->borrarConvenio($id);
+        if ($imagenesEliminadas) {
+            // Borrar el convenio en la base de datos
+            $dato = $this->modelo->borrarConvenio($id);
 
-                if ($dato) {
+            if ($dato) {
 
-                    $data = $this->modelo->getConveniosAdmin();
-                    array_push($errores, "Convenio Eliminado");
-                    $datos = [
-                        "titulo" => "Convenio Admin",
-                        //"menu" => false,
-                        "errores" => $errores,
-                        "color" => "success",
-                        "data" => $res,
-                        //"data2" => $data2,
-                        "dataTable" => $data,
+                $data = $this->modelo->getConveniosAdmin();
+                array_push($errores, "Convenio Eliminado");
+                $datos = [
+                    "titulo" => "Convenio Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "success",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
 
-                    ];
-                    // Inicia o reanuda la sesión
-                    session_start();
+                ];
+                // Inicia o reanuda la sesión
+                session_start();
 
-                    // Almacena los datos en la sesión
-                    $_SESSION['datos'] = $datos;
+                // Almacena los datos en la sesión
+                $_SESSION['datos'] = $datos;
 
-                    // Redirige a la página de destino
-                    header("Location:" . RUTA . "AdminControlador/ConveniosAdmin");
-                    exit(); // Asegura que se detenga la ejecución del script después de la redirección
+                // Redirige a la página de destino
+                header("Location:" . RUTA . "AdminControlador/ConveniosAdmin");
+                exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-                    
-                } else {
-                    $data = $this->modelo->getConveniosAdmin();
-                    array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
-                    $datos = [
-                        "titulo" => "Convenio Admin",
-                        //"menu" => false,
-                        "errores" => $errores,
-                        "color" => "error",
-                        "data" => $res,
-                        //"data2" => $data2,
-                        "dataTable" => $data,
-
-                    ];
-                    $this->vista("ConveniosAdmin", $datos);
-                }
-
-                
             } else {
                 $data = $this->modelo->getConveniosAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -981,23 +961,39 @@ class AdminControlador extends Controlador
                 $this->vista("ConveniosAdmin", $datos);
             }
 
-            // Resto del código para mensajes de éxito y actualización de la vista
-
-        /*} else {
+        } else {
             $data = $this->modelo->getConveniosAdmin();
-            array_push($errores, "Convenio Eliminado");
+            array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
             $datos = [
                 "titulo" => "Convenio Admin",
                 //"menu" => false,
                 "errores" => $errores,
-                "color" => "success",
+                "color" => "error",
                 "data" => $res,
                 //"data2" => $data2,
                 "dataTable" => $data,
 
             ];
             $this->vista("ConveniosAdmin", $datos);
-        }*/
+        }
+
+        // Resto del código para mensajes de éxito y actualización de la vista
+
+        /*} else {
+    $data = $this->modelo->getConveniosAdmin();
+    array_push($errores, "Convenio Eliminado");
+    $datos = [
+    "titulo" => "Convenio Admin",
+    //"menu" => false,
+    "errores" => $errores,
+    "color" => "success",
+    "data" => $res,
+    //"data2" => $data2,
+    "dataTable" => $data,
+
+    ];
+    $this->vista("ConveniosAdmin", $datos);
+    }*/
 
     }
     public function EditarConvenio($id)
@@ -1056,16 +1052,16 @@ class AdminControlador extends Controlador
                 $rutaTemporal3 = $_FILES['archivo3']['tmp_name'];
                 $rutaTemporal4 = $_FILES['archivo4']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Logo);
                 $nombreArchivo2 = generarNombreUnico($FirmaDecano);
                 $nombreArchivo3 = generarNombreUnico($FirmaDirector);
                 $nombreArchivo4 = generarNombreUnico($Sello);
-
 
                 if ($Logo == "") {
 
@@ -1293,13 +1289,13 @@ class AdminControlador extends Controlador
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Foto);
-                
 
                 if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
                     $AgregueCarpeta1 = true;
@@ -1473,7 +1469,6 @@ class AdminControlador extends Controlador
                 header("Location:" . RUTA . "AdminControlador/ExpositoresAdmin");
                 exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-               
             } else {
                 $data = $this->modelo->getExpositoresAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -1575,13 +1570,13 @@ class AdminControlador extends Controlador
 
                 $rutaTemporal1 = $_FILES['archivo1']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Foto);
-                
 
                 if ($Foto == "") {
 
@@ -1735,7 +1730,6 @@ class AdminControlador extends Controlador
             $Foto1 = isset($_FILES['ImagenFirma']['name']) ? $_FILES['ImagenFirma']['name'] : "";
             $Foto2 = isset($_FILES['ImagenSello']['name']) ? $_FILES['ImagenSello']['name'] : "";
 
-           
             //validacion
             if ($Alias == "") {
                 array_push($errores, "El Alias es requerido<br>    ");
@@ -1754,11 +1748,11 @@ class AdminControlador extends Controlador
                 $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
                 $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
 
-
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Foto1);
                 $nombreArchivo2 = generarNombreUnico($Foto2);
@@ -1768,7 +1762,7 @@ class AdminControlador extends Controlador
                     "Texto2" => $Texto2,
                     "ImagenFirma" => $nombreArchivo1,
                     "ImagenSello" => $nombreArchivo2,
-    
+
                 ];
 
                 if (move_uploaded_file($rutaTemporal1, $ruta . "/" . $nombreArchivo1)) {
@@ -1892,7 +1886,7 @@ class AdminControlador extends Controlador
     }
     public function borrarFirma($id)
     {
-        
+
         $sesion = new Sesion();
         $res = $sesion->getUsuario();
         $errores = array();
@@ -1954,7 +1948,6 @@ class AdminControlador extends Controlador
                 header("Location:" . RUTA . "AdminControlador/FirmasAdmin");
                 exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-                
             } else {
                 $data = $this->modelo->getFirmasAdmin();
                 array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -2046,10 +2039,11 @@ class AdminControlador extends Controlador
                 $rutaTemporal1 = $_FILES['ImagenFirma']['tmp_name'];
                 $rutaTemporal2 = $_FILES['ImagenSello']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($Foto1);
                 $nombreArchivo2 = generarNombreUnico($Foto2);
@@ -2076,7 +2070,6 @@ class AdminControlador extends Controlador
                     print("se remplaso");
                     $img2 = $Foto2;
                 }
-                
 
                 $data2 = [
                     "IdDirectorioFirmas" => $IdFirmas,
@@ -2320,7 +2313,6 @@ class AdminControlador extends Controlador
             header("Location:" . RUTA . "AdminControlador/ProductosAdmin");
             exit(); // Asegura que se detenga la ejecución del script después de la redirección
 
-            
         } else {
             $data = $this->modelo->getProductosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -2444,7 +2436,7 @@ class AdminControlador extends Controlador
             // print "hola desde la caratula "."<br>";
             $res = $sesion->getUsuario();
             $data = $this->modelo->getServiciosAdmin();
-            $expositores = $this->modelo->getExpositoresServicioAdmin();
+            $expositores2 = $this->modelo->getExpositoresServicioAdmin();
             $Tipos = $this->modelo->getTiposCursosAdmin();
             $Productos = $this->modelo->getProductosServiciosAdmin();
             $Expositores = $this->modelo->getExpositoresServiciosAdmin();
@@ -2454,7 +2446,7 @@ class AdminControlador extends Controlador
                 "titulo" => "Servicios Admin",
                 "data" => $res,
                 "dataTable" => $data,
-                "datatable2" => $expositores,
+                "datatable2" => $expositores2,
                 "datatable3" => $Tipos,
                 "datatable4" => $Productos,
                 "datatable5" => $Expositores,
@@ -2586,8 +2578,6 @@ class AdminControlador extends Controlador
                 }
             }
 
-           
-
             if (count($errores) == 0) {
 
                 $ruta = "img\ImgServicios"; // Ruta donde se guardarán las imágenes (asegúrate de tener permisos de escritura)
@@ -2596,10 +2586,11 @@ class AdminControlador extends Controlador
                 $rutaTemporal2 = $_FILES['CertificadoReverso']['tmp_name'];
                 $rutaTemporal3 = $_FILES['Banner']['tmp_name'];
 
-                function generarNombreUnico($nombreOriginal) {
+                function generarNombreUnico($nombreOriginal)
+                {
                     return uniqid() . '_' . $nombreOriginal;
                 }
-                
+
                 // Generar nombres únicos para los archivos
                 $nombreArchivo1 = generarNombreUnico($CertificadoFrontal);
                 $nombreArchivo2 = generarNombreUnico($CertificadoReverso);
@@ -2645,49 +2636,45 @@ class AdminControlador extends Controlador
                 ];
                 //ver los expositores
                 //$cantidadSeleccionada = count($Expositores);
-    
-                
-                
 
                 if ($AgregueCarpeta1 == true && $AgregueCarpeta2 == true && $AgregueCarpeta3 == true) {
 
-                    $n=0;
+                    $n = 0;
                     $resul = $this->modelo->AgregarServicios($data2);
                     //agregamos los expositores
                     foreach ($Expositores as $expositor) {
-                       
-                    
+
                         $dataExpositores = [
                             "Id" => $numeroSumado,
                             "Expositores" => $expositor,
                         ];
-                    
+
                         $resul2 = $this->modelo->AgregarExpositoresServicios($dataExpositores);
-                    
+
                         if ($resul2) {
                             $n++;
                         }
                     }
                     var_dump($Expositores);
-                    print"<br>";
+                    print "<br>";
                     print_r($n);
-                    
-                    
+
                     if ($resul) {
                         array_push($errores, "Servicio Registrado");
                         $res = $sesion->getUsuario();
                         $data = $this->modelo->getServiciosAdmin();
-                        $expositores = $this->modelo->getExpositoresServicioAdmin();
+                        $expositores2 = $this->modelo->getExpositoresServicioAdmin();
                         $Tipos = $this->modelo->getTiposCursosAdmin();
                         $Productos = $this->modelo->getProductosServiciosAdmin();
                         $Expositores = $this->modelo->getExpositoresServiciosAdmin();
-                        $Convenios = $this->modelo->getConveniosServiciosAdmin();
+                        $Convenios = $this->modelo->getConveniosServiciosAdmin();                     
+                       // $Expositoresporid = $this->modelo->ObtenerNombresExpositoresConId();
 
                         $datos = [
                             "titulo" => "Servicios Admin",
                             "data" => $res,
                             "dataTable" => $data,
-                            "datatable2" => $expositores,
+                            "datatable2" => $expositores2,
                             "datatable3" => $Tipos,
                             "datatable4" => $Productos,
                             "datatable5" => $Expositores,
@@ -2709,7 +2696,7 @@ class AdminControlador extends Controlador
 
                     } else {
                         $data = $this->modelo->getServiciosAdmin();
-                        $expositores = $this->modelo->getExpositoresServicioAdmin();
+                        $expositores2 = $this->modelo->getExpositoresServicioAdmin();
                         $Tipos = $this->modelo->getTiposCursosAdmin();
                         $Productos = $this->modelo->getProductosServiciosAdmin();
                         $Expositores = $this->modelo->getExpositoresServiciosAdmin();
@@ -2720,7 +2707,7 @@ class AdminControlador extends Controlador
                             "titulo" => "Servicios Admin",
                             "data" => $res,
                             "dataTable" => $data,
-                            "datatable2" => $expositores,
+                            "datatable2" => $$expositores2,
                             "datatable3" => $Tipos,
                             "datatable4" => $Productos,
                             "datatable5" => $Expositores,
@@ -2736,7 +2723,7 @@ class AdminControlador extends Controlador
                 } else {
 
                     $data = $this->modelo->getServiciosAdmin();
-                    $expositores = $this->modelo->getExpositoresServicioAdmin();
+                    $expositores2 = $this->modelo->getExpositoresServicioAdmin();
                     $Tipos = $this->modelo->getTiposCursosAdmin();
                     $Productos = $this->modelo->getProductosServiciosAdmin();
                     $Expositores = $this->modelo->getExpositoresServiciosAdmin();
@@ -2747,7 +2734,7 @@ class AdminControlador extends Controlador
                         "titulo" => "Servicios Admin",
                         "data" => $res,
                         "dataTable" => $data,
-                        "datatable2" => $expositores,
+                        "datatable2" => $expositores2,
                         "datatable3" => $Tipos,
                         "datatable4" => $Productos,
                         "datatable5" => $Expositores,
@@ -2789,7 +2776,7 @@ class AdminControlador extends Controlador
 
     }
 
-    public function BorrarServicio($IdServicios,$IdExpositor)
+    public function BorrarServicio($IdServicios, $IdExpositor)
     {
         $sesion = new Sesion();
         $res = $sesion->getUsuario();
@@ -2824,42 +2811,54 @@ class AdminControlador extends Controlador
         }
         if ($imagenesEliminadas) {
 
-        $dato = $this->modelo->borrarServicios($IdServicios);
-        $dato2 = $this->modelo->borrarExpositiresServicios($IdExpositor);
-        if ($dato && $dato2) {
-            
-            
-            $data = $this->modelo->getServiciosAdmin();
-            $expositores = $this->modelo->getExpositoresServicioAdmin();
-            $Tipos = $this->modelo->getTiposCursosAdmin();
-            $Productos = $this->modelo->getProductosServiciosAdmin();
-            $Expositores = $this->modelo->getExpositoresServiciosAdmin();
-            $Convenios = $this->modelo->getConveniosServiciosAdmin();
-            array_push($errores, "Servicio Eliminado");
-            
-            
-            $datos = [
-                "titulo" => "Servicios Admin",
-                "data" => $res,
-                "dataTable" => $data,
-                "datatable2" => $expositores,
-                "datatable3" => $Tipos,
-                "datatable4" => $Productos,
-                "datatable5" => $Expositores,
-                "datatable6" => $Convenios,
-                //"menu" => false
-            ];
-            // Inicia o reanuda la sesión
-            session_start();
+            $dato = $this->modelo->borrarServicios($IdServicios);
+            $dato2 = $this->modelo->borrarExpositiresServicios($IdExpositor);
+            if ($dato && $dato2) {
 
-            // Almacena los datos en la sesión
-            $_SESSION['datos'] = $datos;
+                $data = $this->modelo->getServiciosAdmin();
+                $expositores = $this->modelo->getExpositoresServicioAdmin();
+                $Tipos = $this->modelo->getTiposCursosAdmin();
+                $Productos = $this->modelo->getProductosServiciosAdmin();
+                $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+                $Convenios = $this->modelo->getConveniosServiciosAdmin();
+                array_push($errores, "Servicio Eliminado");
 
-            // Redirige a la página de destino
-            header("Location:" . RUTA . "AdminControlador/ServiciosAdmin");
-            exit(); // Asegura que se detenga la ejecución del script después de la redirección
+                $datos = [
+                    "titulo" => "Servicios Admin",
+                    "data" => $res,
+                    "dataTable" => $data,
+                    "datatable2" => $expositores,
+                    "datatable3" => $Tipos,
+                    "datatable4" => $Productos,
+                    "datatable5" => $Expositores,
+                    "datatable6" => $Convenios,
+                    //"menu" => false
+                ];
+                // Inicia o reanuda la sesión
+                session_start();
 
-            
+                // Almacena los datos en la sesión
+                $_SESSION['datos'] = $datos;
+
+                // Redirige a la página de destino
+                header("Location:" . RUTA . "AdminControlador/ServiciosAdmin");
+                exit(); // Asegura que se detenga la ejecución del script después de la redirección
+
+            } else {
+                $data = $this->modelo->getProductosAdmin();
+                array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+                $datos = [
+                    "titulo" => "Servicios Admin",
+                    //"menu" => false,
+                    "errores" => $errores,
+                    "color" => "error",
+                    "data" => $res,
+                    //"data2" => $data2,
+                    "dataTable" => $data,
+
+                ];
+                $this->vista("ServiciosAdmin", $datos);
+            }
         } else {
             $data = $this->modelo->getProductosAdmin();
             array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
@@ -2875,21 +2874,6 @@ class AdminControlador extends Controlador
             ];
             $this->vista("ServiciosAdmin", $datos);
         }
-    }else {
-        $data = $this->modelo->getProductosAdmin();
-        array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
-        $datos = [
-            "titulo" => "Servicios Admin",
-            //"menu" => false,
-            "errores" => $errores,
-            "color" => "error",
-            "data" => $res,
-            //"data2" => $data2,
-            "dataTable" => $data,
-
-        ];
-        $this->vista("ServiciosAdmin", $datos);
-    }
 
     }
 

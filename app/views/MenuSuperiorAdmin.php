@@ -71,6 +71,9 @@
     <link rel="stylesheet" href="<?php print RUTA;?>public/plugins/summernote/summernote-bs4.min.css">
 
 
+    <script src="<?php print RUTA;?>public/js/OcultarImputs.js"></script>
+
+
 
 
 </head>
@@ -243,14 +246,14 @@ if (isset($_SESSION['datos'])) {
     if (isset($datos["errores"])) {
         if (count($datos["errores"]) > 0) {
             ?>
-            <script>
-            toastr.<?php print ($datos['color'])?>('<?php
+        <script>
+        toastr.<?php print ($datos['color'])?>('<?php
             foreach($datos["errores"] as $key=>$value){
                 print "".$value."";         
                 }
             ?>')
-            </script>
-            <?php
+        </script>
+        <?php
             }
     }
     // Por ejemplo, puedes acceder a $datos['errores'] o cualquier otro dato dentro de $datos

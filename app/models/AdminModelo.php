@@ -513,7 +513,19 @@ class AdminModelo
         $data = $this->db->querySelect($sql);
         return $data;
     }
+    /*public function ObtenerNombresExpositoresConId($id)
+    {
+
+        $sql = "SELECT NombreExpositor 
+        FROM expositoresservicio 
+        WHERE IdExpositoresServicio LIKE %".$id."% ;";
+
+        $r2 = $this->db->queryNoSelect($sql);
+        return $r2;
+
+    }*/
     
+
     
     
     
