@@ -507,6 +507,12 @@ class AdminModelo
         return $r2;
 
     }
+    public function obtenerNombreImagenesServicios($id)
+    {
+        $sql = "SELECT CertificadoFrontal , CertificadoReverso , Banner  FROM servicios WHERE IdServicio=" . $id;
+        $data = $this->db->querySelect($sql);
+        return $data;
+    }
     
     
     

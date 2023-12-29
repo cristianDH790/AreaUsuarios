@@ -2795,10 +2795,46 @@ class AdminControlador extends Controlador
         $res = $sesion->getUsuario();
         $errores = array();
 
+        $var = true;
+        // Obtener los nombres de las cuatro imágenes antes de borrar el convenio
+        $nombresImagenes = $this->modelo->obtenerNombreImagenesServicios($IdServicios);
+
+        $imagen1 = $nombresImagenes[0]['CertificadoFrontal'];
+        $imagen2 = $nombresImagenes[0]['CertificadoReverso'];
+        $imagen3 = $nombresImagenes[0]['Banner'];
+
+        unlink('img\ImgServicios/' . $imagen1);
+        unlink('img\ImgServicios/' . $imagen2);
+        unlink('img\ImgServicios/' . $imagen3);
+
+        //verificar si se borro las imagenes
+        $imagenesEliminadas = true;
+
+        if (file_exists('img\ImgServicios/' . $imagen1)) {
+            $imagenesEliminadas = false;
+
+        }
+        if (file_exists('img\ImgServicios/' . $imagen2)) {
+            $imagenesEliminadas = false;
+
+        }
+        if (file_exists('img\ImgServicios/' . $imagen3)) {
+            $imagenesEliminadas = false;
+
+        }
+        if ($imagenesEliminadas) {
+
         $dato = $this->modelo->borrarServicios($IdServicios);
         $dato2 = $this->modelo->borrarExpositiresServicios($IdExpositor);
         if ($dato && $dato2) {
+            
+            
             $data = $this->modelo->getServiciosAdmin();
+            $expositores = $this->modelo->getExpositoresServicioAdmin();
+            $Tipos = $this->modelo->getTiposCursosAdmin();
+            $Productos = $this->modelo->getProductosServiciosAdmin();
+            $Expositores = $this->modelo->getExpositoresServiciosAdmin();
+            $Convenios = $this->modelo->getConveniosServiciosAdmin();
             array_push($errores, "Servicio Eliminado");
             
             
@@ -2839,6 +2875,21 @@ class AdminControlador extends Controlador
             ];
             $this->vista("ServiciosAdmin", $datos);
         }
+    }else {
+        $data = $this->modelo->getProductosAdmin();
+        array_push($errores, "Error Al Eliminar , Si Persiste Comunicate Con Su Proveedor");
+        $datos = [
+            "titulo" => "Servicios Admin",
+            //"menu" => false,
+            "errores" => $errores,
+            "color" => "error",
+            "data" => $res,
+            //"data2" => $data2,
+            "dataTable" => $data,
+
+        ];
+        $this->vista("ServiciosAdmin", $datos);
+    }
 
     }
 
